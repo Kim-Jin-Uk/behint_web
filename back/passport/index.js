@@ -1,24 +1,24 @@
-const passport = require('passport')
-const kakao = require('./kakaoStrategy')
-const naver = require('./naverStrategy')
-const {User} = require('../models')
+import passport from 'passport';
+import kakao from './kakaoStrategy';
+import naver from './naverStrategy';
+import { User } from '../models';
 
 module.exports = () => {
-    passport.serializeUser((user, done) => {
-        console.log(user)
-        done(null, user.id)
-    })
+  passport.serializeUser((user, done) => {
+    console.log(user);
+    done(null, user.id);
+  });
 
-    passport.deserializeUser(async (id, done) => {
-        try{
-            const user = await User.findOne({where:{id}})
-            done(null, user)
-        }catch (err){
-            console.error(err)
-            done(err)
-        }
-    })
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findOne({ where: { id } });
+      done(null, user);
+    } catch (err) {
+      console.error(err);
+      done(err);
+    }
+  });
 
-    kakao()
-    naver()
-}
+  kakao();
+  naver();
+};
