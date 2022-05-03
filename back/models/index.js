@@ -1,7 +1,6 @@
-import Sequelize from 'sequelize';
-import configure from '../config/config';
+const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
-const config = configure[env];
+const config = require('../config/config')[env];
 const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);

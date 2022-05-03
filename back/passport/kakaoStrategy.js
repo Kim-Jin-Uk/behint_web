@@ -1,7 +1,7 @@
-import passport from 'passport';
-import { Strategy as KakaoStrategy } from 'passport-kakao';
-import { User } from '../models';
-import dotenv from 'dotenv';
+const passport = require('passport');
+const KakaoStrategy = require('passport-kakao').Strategy;
+const { User } = require('../models');
+const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = () => {

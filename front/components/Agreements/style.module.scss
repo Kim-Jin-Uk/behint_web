@@ -1,0 +1,92 @@
+$color: #25D38A;
+
+.impact {
+    font-weight: 400;
+    font-size: 13px;
+    text-decoration-line: underline;
+    text-underline-position: under;
+    color: #1d1d1d;
+    transition: 0.15s;
+    &:hover{
+        color: #000000;
+        transition: 0.15s;
+    }
+}
+
+.choice {
+    font-weight: 400;
+    font-size: 13px;
+    color: #616161;
+    transition: 0.15s;
+    &:hover{
+        color: #000000;
+        transition: 0.15s;
+    }
+}
+
+.agreements {
+    display: flex;
+}
+
+.content {
+
+}
+
+.subtitle {
+    font-size: 12px;
+    line-height: 170%;
+    color: #616161;
+    margin-bottom: 10px;
+}
+
+.toggle {
+    font-size: 12px;
+    line-height: 150%;
+    text-align: right;
+    text-decoration-line: underline;
+    color: #616161;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.agreement {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > span {
+        font-size: 12px;
+        line-height: 150%;
+        text-align: right;
+        cursor: pointer;
+    }
+}
+
+.create_btn_group {
+    width: 100%;
+    > div{
+        height: 56px;
+    }
+}
+
+.complete_btn_top {
+    width: 100%;
+    margin-top: 40px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    background: #1D1D1D;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.15s;
+    >span{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        color: #FFFFFF;
+        margin: 0 auto;
+    }
+    &:hover{
+        background: #404040;
+        transition: 0.15s;
+    }
+}

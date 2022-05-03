@@ -1,7 +1,7 @@
-import passport from 'passport';
-import kakao from './kakaoStrategy';
-import naver from './naverStrategy';
-import { User } from '../models';
+const passport = require('passport');
+const kakao = require('./kakaoStrategy');
+const naver = require('./naverStrategy');
+const { User } = require('../models');
 
 module.exports = () => {
   passport.serializeUser((user, done) => {

@@ -1,19 +1,20 @@
-import express from 'express';
-import userRouter from './routes/user';
-import projectRouter from './routes/project';
-import authRouter from './routes/auth';
-import db, { User } from './models';
-import cors from 'cors';
-import passport from 'passport';
-import passportConfig from './passport';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-import path from 'path';
-import morgan from 'morgan';
-import hpp from 'hpp';
-import helmet from 'helmet';
-import favicon from 'serve-favicon';
+const express = require('express');
+const userRouter = require('./routes/user');
+const projectRouter = require('./routes/project');
+const authRouter = require('./routes/auth');
+const db = require('./models');
+const cors = require('cors');
+const passport = require('passport');
+const passportConfig = require('./passport');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+const path = require('path');
+const morgan = require('morgan');
+const hpp = require('hpp');
+const helmet = require('helmet');
+const favicon = require('serve-favicon');
+const { User } = require('./models');
 
 dotenv.config();
 

@@ -1,0 +1,160 @@
+.background{
+  width: 100%;
+  min-width: 320px;
+  height: 56px;
+  background: #FFFFFF;
+  padding-left: 120px;
+  position: fixed;
+  top: 0;
+  border-bottom: 1px solid #E3E7EB;
+  z-index: 3000;
+}
+
+.pageLink{
+  height: 55px;
+  width: 56px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #000000 !important;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 14px;
+  >div{
+    background: #000000;
+    height: 2px;
+    width: 0px;
+    position: fixed;
+    top: 53px;
+    transition: width 0.5s;
+  }
+  &:hover > div {
+    width: 56px;
+    transition: width 0.5s;
+  }
+}
+
+.loginButton{
+  width: 77px;
+  height: 36px;
+  border-radius: 18px;
+  border: 1px solid #E3E7EB;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  float: right;
+  margin: 10px 14px;
+  padding: 0 19px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #353C49;
+  cursor: pointer;
+  &:hover{
+    background: #F2F4F6;
+    border: 1px solid #F2F4F6;
+    transition: 0.2s;
+  }
+}
+
+.input_wrapper{
+  width: 220px;
+  height: 36px;
+  display: inline-flex;
+  margin-left: 34px;
+  align-items: center;
+
+  &:focus-within{
+    > input{
+      border: 1px solid #1E68FA;
+      background: #FFFFFF;
+      transition: 0.15s;
+    }
+    > div{
+      background: url(../../images/delete_input.svg);
+      background-size: 20px;
+      transition: 0.15s;
+    }
+  }
+  >input{
+    width: 100%;
+    height: 100%;
+    background: #FAFAFB;
+    padding: 7px 36px 7px 12px;
+    vertical-align: top;
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid #E3E7EB;
+    border-radius: 18px;
+    outline: none;
+    transition: 0.15s;
+  }
+
+  >div{
+    width: 20px;
+    height: 20px;
+    background: url(../../images/search_input.svg);
+    position: relative;
+    right: 32px;
+    cursor: pointer;
+  }
+}
+
+.profileIcon{
+  width: 32px;
+  height: 32px;
+  margin: 12px 0;
+}
+
+.menu{
+  width: 24px;
+  height: 24px;
+  margin: 16px 16px 16px 12px;
+  float: right;
+  background: url(../../images/menu_header.svg);
+}
+.alarm{
+  width: 24px;
+  height: 24px;
+  margin: 16px 0 16px 12px;
+  float: right;
+  background: url(../../images/alarm_header.svg);
+}
+.chat{
+  width: 24px;
+  height: 24px;
+  margin: 16px 0 16px 12px;
+  float: right;
+  background: url(../../images/chat_header.svg);
+}
+.search{
+  width: 24px;
+  height: 24px;
+  margin: 16px 0 16px 12px;
+  float: right;
+  background: url(../../images/search_header.svg);
+}
+
+@media (min-width: 1024px){
+  .pageLink{display: inline-flex; transition: 0.15s;}
+  .loginButton{display: inline-flex; transition: 0.15s;}
+  .input_wrapper{display: inline-flex; transition: 0.15s;}
+  .profileIcon{display: none; transition: 0.15s;}
+  .menu{display: none; transition: 0.15s;}
+  .alarm{display: none; transition: 0.15s;}
+  .chat{display: none; transition: 0.15s;}
+  .search{display: none; transition: 0.15s;}
+}
+
+@media (max-width: 1024px){
+  .pageLink{display: none; transition: 0.15s;}
+  .loginButton{display: none; transition: 0.15s;}
+  .input_wrapper{display: none; transition: 0.15s;}
+  .background{padding-left: 16px; transition: 0.15s;}
+  .profileIcon{display: inline-flex; transition: 0.15s; cursor: pointer;}
+  .menu{display: inline-flex; transition: 0.15s; cursor: pointer;}
+  .alarm{display: inline-flex; transition: 0.15s; cursor: pointer;}
+  .chat{display: inline-flex; transition: 0.15s; cursor: pointer;}
+  .search{display: inline-flex; transition: 0.15s; cursor: pointer;}
+}
+
+

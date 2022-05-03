@@ -1,11 +1,11 @@
-import express from 'express';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-import multerS3 from 'multer-s3';
-import AWS from 'aws-sdk';
-import { isLoggendIn } from './middlewares';
-import { User, Agreement, Information, Profile } from '../models';
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+const { isLoggendIn } = require('./middlewares');
+const { User, Agreement, Information, Profile } = require('../models');
 const router = express.Router();
 
 try {
@@ -21,7 +21,7 @@ AWS.config.update({
 const upload = multer({
   storage: multerS3({
     s3: new AWS.S3(),
-    bucket: 'brmnmusic-image-s3',
+    bucket: 'brmnmusic-images-s3',
     key(req, file, cb) {
       cb(null, `profile/${Date.now()}_${path.basename(file.originalname)}`);
     },

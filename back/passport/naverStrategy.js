@@ -1,7 +1,7 @@
-import passport from 'passport';
-import { Strategy as NaverStrategy } from 'passport-naver-v2';
-import { User } from '../models';
-import dotenv from 'dotenv';
+const passport = require('passport');
+const NaverStrategy = require('passport-naver-v2').Strategy;
+const { User } = require('../models');
+const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = () => {
