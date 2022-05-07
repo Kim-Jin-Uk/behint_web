@@ -5,6 +5,7 @@ html, body {
   background-color: #fff;
   overflow-x: hidden;
   --antd-wave-shadow-color:#000000 !important;
+  min-width: 320px;
   /*-ms-overflow-style: none;*/
 }
 
