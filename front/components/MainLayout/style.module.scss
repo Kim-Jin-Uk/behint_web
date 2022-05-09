@@ -33,7 +33,7 @@
 }
 
 .contentWrapper{
-  width: 1740px;
+  width: 1755px;
   margin: 0 auto;
 }
 
@@ -42,7 +42,7 @@
   height: 732px;
   vertical-align: top;
   display: inline-block;
-  margin: 142px 46px 0 0;
+  margin: 142px 31px 0 0;
   >ul{
     list-style:none;
     width: 100%;
@@ -51,7 +51,6 @@
     >li{
       width: 100%;
       height: 46px;
-      background: #FFFFFF;
       border-radius: 4px;
       display: inline-flex;
       align-items: center;
@@ -64,7 +63,6 @@
         }
       }
       >span{
-        color: #6D7582;
         font-weight: 500;
         font-size: 18px;
         margin-left: 16px;
@@ -81,27 +79,26 @@
 }
 
 .selectItem{
-  background: #E7ECFF !important;
+  background: #E7ECFF;
   >span{
-   color: #1A1E27 !important;
+   color: #1A1E27;
   }
 }
 
 .nonSelectItem{
-  background: #FFFFFF !important;
+  background: #FFFFFF;
   >span{
-    color: #6D7582 !important;
+    color: #6D7582;
   }
 }
 
 .rightWrapper{
-  width: calc(100% - 276px);
+  width: calc(100% - 291px);
   height: 100%;
-  margin: 64px -15px 157px -15px;
+  margin: 64px 0 157px 0;
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
-  background: #94b8ff;
 }
 
 .rightTitle{
@@ -112,37 +109,63 @@
   margin-left: 15px;
 }
 
+.rightRecommendedProject{
+  width: 1000%;
+}
+
+.nextArrow{
+  width: 50px;
+  height: 50px;
+  background: url(../../images/btn_next.svg) center;
+  position: absolute;
+  right: 0;
+  top: 89px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.prevArrow{
+  width: 50px;
+  height: 50px;
+  background: url(../../images/btn_prev.svg) center;
+  position: absolute;
+  left: 0;
+  top: 89px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
 //반응형
 
 @media (max-width: 480px){
   .contentWrapper{
-    width: 320px;
+    width: 100%;
   }
   .leftWrapper{
     display: none;
   }
   .rightWrapper{
-    width: calc(100%);
-    margin: 56px 0 100px 0;
+    width: calc(100% - 40px);
+    margin: 56px 20px 100px;
   }
 }
 
 @media (min-width:480px) and (max-width: 768px){
   .contentWrapper{
-    width: 432px;
+    width: 100%;
   }
   .leftWrapper{
     display: none;
   }
   .rightWrapper{
-    width: calc(100%);
-    margin: 56px 0 100px 0;
+    width: calc(100% - 48px);
+    margin: 56px 24px 100px;
   }
 }
 
 @media (min-width:768px) and (max-width: 1024px){
   .contentWrapper{
-    width: 632px;
+    width: 656px;
   }
   .leftWrapper{
     display: none;
@@ -155,42 +178,42 @@
 
 @media (min-width:1024px) and (max-width: 1260px){
   .contentWrapper{
-    width: 881px;
+    width: 893px;
   }
   .leftWrapper{
     width: 216px;
-    margin: 142px 33px 0 0;
+    margin: 142px 21px 0 0;
   }
   .rightWrapper{
-    width: calc(100% - 249px);
+    width: calc(100% - 237px);
     margin: 64px 0 177px 0;
   }
 }
 
 @media (min-width:1260px) and (max-width: 1600px){
   .contentWrapper{
-    width: 1208px;
+    width: 1220px;
   }
   .leftWrapper{
     width: 216px;
-    margin: 142px 32px 0 0;
+    margin: 142px 20px 0 0;
   }
   .rightWrapper{
-    width: calc(100% - 248px);
+    width: calc(100% - 236px);
     margin: 64px 0 157px 0;
   }
 }
 
-@media (min-width:1600px) and (max-width: 1799px){
+@media (min-width:1600px) and (max-width: 1800px){
   .contentWrapper{
-    width: 1528px;
+    width: 1540px;
   }
   .leftWrapper{
     width: 216px;
-    margin: 142px 24px 0 0;
+    margin: 142px 12px 0 0;
   }
   .rightWrapper{
-    width: calc(100% - 240px);
+    width: calc(100% - 228px);
     margin: 64px 0 157px 0;
   }
 }

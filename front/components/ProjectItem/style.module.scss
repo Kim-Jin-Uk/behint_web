@@ -10,4 +10,93 @@
   height: 189px;
   border-radius: 4px;
   background: #353C49;
+  background-size: cover;
+}
+
+.bottomWrapper{
+  width: 100%;
+  margin-top: 12px;
+}
+
+.rankingNum{
+  width: 40px;
+  height: 51px;
+  color: #1E68FA;
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-size: 64px;
+  text-align: center;
+  line-height: 80%;
+  vertical-align: top;
+}
+
+
+//반응형
+@media (max-width: 480px){
+  .itemWrapper{
+    margin: 12px 0 12px 0;
+    width: calc(100vw - 40px);
+    min-width: 280px;
+    height: calc((100vw - 40px) * 336 / 320);
+    min-height: calc(280px * 336 / 320);
+  }
+  .thumbImage{
+    height: calc((100vw - 40px) * 180 / 320);
+    min-height: calc(280px * 180 / 320);
+  }
+}
+
+@media (min-width:480px) and (max-width: 768px){
+  .itemWrapper{
+    margin: 12px 0 12px 0;
+    width: calc(100vw - 48px);
+    height: calc((100vw - 48px) * 399 / 432);
+  }
+  .thumbImage{
+    height: calc((100vw - 48px) * 243 / 432);
+  }
+}
+
+@media (min-width:768px) and (max-width: 1024px){
+  .itemWrapper{
+    margin: 12px;
+    width: 304px;
+    height: 327px;
+  }
+  .thumbImage{
+    height: 171px;
+  }
+}
+
+@media (min-width:1024px) and (max-width: 1260px){
+  .itemWrapper{
+    margin: 12px;
+    width: 304px;
+    height: 327px;
+  }
+  .thumbImage{
+    height: 171px;
+  }
+}
+
+@media (min-width:1260px) and (max-width: 1600px){
+  .itemWrapper{
+    margin: 12px;
+    width: 304px;
+    height: 327px;
+  }
+  .thumbImage{
+    height: 171px;
+  }
+}
+
+@media (min-width:1600px) and (max-width: 1800px){
+  .itemWrapper{
+    margin: 12px;
+    width: 304px;
+    height: 327px;
+  }
+  .thumbImage{
+    height: 171px;
+  }
 }

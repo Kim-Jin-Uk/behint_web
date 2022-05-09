@@ -24,10 +24,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout selectedMenu={'all'}>
-        {projectList.map((v: projectItem, i: number) => {
+        {projectList.map((v: projectItem) => {
           return (
             <>
-              <ProjectItem projectItem={v} case={i + 1}></ProjectItem>
+              <ProjectItem
+                projectItem={v}
+                case={false}
+                rankingNum={null}
+              ></ProjectItem>
             </>
           );
         })}
