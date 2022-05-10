@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   min-width: 320px;
+  background: #FAFAFB;
 }
 
 .mainImage{
@@ -86,10 +87,34 @@
 }
 
 .nonSelectItem{
-  background: #FFFFFF;
   >span{
     color: #6D7582;
   }
+}
+
+.leftMenuWrapper{
+  width: 120px;
+  padding: 8px 0 8px 0;
+  border-radius: 4px;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  > div{
+    width: 100%;
+    height: 35px;
+    padding-left: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    color: #353C49;
+    &:hover{
+      background: #F2F4F6;
+    }
+  }
+}
+
+.selectLeftItem{
+  background: #F2F4F6;
+
 }
 
 .rightWrapper{
@@ -107,6 +132,8 @@
   color: #1A1E27;
   display: block;
   margin-left: 15px;
+  margin-bottom: 21px;
+  line-height: 130%;
 }
 
 .rightRecommendedProject{
@@ -135,8 +162,143 @@
   cursor: pointer;
 }
 
-//반응형
+.dropLineWrapper{
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  .dropLineBlock{
+    width: 100%;
+  }
+}
 
+.subTitle{
+  min-width: 200px;
+  color: #1A1E27;
+  font-weight: 700;
+  font-size: 28px;
+  margin: 25px 0 21px 15px;
+  display: inline-block;
+}
+
+.leftFilter{
+  float: left;
+  display: inline-flex;
+  height: 30px;
+  align-items: center;
+  >button{
+    height: 30px;
+    border: none;
+    background: none;
+    box-shadow: none;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 150%;
+    padding: 0;
+    margin: 28px 0 24px 0;
+    color: #1A1E27;
+    transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+  }
+  &:hover{
+    > button {
+      background: none;
+      color: #000000;
+      transition: 0.25s;
+    }
+    .bigDropdownIcon{
+      background: url(../../images/big_dropup.svg);
+      transition: 0.25s;
+    }
+  }
+  &:focus-within{
+    > button {
+      background: none;
+      color: #000000;
+    }
+  }
+}
+
+.filter{
+  float: right;
+  margin: 25px 15px 21px 0;
+  display: inline-flex;
+  width: 81px;
+  height: 36px;
+  align-items: center;
+  >button{
+    width: 81px;
+    height: 36px;
+    border-radius: 4px;
+    border: 1px solid #E3E7EB;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1A1E27;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 8px 8px 12px;
+  }
+  &:hover{
+    >button{
+      border: 1px solid #1E68FA;
+      color: #1A1E27;
+    }
+    .dropdownIcon{
+      background: url(../../images/dropup.svg);
+      transition: 0.25s;
+    }
+  }
+  &:focus-within{
+    >button{
+      border: 1px solid #1E68FA;
+      color: #1A1E27;
+    }
+  }
+}
+
+.bigDropdownIcon{
+  width: 24px;
+  height: 24px;
+  background: url(../../images/big_dropdown.svg);
+  transition: 0.25s;
+  margin-left: 8px;
+}
+
+.dropdownIcon{
+  width: 20px;
+  height: 20px;
+  background: url(../../images/dropdown.svg);
+  transition: 1s;
+  margin-left: 4px;
+}
+
+.dropdownMenu{
+  width: 81px;
+  height: 86px;
+  border-radius: 4px;
+  background: #FFFFFF;
+  padding: 8px 0;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  > div{
+    width: 100%;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 13px;
+    color: #353C49;
+    padding-left: 12px;
+    transition: 0.25s;
+    cursor: pointer;
+    &:hover{
+      background: #F2F4F6;
+      color: #000000;
+      transition: 0.25s;
+    }
+  }
+}
+
+//반응형
 @media (max-width: 480px){
   .contentWrapper{
     width: 100%;
@@ -147,6 +309,37 @@
   .rightWrapper{
     width: calc(100% - 40px);
     margin: 56px 20px 100px;
+  }
+  .nextArrow{
+    display: none;
+  }
+  .prevArrow{
+    display: none;
+  }
+  .rightTitle{
+    font-size: 24px;
+    margin-left: 0;
+    margin-bottom: 12px;
+  }
+  .subTitle{
+    font-size: 24px;
+    margin: 24px 0 12px 0;
+  }
+  .filter{
+    margin: 24px 0 12px 0;
+    width: 77px;
+    height: 30px;
+    >button{
+      width: 77px;
+      height: 30px;
+      padding: 5px 6px 5px 10px;
+    }
+  }
+  .dropdownMenu{
+    width: 77px;
+    > div{
+      padding-left: 8px;
+    }
   }
 }
 
@@ -161,18 +354,23 @@
     width: calc(100% - 48px);
     margin: 56px 24px 100px;
   }
-}
-
-@media (min-width:768px) and (max-width: 1024px){
-  .contentWrapper{
-    width: 656px;
-  }
-  .leftWrapper{
+  .nextArrow{
     display: none;
   }
-  .rightWrapper{
-    width: calc(100%);
-    margin: 60px 0 100px 0;
+  .prevArrow{
+    display: none;
+  }
+  .rightTitle{
+    font-size: 24px;
+    margin-left: 0;
+    margin-bottom: 12px;
+  }
+  .subTitle{
+    font-size: 24px;
+    margin: 24px 0 12px 0;
+  }
+  .filter{
+    margin: 24px 0 12px 0;
   }
 }
 
@@ -188,6 +386,53 @@
     width: calc(100% - 237px);
     margin: 64px 0 177px 0;
   }
+  .nextArrow{
+    top: 77px;
+  }
+  .prevArrow{
+    top: 77px;
+  }
+  .rightTitle{
+    margin-left: 12px;
+    margin-bottom: 24px;
+  }
+  .subTitle{
+    margin: 28px 0 24px 12px;
+  }
+  .filter{
+    margin: 28px 12px 24px 0;
+  }
+}
+
+@media (min-width:768px) and (max-width: 1024px){
+  .contentWrapper{
+    width: 656px;
+  }
+  .leftWrapper{
+    display: none;
+  }
+  .rightWrapper{
+    width: calc(100%);
+    margin: 60px 0 100px 0;
+  }
+  .nextArrow{
+    top: 77px;
+  }
+  .prevArrow{
+    top: 77px;
+  }
+  .rightTitle{
+    font-size: 28px;
+    margin-bottom: 20px;
+    margin-left: 12px !important;
+  }
+  .subTitle{
+    font-size: 28px;
+    margin: 24px 0 24px 12px !important;
+  }
+  .filter{
+    margin: 24px 12px 24px 0;
+  }
 }
 
 @media (min-width:1260px) and (max-width: 1600px){
@@ -202,6 +447,22 @@
     width: calc(100% - 236px);
     margin: 64px 0 157px 0;
   }
+  .nextArrow{
+    top: 77px;
+  }
+  .prevArrow{
+    top: 77px;
+  }
+  .rightTitle{
+    margin-left: 12px;
+    margin-bottom: 24px;
+  }
+  .subTitle{
+    margin: 28px 0 24px 12px;
+  }
+  .filter{
+    margin: 28px 12px 24px 0;
+  }
 }
 
 @media (min-width:1600px) and (max-width: 1800px){
@@ -215,5 +476,23 @@
   .rightWrapper{
     width: calc(100% - 228px);
     margin: 64px 0 157px 0;
+  }
+
+  .nextArrow{
+    top: 77px;
+  }
+  .prevArrow{
+    top: 77px;
+  }
+
+  .rightTitle{
+    margin-left: 12px;
+    margin-bottom: 24px;
+  }
+  .subTitle{
+    margin: 28px 0 24px 12px;
+  }
+  .filter{
+    margin: 28px 12px 24px 0;
   }
 }

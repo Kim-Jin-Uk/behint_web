@@ -2,8 +2,10 @@ import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import MainLayout from '../../components/MainLayout';
 import { SELECTED_MENU_CHANGE } from '../../reducers/main';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { projectItem, RootState } from '../../reducers';
+import ProjectItem from '../../components/ProjectItem';
 
 const Project = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ const Project = () => {
     'sport',
     'game',
   ];
+  const { projectList } = useSelector((state: RootState) => state.project);
 
   useEffect(() => {
     if (id) {
@@ -39,7 +42,17 @@ const Project = () => {
     <>
       <Header></Header>
       <MainLayout selectedMenu={id as string}>
-        <div>{id}</div>
+        {projectList.map((v: projectItem) => {
+          return (
+            <>
+              <ProjectItem
+                projectItem={v}
+                case={false}
+                rankingNum={null}
+              ></ProjectItem>
+            </>
+          );
+        })}
       </MainLayout>
     </>
   );
