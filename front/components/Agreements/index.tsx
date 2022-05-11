@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from '../Checkbox';
 import styles from './style.module.scss';
+import Router from 'next/router';
 
 const Agreements = () => {
   type fieldOptions = {
@@ -110,7 +111,10 @@ const Agreements = () => {
       </>
 
       <div className={styles.create_btn_group}>
-        <div className={styles.complete_btn_top}>
+        <div
+          className={styles.complete_btn_top}
+          onClick={() => Router.replace('/')}
+        >
           <span>다음</span>
         </div>
       </div>

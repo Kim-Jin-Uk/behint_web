@@ -4,7 +4,16 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from '../reducers';
-// import rootSaga from '../sagas';
+import rootSaga from '../sagas';
+
+import 'redux';
+import { Task } from 'redux-saga';
+
+declare module 'redux' {
+  export interface Store {
+    sagaTask?: Task;
+  }
+}
 
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
@@ -14,7 +23,7 @@ const configureStore = () => {
       ? compose(applyMiddleware(...middlewares))
       : composeWithDevTools(applyMiddleware(...middlewares));
   const store = createStore(reducer, enhancer);
-  // store.sagaTask = sagaMiddleware.run(rootSaga);
+  store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
 

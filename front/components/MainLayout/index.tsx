@@ -164,8 +164,14 @@ const MainLayout = (props: {
   //window 에 resize 함수 달아주기
   useEffect(() => {
     window.addEventListener('resize', () => {
+      console.log('width', window.innerWidth);
       setWidth(window.innerWidth);
     });
+  }, []);
+
+  //초기값 설정
+  useEffect(() => {
+    setWidth(window.innerWidth);
   }, []);
 
   //좌측 메뉴 이름 바꿔주기
@@ -180,7 +186,7 @@ const MainLayout = (props: {
   return (
     <div id={'mainLayout'} className={styles.bodyWrapper}>
       <div className={styles.mainImage}>
-        <div>
+        <div onClick={() => Router.push('/project/upload')}>
           <span>프로젝트 업로드</span>
         </div>
       </div>
@@ -229,7 +235,7 @@ const MainLayout = (props: {
                         projectItem={v}
                         case={true}
                         rankingNum={i + 1}
-                      ></ProjectItem>
+                      />
                     </>
                   );
                 })}
@@ -247,18 +253,18 @@ const MainLayout = (props: {
                   <Dropdown overlay={leftMenuBar} placement="bottom">
                     <Button>
                       <div>{leftMenuName}</div>
-                      <div className={styles.bigDropdownIcon}></div>
+                      <div className={styles.bigDropdownIcon} />
                     </Button>
                   </Dropdown>
                 </div>
               )}
             </div>
-            <div className={styles.dropLineBlock}></div>
+            <div className={styles.dropLineBlock} />
             <div className={styles.filter}>
               <Dropdown overlay={rightMenuBar} placement="bottom">
                 <Button>
                   <div>{filterName}</div>
-                  <div className={styles.dropdownIcon}></div>
+                  <div className={styles.dropdownIcon} />
                 </Button>
               </Dropdown>
             </div>

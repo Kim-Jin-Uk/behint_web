@@ -17,7 +17,10 @@ const Footer = () => {
     setIsOpen(!isOpen);
   }, [isOpen]);
   return (
-    <div className={styles.footer_wrapper}>
+    <div
+      style={{ position: 'fixed', zIndex: 3000 }}
+      className={styles.footer_wrapper}
+    >
       <br />
       {isOpen && <div className={styles.background} onClick={close}></div>}
       <div className={styles.container}>

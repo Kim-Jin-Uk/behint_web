@@ -29,6 +29,54 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 },
 });
 
+//유저 로그인 확인
+router.post('/login', isLoggendIn, async (req, res, next) => {
+  try {
+    const { id, email } = req.user.dataValues;
+    let userData = { id, email };
+    const userProfile = await Profile.findOne({
+      where: { userId: id },
+    });
+    if (userProfile) {
+      userData.userProfile = userProfile;
+    }
+    const userInformation = await Information.findOne({
+      where: { userId: id },
+    });
+    if (userInformation) {
+      userData.userInformation = userInformation;
+    }
+    console.log(userData);
+    res.status(200).json(userData);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+//다른 유저 프로필 조회
+router.get('/profile/:userId', async (req, res, next) => {
+  try {
+    let userData = await User.findOne({
+      where: { id: req.params.userId },
+      include: [
+        { model: Profile, attributes: ['id'] },
+        { model: Information, attributes: ['id'] },
+        {
+          model: User,
+          as: 'Followers',
+          attributes: ['id'],
+        },
+      ],
+    });
+    console.log(userData);
+    res.status(200).json(userData);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 //유저 로그아웃
 router.post('/logout', isLoggendIn, async (req, res, next) => {
   try {

@@ -1,0 +1,229 @@
+.profileTopHeader{
+  margin-top: 56px;
+  width: 100%;
+  height: 260px;
+  background: #F2F4F6;
+}
+
+.profileTopWrapper{
+  width: 1024px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.userBasicInfo{
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  top: 72px;
+  left: 40px;
+}
+
+.userBasicInfoWrapper{
+  margin-left: 16px;
+}
+
+.nickname{
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 130%;
+  color: #1A1E27;
+  margin-bottom: 5px;
+}
+
+.userBasicInfoBottom{
+  display: inline-flex;
+  align-items: center;
+  div{
+    display: inline-flex;
+  }
+}
+
+.division{
+  width: 1px;
+  height: 16px;
+  background: url(../../images/division.svg);
+  margin: 0 4px;
+}
+
+.locationIcon{
+  width: 18px;
+  height: 18px;
+  background: url(../../images/profile_location.svg);
+  margin-right: 2px;
+}
+
+.userBasicInfoBottomText{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #353C49;
+}
+
+.buttonWrapper{
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  float: right;
+  top: 89px;
+  right: 40px;
+  > div{
+    width: 171px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 24px;
+  }
+}
+
+.messageButton{
+  background: #FFFFFF;
+  border: 1px solid #E3E7EB;
+  margin-right: 12px;
+  color: #1E68FA;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  cursor: pointer;
+  transition: 0.15s;
+  >div{
+    width: 24px;
+    height: 24px;
+    margin: 0 4px 0 36px;
+    background: url(../../images/profile_message.svg);
+  }
+  &:hover{
+    background: #F2F4F6;
+    transition: 0.15s;
+  }
+}
+
+.followButton{
+  background: #1E68FA;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  cursor: pointer;
+  transition: 0.15s;
+  >div{
+    width: 24px;
+    height: 24px;
+    margin: 0 4px 0 46px;
+    background: url(../../images/profile_follow.svg);
+  }
+  &:hover{
+    background: #0034DA;
+    transition: 0.15s;
+  }
+}
+
+.followingButton{
+  background: #FFFFFF;
+  border: 1px solid #E3E7EB;
+  color: #1E68FA;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  >div{
+    width: 24px;
+    height: 24px;
+    margin: 0 4px 0 46px;
+    background: url(../../images/profile_following.svg);
+  }
+}
+
+.linkWrapper{
+  position: relative;
+  top: calc(50% + 15px);
+  transform: translateY(-50%);
+}
+
+.pageLink{
+  height: 50px;
+  display: inline-block;
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+  >span{
+    padding: 8px 28px 8px;
+    height: 37px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 130%;
+    color: #6D7582;
+    transition: color 0.75s;
+  }
+  >div{
+    background: #1E68FA;
+    height: 3px;
+    width: 0px;
+    position: absolute;
+    top: 46px;
+    transition: width 0.75s;
+  }
+  &:hover{
+    >span{
+      color: #1A1E27;
+      transition: color 0.75s;
+    }
+    > div {
+      width: 200px;
+      transition: width 0.75s;
+    }
+  }
+}
+
+.pageLinkSelect{
+  height: 50px;
+  display: inline-block;
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+  >span{
+    padding: 8px 28px 8px;
+    height: 37px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 130%;
+    color: #1A1E27;
+  }
+  >div{
+    background: #1E68FA;
+    height: 3px;
+    width: 200px;
+    position: absolute;
+    top: 46px;
+  }
+}
+
+.profileBottomWrapper{
+  width: 944px;
+  height: 100%;
+  margin: 45px auto 120px;
+  display: flex;
+}
+
+.profileBottomLeftWrapper{
+  width: 260px;
+  display: inline-block;
+  padding-right: 28px;
+  float: left;
+  vertical-align: top;
+  height: 100px;
+  box-sizing: border-box;
+}
+
+
+.profileBottomRightWrapper{
+  width: 684px;
+  display: inline-block;
+  padding-left: 28px;
+  float: right;
+  vertical-align: top;
+  height: 300px;
+  border-left: 1px solid #E3E7EB;
+  box-sizing: border-box;
+}
