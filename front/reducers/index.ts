@@ -33,3 +33,20 @@ export type projectItem = {
   likeCount: number;
   viewCount: number;
 };
+
+export type representativeProject = {
+  thumbnailImgUrl: string;
+  position: string;
+  title: string;
+  locationName: string;
+  userName: string;
+  likeCount: number;
+  viewCount: number;
+};
+
+export type commentaryItem = {
+  id: number;
+  title: string;
+  createdAt: Date;
+  contents: string;
+};

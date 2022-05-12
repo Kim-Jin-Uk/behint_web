@@ -6,7 +6,8 @@
 }
 
 .profileTopWrapper{
-  width: 1024px;
+  transition: 0.25s;
+  width: 1072px;
   height: 100%;
   margin: 0 auto;
 }
@@ -16,11 +17,12 @@
   align-items: center;
   position: relative;
   top: 72px;
-  left: 40px;
+  transition: 0.25s;
 }
 
 .userBasicInfoWrapper{
   margin-left: 16px;
+  transition: 0.25s;
 }
 
 .nickname{
@@ -61,12 +63,12 @@
 }
 
 .buttonWrapper{
+  transition: 0.25s;
   display: inline-flex;
   align-items: center;
   position: relative;
   float: right;
   top: 89px;
-  right: 40px;
   > div{
     width: 171px;
     height: 48px;
@@ -199,31 +201,206 @@
   }
 }
 
-.profileBottomWrapper{
-  width: 944px;
-  height: 100%;
-  margin: 45px auto 120px;
-  display: flex;
+//반응형
+@media (min-width:1024px) and (max-width: 1151px) {
+  .profileTopWrapper{
+    transition: 0.25s;
+    width: 945px;
+  }
+
+  .profileJobWrapper{
+    flex-wrap: wrap;
+  }
 }
 
-.profileBottomLeftWrapper{
-  width: 260px;
-  display: inline-block;
-  padding-right: 28px;
-  float: left;
-  vertical-align: top;
-  height: 100px;
-  box-sizing: border-box;
+@media (min-width:768px) and (max-width: 1024px){
+  .profileTopHeader{
+    height: 394px;
+  }
+  .profileTopWrapper{
+    width: 100%;
+    transition: 0.25s;
+  }
+  .userBasicInfo{
+    display: block;
+    text-align: center;
+    top: 20px;
+    > div:first-child{
+      width: 60px !important;
+      height: 60px !important;
+    }
+    transition: 0.25s;
+  }
+  .userBasicInfoWrapper{
+    margin: 6px 0 0;
+    transition: 0.25s;
+  }
+  .buttonWrapper{
+    float: none;
+    top: 55.5px;
+    transition: 0.25s;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    > div{
+      width: 338px;
+      height: 48px;
+    }
+  }
+  .messageButton{
+    >div{
+      margin: 0 4px 0 119.5px;
+    }
+  }
+  .followButton{
+    >div{
+      margin: 0 4px 0 129.5px;
+    }
+  }
+  .followingButton{
+    >div{
+      margin: 0 4px 0 129.5px;
+    }
+  }
+  .linkWrapper{
+    width: calc(100%);
+    height: 48px;
+    top: calc(50% + -18px);
+    > a{
+      width: calc(100% / 3) !important;
+      text-align: center;
+      margin-top: 9px;
+      >span{
+        padding: 0;
+      }
+      >div{
+        position: absolute;
+        top: 36px;
+        width: 0;
+      }
+      &:hover{
+        >div{
+          width: 100%;
+          transition: 0.25s;
+        }
+      }
+    }
+  }
+  .pageLinkSelect{
+    >span{
+    }
+    >div{
+      background: #1E68FA;
+      height: 3px;
+      width: 100% !important;
+      position: absolute;
+      top: 46px;
+    }
+  }
 }
 
-
-.profileBottomRightWrapper{
-  width: 684px;
-  display: inline-block;
-  padding-left: 28px;
-  float: right;
-  vertical-align: top;
-  height: 300px;
-  border-left: 1px solid #E3E7EB;
-  box-sizing: border-box;
+@media (max-width: 768px){
+  .profileTopHeader{
+    height: 354px;
+  }
+  .profileTopWrapper{
+    width: 100%;
+    transition: 0.25s;
+  }
+  .userBasicInfo{
+    display: block;
+    text-align: center;
+    top: 20px;
+    > div:first-child{
+      width: 60px !important;
+      height: 60px !important;
+    }
+    transition: 0.25s;
+  }
+  .userBasicInfoWrapper{
+    margin: 6px 0 0;
+    transition: 0.25s;
+  }
+  .buttonWrapper{
+    float: none;
+    top: 55.5px;
+    transition: 0.25s;
+    width: 100%;
+    display: inline-block;
+    padding: 0 16px;
+    > div{
+      width: calc((100% - 16px) / 2);
+      margin: 0 4px;
+      padding: 12px 0;
+      height: 40px;
+      box-sizing: border-box;
+      display: inline-block;
+      text-align: center;
+      position: relative;
+      > div {
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 0;
+      }
+      >span{
+        vertical-align: top;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 100%;
+      }
+    }
+  }
+  .messageButton{
+    >div{
+      margin: 0 4px 0 0;
+    }
+  }
+  .followButton{
+    >div{
+      margin: 0 4px 0 0;
+    }
+  }
+  .followingButton{
+    >div{
+      margin: 0 4px 0 0;
+    }
+  }
+  .linkWrapper{
+    width: calc(100%);
+    height: 48px;
+    top: calc(50% + -31px);
+    > a{
+      width: calc(100% / 3) !important;
+      text-align: center;
+      margin-top: 9px;
+      >span{
+        padding: 0;
+      }
+      >div{
+        position: absolute;
+        top: 36px;
+        width: 0;
+      }
+      &:hover{
+        >div{
+          width: 100%;
+          transition: 0.25s;
+        }
+      }
+    }
+  }
+  .pageLinkSelect{
+    >span{
+    }
+    >div{
+      background: #1E68FA;
+      height: 3px;
+      width: 100% !important;
+      position: absolute;
+      top: 46px;
+    }
+  }
 }

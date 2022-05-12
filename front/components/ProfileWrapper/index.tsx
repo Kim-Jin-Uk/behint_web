@@ -3,11 +3,11 @@ import styles from './style.module.scss';
 import ProfileThumbnail from '../ProfileThumbnail';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { OTHER_PROFILE_REQUEST } from '../../reducers/user';
 import Link from 'next/link';
 
-const ProfileWrapper = (props: { type: string }) => {
+const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
   const router = useRouter();
   const { id } = router.query;
   const { user, me } = useSelector((state: RootState) => state.user);
@@ -90,7 +90,7 @@ const ProfileWrapper = (props: { type: string }) => {
             )}
           </div>
           <div className={styles.linkWrapper}>
-            <Link href={`${id}`}>
+            <Link href={`/profile/${id}`}>
               <a
                 style={{ width: 70 }}
                 className={
@@ -103,7 +103,7 @@ const ProfileWrapper = (props: { type: string }) => {
                 <div></div>
               </a>
             </Link>
-            <Link href={`${id}/profile`}>
+            <Link href={`/profile/${id}/profile`}>
               <a
                 style={{ width: 98 }}
                 className={
@@ -116,7 +116,7 @@ const ProfileWrapper = (props: { type: string }) => {
                 <div></div>
               </a>
             </Link>
-            <Link href={`${id}/project`}>
+            <Link href={`/profile/${id}/project`}>
               <a
                 style={{ width: 112 }}
                 className={
@@ -132,58 +132,7 @@ const ProfileWrapper = (props: { type: string }) => {
           </div>
         </div>
       </div>
-      <div className={styles.profileBottomWrapper}>
-        <div className={styles.profileBottomLeftWrapper}>
-          <div>소개</div>
-          <div>소개글</div>
-          <div>
-            <div>
-              <div>프로젝트</div>
-              <div>프로젝트 수</div>
-            </div>
-            <div>
-              <div>팔로워</div>
-              <div>팔로워 수</div>
-            </div>
-            <div>
-              <div>팔로윙</div>
-              <div>팔로윙 수</div>
-            </div>
-          </div>
-          <div>
-            <div>디테일1</div>
-            <div>디테일2</div>
-            <div>디테일3</div>
-          </div>
-          <div>
-            <div>유튜브</div>
-            <div>인스타</div>
-            <div>페북</div>
-            <div>트윗</div>
-            <div>기타</div>
-          </div>
-          <div>전체보기</div>
-        </div>
-        <div className={styles.profileBottomRightWrapper}>
-          <div>
-            <div>대표프로젝트</div>
-            <div>프로젝트 전체보기</div>
-          </div>
-          <div>
-            <div>프로젝트 아이템1</div>
-            <div>프로젝트 아이템2</div>
-            <div>프로젝트 아이템3</div>
-          </div>
-          <div>최근 작성 코멘터리</div>
-          <div>
-            <div>코멘터리 1</div>
-            <div>코멘터리 2</div>
-            <div>코멘터리 3</div>
-            <div>코멘터리 ...</div>
-          </div>
-        </div>
-      </div>
-      <div>{id}</div>
+      {props.children}
     </>
   );
 };

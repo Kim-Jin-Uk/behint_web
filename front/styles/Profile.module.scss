@@ -1,0 +1,389 @@
+.profileBottomWrapper{
+  width: 1072px;
+  height: 100%;
+  margin: 45px auto 120px;
+  display: flex;
+}
+
+.profileBottomLeftWrapper{
+  width: 291px;
+  display: inline-block;
+  padding-right: 28px;
+  float: left;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+
+.profileBottomRightWrapper{
+  width: 780px;
+  display: inline-block;
+  padding-left: 28px;
+  float: right;
+  vertical-align: top;
+  border-left: 1px solid #E3E7EB;
+  box-sizing: border-box;
+}
+
+.profileIntroTitle{
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 150%;
+  color: #1A1E27;
+}
+
+.profileIntroContents{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #1A1E27;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin-top: 24px;
+}
+
+.profileInfoCardWrapper{
+  border-top: 1px solid #E3E7EB;
+  margin-top: 24px;
+  padding-top: 24px;
+  > div{
+    display: inline-block;
+    width: calc(100% / 3);
+    text-align: center;
+    cursor: pointer;
+  }
+  padding-bottom: 24px;
+  border-bottom: 1px solid #E3E7EB;
+}
+
+.profileInfoCardTitle{
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 130%;
+  color: #353C49;
+}
+
+.profileInfoCardNumber{
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  color: #353C49;
+  margin-top: 4px;
+}
+
+.profileJobWrapper{
+  margin-top: 19px;
+  margin-bottom: 19px;
+  >div {
+    margin: 5px 0;
+    width: 100%;
+  }
+}
+
+.profileJobIcon{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  background: url(../images/job_video.svg);
+}
+
+.profileJobBox{
+  width: calc(100% - 22px);
+  vertical-align: top;
+  display: inline-block;
+}
+
+.profileJobContents{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 130%;
+  color: #1A1E27;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.profileSnsWrapper{
+  border-top: 1px solid #E3E7EB;
+  border-bottom: 1px solid #E3E7EB;
+  padding: 24px 0;
+  margin: 0 -4px;
+  > div{
+    display: inline-block;
+    margin: 0 4px;
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+    cursor: pointer;
+  }
+}
+
+.youtube{
+  background: url(../images/sns/youtube.svg);
+}
+.insta{
+  background: url(../images/sns/insta.svg);
+}
+.facebook{
+  background: url(../images/sns/facebook.svg);
+}
+.twitter{
+  background: url(../images/sns/twitter.svg);
+}
+.link{
+  background: url(../images/sns/link.svg);
+}
+
+.youtubeActive{
+  background: url(../images/sns/youtube_active.svg);
+}
+.instaActive{
+  background: url(../images/sns/insta_active.svg);
+}
+.facebookActive{
+  background: url(../images/sns/facebook_active.svg);
+}
+.twitterActive{
+  background: url(../images/sns/twitter_active.svg);
+}
+.linkActive{
+  background: url(../images/sns/link_active.svg);
+}
+
+.profileShowAll{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 130%;
+  color: #0054FE;
+  margin-top: 16px;
+  cursor: pointer;
+  > div{
+    height: 1px;
+    width: 0;
+    background: #0054FE;
+    transition: 0.25s;
+  }
+  &:hover{
+    > div{
+      width: 105px;
+      transition: 0.25s;
+    }
+  }
+}
+
+.projectTopWrapper{
+  width: 100%;
+  margin-bottom: 24px;
+  > div{
+    display: inline-block;
+    vertical-align: top;
+  }
+  > div:last-child{
+    width: 116px;
+    margin: 9px 0;
+    float: right;
+    &:hover{
+      > div{
+        width: 116px;
+      }
+    }
+  }
+}
+
+.projectItemsWrapper{
+  width: 768px;
+  margin: 0 -8px 24px;
+}
+
+.commentaryWrapper{
+  margin-top: 24px;
+  margin-right: -16px;
+}
+
+.nextArrow{
+  width: 35px;
+  height: 35px;
+  background: url(../images/btn_next.svg) center;
+  background-size: 35px;
+  position: absolute;
+  right: -3px;
+  top: calc(50% + 7px);
+  transform: translateY(-50%);
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.prevArrow{
+  width: 35px;
+  height: 35px;
+  background: url(../images/btn_prev.svg) center;
+  background-size: 35px;
+  position: absolute;
+  left: -18px;
+  top: calc(50% + 7px);
+  transform: translateY(-50%);
+  z-index: 1000;
+  cursor: pointer;
+}
+
+//반응형
+@media (min-width:1024px) and (max-width: 1151px) {
+  .profileBottomWrapper{
+    width: 945px;
+  }
+  .profileBottomLeftWrapper{
+    width: 260px;
+  }
+  .profileBottomRightWrapper{
+    width: 684px;
+  }
+  .profileJobWrapper{
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width:768px) and (max-width: 1024px){
+  .profileBottomWrapper{
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+
+  .profileBottomLeftWrapper{
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: 36px 40px;
+    border-bottom: 8px solid #F2F4F6;
+    > div:first-child{
+      padding: 0 ;
+    }
+  }
+
+  .profileIntroContents{
+    -webkit-line-clamp: 2;
+  }
+
+  .profileSnsWrapper{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .profileShowAll{
+    position: absolute;
+    top: 45px;
+    right: 40px;
+    margin: 0 !important;
+  }
+  .profileBottomRightWrapper{
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    border-left: none;
+  }
+
+  .projectTopWrapper{
+    padding: 36px 40px 0;
+    >div{
+      padding: 0 !important;
+    }
+  }
+
+  .projectItemsWrapper{
+    margin: 0 -6px;
+    width: 100%;
+    padding: 0 34px 36px;
+    border-bottom: 8px solid #F2F4F6;
+  }
+
+  .profileIntroTitle{
+    padding: 36px 40px 0;
+  }
+
+  .commentaryWrapper{
+    margin: 20px -192px 100px 40px;
+  }
+  .prevArrow{
+    display: none;
+  }
+  .nextArrow{
+    display: none;
+  }
+}
+
+@media (max-width: 768px){
+  .profileBottomWrapper{
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+
+  .profileBottomLeftWrapper{
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: 32px 20px;
+    border-bottom: 8px solid #F2F4F6;
+    > div:first-child{
+      padding: 0 ;
+    }
+  }
+
+  .profileIntroContents{
+    -webkit-line-clamp: 3;
+  }
+  .profileSnsWrapper{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .profileShowAll{
+    position: absolute;
+    top: 38px;
+    right: 20px;
+    margin: 0 !important;
+  }
+  .profileBottomRightWrapper{
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    border-left: none;
+  }
+
+  .projectTopWrapper{
+    padding: 32px 20px 0;
+    margin-bottom: 16px;
+    >div{
+      padding: 0 !important;
+    }
+  }
+
+  .projectItemsWrapper{
+    margin: 0;
+    width: 100%;
+    padding: 0 20px 32px;
+    border-bottom: 8px solid #F2F4F6;
+    > div{
+      display: block;
+    }
+  }
+
+  .profileIntroTitle{
+    padding: 32px 20px 0;
+  }
+
+  .commentaryWrapper{
+    margin: 16px 0 100px 20px;
+    width: 752px;
+  }
+  .prevArrow{
+    display: none;
+  }
+  .nextArrow{
+    display: none;
+  }
+}

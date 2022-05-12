@@ -1,0 +1,88 @@
+.commentaryWrapper{
+  width: 240px;
+  height: 180px;
+  padding: 20px 16px 24px;
+  background: #F2F4F6;
+  border-radius: 4px;
+}
+
+.commentaryTopWrapper{
+  display: inline-flex;
+  width: 100%;
+  margin-bottom: 13px;
+}
+
+.commentaryTitle{
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+  color: #1A1E27;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.commentaryTime{
+  flex: none;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 130%;
+  color: #6D7582;
+  width: auto;
+}
+
+.commentaryContent{
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 150%;
+  color: #353C49;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.commentaryShowAll{
+  position: absolute;
+  bottom: 24px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 130%;
+  color: #0054FE;
+  cursor: pointer;
+  > div{
+    height: 1px;
+    width: 0;
+    background: #0054FE;
+    transition: 0.25s;
+  }
+  &:hover{
+    > div{
+      width: 73px;
+      transition: 0.25s;
+    }
+  }
+}
+
+//반응형
+@media (min-width:1024px) and (max-width: 1151px) {
+  .commentaryWrapper{
+    width: 208px;
+    height: 180px ;
+  }
+}
+
+@media (min-width:768px) and (max-width: 1024px) {
+  .commentaryWrapper{
+    width: 224px;
+    height: 175px;
+  }
+}
+
+@media (max-width:768px){
+  .commentaryWrapper{
+    width: 240px;
+    height: 180px;
+  }
+}

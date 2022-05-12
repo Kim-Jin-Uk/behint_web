@@ -13,6 +13,7 @@
     "axios": "^0.27.2",
     "dotenv": "^16.0.0",
     "immer": "^9.0.12",
+    "moment": "^2.29.3",
     "next": "^12.1.5",
     "next-redux-wrapper": "^7.0.5",
     "react": "^18.1.0",
