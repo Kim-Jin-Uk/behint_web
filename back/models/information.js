@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT, // STRING, TEXT, BOOLEAN, INTEGER, FLOAT, DATETIME
         allowNull: true, // 필수
       },
+      type: {
+        type: DataTypes.STRING(64), // STRING, TEXT, BOOLEAN, INTEGER, FLOAT, DATETIME
+        allowNull: true, // 필수
+      },
     },
     {
       charset: 'utf8mb4',

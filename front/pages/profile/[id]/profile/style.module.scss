@@ -1,0 +1,119 @@
+.profileWrapper{
+  width: 1072px;
+  margin: 48px auto 157px;
+}
+
+.profileLeftWrapper{
+  width: 828px;
+  margin: -48px 44px 0 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.profileRightWrapper{
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  >li{
+    width: 100%;
+    height: 46px;
+    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    padding-left: 16px;
+    cursor: pointer;
+    >span{
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 120%;
+      color: #6D7582;
+      transition: 0.25s;
+    }
+    &:hover{
+      >span{
+        color: #1A1E27;
+        transition: 0.25s;
+      }
+    }
+  }
+}
+
+.selectedMenu{
+  background: #E7ECFF;
+  border-radius: 4px;
+  >span{
+    color: #1A1E27 !important;
+  }
+}
+
+.profileContentsWrapper{
+  display: inline-flex;
+  width: 100%;
+  margin: 48px 0 0 0;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #E3E7EB;
+}
+
+.profileTitle{
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 130%;
+  color: #1A1E27;
+  display: inline-block;
+  width: 125px;
+  margin-right: 32px;
+}
+
+.profileDetailWrapper{
+  width: 668px;
+}
+
+.profileContents{
+  width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #353C49;
+  transition: 0.25s;
+}
+
+.profileContentsOpened{
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #353C49;
+  height: auto;
+  transition: height 0.25s;
+}
+
+.moreButton{
+  display: block;
+  margin-top: 16px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #0054FE;
+  cursor: pointer;
+  >div{
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    top: 4px
+  }
+}
+
+.moreButtonIcon{
+  background: url(../../../../images/more_button_icon.svg);
+}
+.shortButtonIcon{
+  background: url(../../../../images/short_button_icon.svg);
+}

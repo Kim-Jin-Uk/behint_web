@@ -1,0 +1,52 @@
+.snsWrapper{
+  margin-bottom: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.youtube{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(../../images/sns/youtube_active.svg);
+  cursor: pointer;
+}
+.insta{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(../../images/sns/insta_active.svg);
+  cursor: pointer;
+}
+.facebook{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(../../images/sns/facebook_active.svg);
+  cursor: pointer;
+}
+.twitter{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(../../images/sns/twitter_active.svg);
+  cursor: pointer;
+}
+.link{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(../../images/sns/link_active.svg);
+  cursor: pointer;
+  vertical-align: top;
+}
+
+.url{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 140%;
+  color: #353C49;
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: top;
+}

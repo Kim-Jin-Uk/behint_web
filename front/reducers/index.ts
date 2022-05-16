@@ -50,3 +50,13 @@ export type commentaryItem = {
   createdAt: Date;
   contents: string;
 };
+
+export type profileContent = {
+  title: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  position: string | null;
+  detailContents: string | null;
+  informationUrl: string | null;
+  type: string;
+};
