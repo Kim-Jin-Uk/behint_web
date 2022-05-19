@@ -1,10 +1,11 @@
 import ProfileWrapper from '../../../../components/ProfileWrapper';
 import Header from '../../../../components/Header';
 import styles from './style.module.scss';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { profileContent } from '../../../../reducers';
 import ProfileContents from '../../../../components/ProfileContents';
 import ProfileSns from '../../../../components/ProfileSns';
+import useIntersectionObservation from '../../../../hooks/useIntersectionObservation';
 
 interface openAbleObject {
   [key: string]: boolean;
@@ -356,6 +357,32 @@ const Profile = () => {
     수상: true,
   } as openAbleObject);
 
+  const [activeId, setActiveId] = useState(0);
+  useIntersectionObservation(setActiveId);
+
+  let workExperienceCount = 0;
+  let contentCreationCount = 0;
+  let holdingCapacityCount = 0;
+  let educationCount = 0;
+  let awardsCount = 0;
+  const introduceRef = useRef<HTMLDivElement>(null);
+  const workExperienceRef = useRef<HTMLDivElement>(null);
+  const contentCreationRef = useRef<HTMLDivElement>(null);
+  const holdingCapacityRef = useRef<HTMLDivElement>(null);
+  const educationRef = useRef<HTMLDivElement>(null);
+  const awardsRef = useRef<HTMLDivElement>(null);
+  const channelRef = useRef<HTMLDivElement>(null);
+
+  const refList = [
+    introduceRef,
+    workExperienceRef,
+    contentCreationRef,
+    holdingCapacityRef,
+    educationRef,
+    awardsRef,
+    channelRef,
+  ];
+
   const onClickMoreButton = useCallback(
     (key: string) => {
       const openableObjectCopy = { ...openableObject };
@@ -365,13 +392,18 @@ const Profile = () => {
     [openableObject],
   );
 
+  useEffect(() => {
+    setSelectedMenu(activeId);
+  }, [activeId]);
+
   return (
-    <>
+    <div id={'profile-body'}>
       <Header></Header>
       <ProfileWrapper type={'profile'}>
         <div className={styles.profileWrapper}>
           <div className={styles.profileLeftWrapper}>
-            <div id={'자기 소개'} className={styles.profileContentsWrapper}>
+            <div id={'자기소개'} className={styles.profileContentsWrapper}>
+              <div ref={introduceRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>자기 소개</div>
               <div className={styles.profileDetailWrapper}>
                 {openableObject['자기 소개'] ? (
@@ -404,11 +436,17 @@ const Profile = () => {
                 )}
               </div>
             </div>
-            <div id={'근무 경험'} className={styles.profileContentsWrapper}>
+            <div id={'근무경험'} className={styles.profileContentsWrapper}>
+              <div ref={workExperienceRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>근무 경험</div>
               <div className={styles.profileDetailWrapper}>
                 {userData.information.map((v: profileContent, i) => {
-                  if (v.type === '근무 경험') {
+                  if (
+                    v.type === '근무 경험' &&
+                    workExperienceCount <
+                      (openableObject['근무 경험'] ? 3 : Number.MAX_VALUE)
+                  ) {
+                    workExperienceCount++;
                     return <ProfileContents key={i} data={v}></ProfileContents>;
                   }
                 })}
@@ -433,11 +471,17 @@ const Profile = () => {
                 )}
               </div>
             </div>
-            <div id={'콘텐츠 제작'} className={styles.profileContentsWrapper}>
+            <div id={'콘텐츠제작'} className={styles.profileContentsWrapper}>
+              <div ref={contentCreationRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>콘텐츠 제작</div>
               <div className={styles.profileDetailWrapper}>
                 {userData.information.map((v: profileContent, i) => {
-                  if (v.type === '콘텐츠 제작') {
+                  if (
+                    v.type === '콘텐츠 제작' &&
+                    contentCreationCount <
+                      (openableObject['콘텐츠 제작'] ? 3 : Number.MAX_VALUE)
+                  ) {
+                    contentCreationCount++;
                     return <ProfileContents key={i} data={v}></ProfileContents>;
                   }
                 })}
@@ -462,11 +506,17 @@ const Profile = () => {
                 )}
               </div>
             </div>
-            <div id={'보유 능력'} className={styles.profileContentsWrapper}>
+            <div id={'보유능력'} className={styles.profileContentsWrapper}>
+              <div ref={holdingCapacityRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>보유 능력</div>
               <div className={styles.profileDetailWrapper}>
                 {userData.information.map((v: profileContent, i) => {
-                  if (v.type === '보유 능력') {
+                  if (
+                    v.type === '보유 능력' &&
+                    holdingCapacityCount <
+                      (openableObject['보유 능력'] ? 3 : Number.MAX_VALUE)
+                  ) {
+                    holdingCapacityCount++;
                     return <ProfileContents key={i} data={v}></ProfileContents>;
                   }
                 })}
@@ -492,10 +542,16 @@ const Profile = () => {
               </div>
             </div>
             <div id={'학력'} className={styles.profileContentsWrapper}>
+              <div ref={educationRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>학력</div>
               <div className={styles.profileDetailWrapper}>
                 {userData.information.map((v: profileContent, i) => {
-                  if (v.type === '학력') {
+                  if (
+                    v.type === '학력' &&
+                    educationCount <
+                      (openableObject['학력'] ? 3 : Number.MAX_VALUE)
+                  ) {
+                    educationCount++;
                     return <ProfileContents key={i} data={v}></ProfileContents>;
                   }
                 })}
@@ -521,10 +577,16 @@ const Profile = () => {
               </div>
             </div>
             <div id={'수상'} className={styles.profileContentsWrapper}>
+              <div ref={awardsRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>수상</div>
               <div className={styles.profileDetailWrapper}>
                 {userData.information.map((v: profileContent, i) => {
-                  if (v.type === '수상') {
+                  if (
+                    v.type === '수상' &&
+                    awardsCount <
+                      (openableObject['수상'] ? 3 : Number.MAX_VALUE)
+                  ) {
+                    awardsCount++;
                     return <ProfileContents key={i} data={v}></ProfileContents>;
                   }
                 })}
@@ -554,6 +616,7 @@ const Profile = () => {
               className={styles.profileContentsWrapper}
               style={{ border: 'none', paddingBottom: 0 }}
             >
+              <div ref={channelRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>채널</div>
               <div className={styles.profileDetailWrapper}>
                 {userData.information.map((v: profileContent, i) => {
@@ -564,21 +627,29 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <ul className={styles.profileRightWrapper}>
-            {profileRightMenu.map((v, i) => {
-              return (
-                <li
-                  key={i}
-                  className={i === selectedMenu ? styles.selectedMenu : ''}
-                >
-                  <span>{v}</span>
-                </li>
-              );
-            })}
-          </ul>
+          <div className={styles.profileRightWrapper}>
+            <ul style={{ padding: 0 }}>
+              {profileRightMenu.map((v, i) => {
+                return (
+                  <li
+                    key={i}
+                    className={i === selectedMenu ? styles.selectedMenu : ''}
+                    onClick={() => {
+                      refList[i].current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                      });
+                    }}
+                  >
+                    <span>{v}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </ProfileWrapper>
-    </>
+    </div>
   );
 };
 

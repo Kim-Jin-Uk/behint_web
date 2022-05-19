@@ -60,3 +60,11 @@ export type profileContent = {
   informationUrl: string | null;
   type: string;
 };
+
+export type scrapItem = {
+  id: number;
+  title: string;
+  thumbnailUrl: string;
+  projectNum: number;
+  select: boolean;
+};

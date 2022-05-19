@@ -11,6 +11,7 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
   const router = useRouter();
   const { id } = router.query;
   const { user, me } = useSelector((state: RootState) => state.user);
+  const [isMe, setIsMe] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,23 +71,48 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
             </div>
           </div>
           <div className={styles.buttonWrapper}>
-            <div className={styles.messageButton}>
-              <div></div>
-              <span>협업 제안</span>
-            </div>
-            {user !== null &&
-            me !== null &&
-            user.Followers &&
-            user.Followers.includes(me.id) ? (
-              <div className={styles.followingButton}>
-                <div></div>
-                <span>팔로잉</span>
-              </div>
+            {isMe ? (
+              <>
+                <div className={styles.messageButton}>
+                  <div>
+                    <div className={styles.projectManagement}></div>
+                    <span>프로젝트 관리</span>
+                  </div>
+                </div>
+                <div className={styles.followButton}>
+                  <div>
+                    <div className={styles.profileEdit}></div>
+                    <span>프로필 편집</span>
+                  </div>
+                </div>
+              </>
             ) : (
-              <div className={styles.followButton}>
-                <div></div>
-                <span>팔로우</span>
-              </div>
+              <>
+                <div className={styles.messageButton}>
+                  <div>
+                    <div></div>
+                    <span>협업 제안</span>
+                  </div>
+                </div>
+                {user !== null &&
+                me !== null &&
+                user.Followers &&
+                user.Followers.includes(me.id) ? (
+                  <div className={styles.followingButton}>
+                    <div>
+                      <div></div>
+                      <span>팔로잉</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.followButton}>
+                    <div>
+                      <div></div>
+                      <span>팔로우</span>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className={styles.linkWrapper}>
@@ -129,6 +155,21 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
                 <div></div>
               </a>
             </Link>
+            {isMe && (
+              <Link href={`/profile/${id}/scrap`}>
+                <a
+                  style={{ width: 112 }}
+                  className={
+                    props.type === 'scrap'
+                      ? styles.pageLinkSelect
+                      : styles.pageLink
+                  }
+                >
+                  <span>스크랩</span>
+                  <div></div>
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -49,4 +49,11 @@
   margin-left: 8px;
   display: inline-block;
   vertical-align: top;
+  transition: 0.25s;
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+    text-underline-position: under;
+    transition: 0.25s;
+  }
 }

@@ -1,0 +1,104 @@
+.scrapItemWrapper{
+  width: 256px;
+  margin: 0 8px 24px;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.thumbnail{
+  width: 100%;
+  height: 144px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  background: #353C49;
+  background-size: cover;
+}
+
+.thumbnailCover{
+  width: 100%;
+  height: 144px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  background: rgba(53, 60, 73, 0.5);
+  position: absolute;
+  top: 0;
+}
+
+.title{
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  color: #1A1E27;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.projectNum{
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 150%;
+  color: #353C49;
+}
+
+.selectModeIcon{
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 2px solid #8D94A0;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #353C49E5;
+}
+
+.selectedIcon{
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: url(../../images/selected.svg);
+}
+
+//반응형
+@media (min-width: 1024px) and (max-width: 1152px) {
+  .scrapItemWrapper{
+    width: 224.25px;
+  }
+  .thumbnail{
+    height: 126.14px;
+  }
+  .thumbnailCover{
+    height: 126.14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .scrapItemWrapper{
+    width: calc(50vw - 48px);
+  }
+  .thumbnail{
+    height: calc((50vw - 48px) * 189 / 336);
+  }
+  .thumbnailCover{
+    height: calc((50vw - 48px) * 189 / 336);
+  }
+}
+
+@media (max-width: 768px) {
+  .scrapItemWrapper{
+    width: calc(100vw - 40px);
+  }
+  .thumbnail{
+    height: calc((100vw - 40px) * 180 / 320);
+  }
+  .thumbnailCover{
+    height: calc((100vw - 40px) * 180 / 320);
+  }
+}

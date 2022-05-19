@@ -1,6 +1,6 @@
 .profileWrapper{
   width: 1072px;
-  margin: 48px auto 157px;
+  margin: 48px auto 557px;
 }
 
 .profileLeftWrapper{
@@ -10,14 +10,21 @@
   vertical-align: top;
 }
 
+.ref{
+  position: relative;
+  top: -126px;
+}
+
 .profileRightWrapper{
+  position: absolute;
+  top: 364px;
   width: 200px;
   display: inline-block;
   vertical-align: top;
   list-style: none;
   padding: 0;
   margin: 0;
-  >li{
+  li{
     width: 100%;
     height: 46px;
     margin-bottom: 8px;
@@ -116,4 +123,59 @@
 }
 .shortButtonIcon{
   background: url(../../../../images/short_button_icon.svg);
+}
+
+//반응형
+@media (min-width: 1024px) and (max-width: 1152px){
+  .profileWrapper{
+    width: 945px;
+    margin: 48px auto 557px;
+  }
+
+  .profileLeftWrapper{
+    width: 705px;
+    margin: -48px 40px 0 0;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .profileContentsWrapper{
+    display: block;
+  }
+
+  .profileTitle{
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 1024px){
+  .profileRightWrapper{
+    display: none;
+  }
+
+  .profileWrapper{
+    width: 100%;
+    margin: 48px 0 557px;
+  }
+
+  .profileLeftWrapper{
+    width: 100%;
+    margin: -48px 40px 0 0;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .profileContentsWrapper{
+    display: block;
+    padding: 0 40px 44px;
+    border-bottom: 8px solid #F2F4F6;
+  }
+
+  .profileTitle{
+    margin-bottom: 24px;
+  }
+
+  .profileDetailWrapper{
+    width: 100%;
+  }
 }

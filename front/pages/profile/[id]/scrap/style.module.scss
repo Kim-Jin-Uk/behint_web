@@ -1,0 +1,68 @@
+.scrapWrapper{
+  width: 1072px;
+  margin: 48px auto 238px;
+}
+
+.scrapTopWrapper{
+  width: 100%;
+  margin-bottom: 24px;
+  >div>div,button{
+    display: inline-block;
+  }
+  .title{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 150%;
+    color: #1A1E27;
+  }
+  .button{
+    float: right;
+    width: 57px;
+    height: 36px;
+    background: #FFFFFF;
+    border: 1px solid #E3E7EB;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    color: #1E68FA;
+    cursor: pointer;
+    transition: 0.25s;
+    &:hover{
+      background: #F2F4F6;
+      transition: 0.25s;
+    }
+  }
+}
+
+.scrapItemWrapper{
+  width: calc(100% + 16px);
+  margin: 0 -8px;
+}
+
+//반응형
+@media (min-width: 1024px) and (max-width: 1152px) {
+  .scrapWrapper{
+    width: 945px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .scrapWrapper{
+    width: 100vw;
+    margin: 36px 40px 100px;
+  }
+  .scrapTopWrapper{
+    width: calc(100vw - 80px);
+  }
+}
+
+@media (max-width: 768px) {
+  .scrapWrapper{
+    width: 100vw;
+    margin: 32px 20px 100px;
+  }
+  .scrapTopWrapper{
+    width: calc(100vw - 40px);
+  }
+}

@@ -88,16 +88,34 @@
   line-height: 100%;
   cursor: pointer;
   transition: 0.15s;
+  text-align: center;
   >div{
+    margin: 0 auto;
+  }
+  >div>div{
     width: 24px;
     height: 24px;
-    margin: 0 4px 0 36px;
     background: url(../../images/profile_message.svg);
+    display: inline-block;
+    vertical-align: top;
+  }
+  span{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 3px;
   }
   &:hover{
     background: #F2F4F6;
     transition: 0.15s;
   }
+}
+
+.projectManagement{
+  background: url(../../images/project_management.svg) !important;
+}
+
+.profileEdit{
+  background: url(../../images/profile_edit.svg) !important;
 }
 
 .followButton{
@@ -109,10 +127,19 @@
   cursor: pointer;
   transition: 0.15s;
   >div{
+    margin: 0 auto;
+  }
+  >div>div{
     width: 24px;
     height: 24px;
-    margin: 0 4px 0 46px;
     background: url(../../images/profile_follow.svg);
+    display: inline-block;
+    vertical-align: top;
+  }
+  span{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 3px;
   }
   &:hover{
     background: #0034DA;
@@ -128,10 +155,19 @@
   font-size: 18px;
   line-height: 100%;
   >div{
+    margin: 0 auto;
+  }
+  >div >div{
     width: 24px;
     height: 24px;
-    margin: 0 4px 0 46px;
     background: url(../../images/profile_following.svg);
+    display: inline-block;
+    vertical-align: top;
+  }
+  span{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 3px;
   }
 }
 
@@ -247,27 +283,13 @@
       height: 48px;
     }
   }
-  .messageButton{
-    >div{
-      margin: 0 4px 0 119.5px;
-    }
-  }
-  .followButton{
-    >div{
-      margin: 0 4px 0 129.5px;
-    }
-  }
-  .followingButton{
-    >div{
-      margin: 0 4px 0 129.5px;
-    }
-  }
   .linkWrapper{
     width: calc(100%);
     height: 48px;
     top: calc(50% + -18px);
+    display: flex;
     > a{
-      width: calc(100% / 3) !important;
+      width: 100% !important;
       text-align: center;
       margin-top: 9px;
       >span{
@@ -353,27 +375,13 @@
       }
     }
   }
-  .messageButton{
-    >div{
-      margin: 0 4px 0 0;
-    }
-  }
-  .followButton{
-    >div{
-      margin: 0 4px 0 0;
-    }
-  }
-  .followingButton{
-    >div{
-      margin: 0 4px 0 0;
-    }
-  }
   .linkWrapper{
     width: calc(100%);
     height: 48px;
     top: calc(50% + -31px);
+    display: flex;
     > a{
-      width: calc(100% / 3) !important;
+      width: 100% !important;
       text-align: center;
       margin-top: 9px;
       >span{
