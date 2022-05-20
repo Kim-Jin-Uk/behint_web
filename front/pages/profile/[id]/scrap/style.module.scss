@@ -1,10 +1,12 @@
 .scrapWrapper{
   width: 1072px;
   margin: 48px auto 238px;
+  min-width: 320px;
 }
 
 .scrapTopWrapper{
   width: 100%;
+  min-width: 280px;
   margin-bottom: 24px;
   >div>div,button{
     display: inline-block;
@@ -64,5 +66,11 @@
   }
   .scrapTopWrapper{
     width: calc(100vw - 40px);
+  }
+  .title{
+    font-size: 20px !important;
+  }
+  .button{
+    height: 30px !important;
   }
 }

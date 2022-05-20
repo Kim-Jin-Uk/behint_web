@@ -154,6 +154,12 @@ const ScrapId = () => {
                 <button style={{ border: 'none' }} className={styles.button}>
                   삭제
                 </button>
+                <button
+                  style={{ border: 'none', width: 84 }}
+                  className={styles.button}
+                >
+                  폴더 이동
+                </button>
               </>
             ) : (
               <>

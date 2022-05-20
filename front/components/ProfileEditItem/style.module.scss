@@ -1,0 +1,104 @@
+.itemWrapper{
+  width: 100%;
+  border-bottom: 1px solid #E3E7EB;
+  padding: 28px 0;
+}
+
+.titleWrapper{
+  width: 100%;
+  display: flex;
+}
+
+.title{
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 130%;
+  color: #1A1E27;
+  margin-right: 6px;
+  max-width: calc(50% - 27px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.position{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 130%;
+  color: #353C49;
+  max-width: calc(50% - 27px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editIcon{
+  width: 24px;
+  height: 24px;
+  background: url(../../images/edit_profile_icon_non_active.svg);
+  margin-right: 6px;
+  margin-left: auto;
+  cursor: pointer;
+  transition: 0.25s;
+  &:hover{
+    background: url(../../images/edit_profile_icon.svg);
+    transition: 0.25s;
+  }
+}
+
+.deleteIcon{
+  width: 24px;
+  height: 24px;
+  background: url(../../images/delete_profile_icon_non_active.svg);
+  cursor: pointer;
+  transition: 0.25s;
+  &:hover{
+    background: url(../../images/delete_profile_icon.svg);
+    transition: 0.25s;
+  }
+}
+
+.date{
+  display: inline-block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #6D7582;
+  white-space: pre;
+  vertical-align: top;
+  margin-top: 2px;
+}
+
+.informationUrl{
+  margin-top: 2px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 150%;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  cursor: pointer;
+  color: #6D7582;
+  &:hover{
+    text-decoration-line: underline;
+    text-underline-position: under;
+    color: #6D7582;
+  }
+}
+
+.detailContents{
+  margin-top: 8px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #353C49;
+}
+
+.datePickerDivision{
+  display: inline-block;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+  color: #6D7582;
+  width: 4px;
+  margin: 0 8px;
+}

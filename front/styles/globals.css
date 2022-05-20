@@ -6,8 +6,24 @@ html, body {
   overflow-x: hidden;
   --antd-wave-shadow-color:#000000 !important;
   min-width: 320px;
-  /*-ms-overflow-style: none;*/
+
+/*-ms-overflow-style: none;*/
 }
+
+*::-webkit-scrollbar {
+   width: 6px;
+ }
+*::-webkit-scrollbar-track {
+   background-color: transparent;
+ }
+*::-webkit-scrollbar-thumb {
+   border-radius: 3px;
+   background-color: rgba(128, 128, 128, 0.5);
+ }
+*::-webkit-scrollbar-button {
+   width: 0;
+   height: 0;
+ }
 
 /*::-webkit-scrollbar { display: none; }*/
 

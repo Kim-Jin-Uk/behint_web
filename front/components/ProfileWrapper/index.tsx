@@ -3,7 +3,7 @@ import styles from './style.module.scss';
 import ProfileThumbnail from '../ProfileThumbnail';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { OTHER_PROFILE_REQUEST } from '../../reducers/user';
 import Link from 'next/link';
 
@@ -24,6 +24,13 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
   useEffect(() => {
     console.log(user);
   }, [user]);
+
+  const onClickButton = useCallback(
+    (key: string) => {
+      router.push(`/profile/${id}/${key}`);
+    },
+    [id],
+  );
 
   return (
     <>
@@ -79,7 +86,10 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
                     <span>프로젝트 관리</span>
                   </div>
                 </div>
-                <div className={styles.followButton}>
+                <div
+                  className={styles.followButton}
+                  onClick={() => onClickButton('edit')}
+                >
                   <div>
                     <div className={styles.profileEdit}></div>
                     <span>프로필 편집</span>

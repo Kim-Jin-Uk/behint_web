@@ -95,7 +95,9 @@
   >div>div{
     width: 24px;
     height: 24px;
-    background: url(../../images/profile_message.svg);
+    margin-right: 4px;
+    background: url(../../images/profile_message.svg) no-repeat;
+    background-size: cover;
     display: inline-block;
     vertical-align: top;
   }
@@ -111,11 +113,13 @@
 }
 
 .projectManagement{
-  background: url(../../images/project_management.svg) !important;
+  background: url(../../images/project_management.svg) no-repeat !important;
+  background-size: 24px !important;
 }
 
 .profileEdit{
-  background: url(../../images/profile_edit.svg) !important;
+  background: url(../../images/profile_edit.svg) no-repeat !important;
+  background-size: 24px !important;
 }
 
 .followButton{
@@ -132,7 +136,9 @@
   >div>div{
     width: 24px;
     height: 24px;
-    background: url(../../images/profile_follow.svg);
+    margin-right: 4px;
+    background: url(../../images/profile_follow.svg) no-repeat;
+    background-size: cover;
     display: inline-block;
     vertical-align: top;
   }
@@ -160,7 +166,8 @@
   >div >div{
     width: 24px;
     height: 24px;
-    background: url(../../images/profile_following.svg);
+    background: url(../../images/profile_following.svg) no-repeat;
+    background-size: cover;
     display: inline-block;
     vertical-align: top;
   }
