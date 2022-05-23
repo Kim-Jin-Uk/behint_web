@@ -5,6 +5,7 @@ import 'moment/locale/ko';
 import Link from 'next/link';
 import React from 'react';
 moment.locale('ko');
+
 const ProfileEditItem = (props: {
   data: profileContent;
   idx: number;

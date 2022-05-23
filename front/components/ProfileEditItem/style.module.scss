@@ -1,3 +1,7 @@
+.editorWrapper{
+  margin-top: 28px;
+}
+
 .itemWrapper{
   width: 100%;
   border-bottom: 1px solid #E3E7EB;
@@ -101,4 +105,65 @@
   color: #6D7582;
   width: 4px;
   margin: 0 8px;
+}
+
+.errorMessage{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  color: #F43333;
+  margin-bottom: 20px;
+}
+
+.buttonWrapper{
+  padding-top: 4px;
+  height: 69px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #E3E7EB;
+  margin-bottom: 28px;
+  > button {
+    width: 65px;
+    height: 36px;
+    border-radius: 18px;
+    display: inline-block;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    cursor: pointer;
+  }
+}
+
+.deleteButton{
+  background: #FFFFFF;
+  border: 1px solid #E3E7EB;
+  color: #F43333;
+  transition: 0.25s;
+  &:hover{
+    background: #F2F4F6;
+    transition: 0.25s;
+  }
+}
+
+.cancelButton{
+  float: right;
+  background: #FFFFFF;
+  border: none;
+  color: #353C49;
+  transition: 0.25s;
+  &:hover{
+    background: #F2F4F6;
+    transition: 0.25s;
+  }
+}
+
+.saveButton{
+  float: right;
+  background: #1E68FA;
+  border: none;
+  color: #FFFFFF;
+  transition: 0.25s;
+  &:hover{
+    background: #0034DA;
+    transition: 0.25s;
+  }
 }

@@ -4,6 +4,9 @@ import { AnyAction, combineReducers } from 'redux';
 import main from './main';
 import project from './project';
 import user from './user';
+import { string } from 'prop-types';
+import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
+import moment from 'moment';
 
 const rootReducer = (state: any, action: AnyAction) => {
   switch (action.type) {
@@ -68,3 +71,32 @@ export type scrapItem = {
   projectNum: number;
   select: boolean;
 };
+
+export type userData = {
+  introduce: string;
+  information: {
+    title: string;
+    startDate: Date | null;
+    endDate: Date | null;
+    position: string | null;
+    detailContents: string | null;
+    informationUrl: string | null;
+    type: string;
+  }[];
+};
+
+export type openListOptions = {
+  [key: string]: boolean[];
+};
+
+export type inputType = [
+  string,
+  ChangeEventHandler<HTMLInputElement>,
+  Dispatch<SetStateAction<string>>,
+];
+
+export type datePickType = [
+  Date,
+  (date: moment.Moment, dateString: string) => void,
+  Dispatch<SetStateAction<Date>>,
+];

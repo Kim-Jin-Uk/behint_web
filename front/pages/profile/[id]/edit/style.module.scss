@@ -178,3 +178,26 @@
   position: relative;
   top: -206px;
 }
+
+.addItem{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 130%;
+  color: #0054FE;
+  margin-top: 8px;
+  margin-bottom: 90px;
+  cursor: pointer;
+  display: inline-block;
+  >div{
+    background: #0054FE;
+    height: 1px;
+    width: 0px;
+    transition: 0.25s;
+  }
+  &:hover{
+    > div{
+      width: 100%;
+      transition: 0.25s;
+    }
+  }
+}

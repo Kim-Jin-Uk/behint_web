@@ -2,13 +2,13 @@ import Header from '../../../../components/Header';
 import styles from './style.module.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import autosize from 'autosize';
-import { profileContent } from '../../../../reducers';
+import {
+  openListOptions,
+  profileContent,
+  userData,
+} from '../../../../reducers';
 import ProfileEditItem from '../../../../components/ProfileEditItem';
 import Editor from '../../../../components/ProfileEditItem/editor';
-
-type openListOptions = {
-  [key: string]: boolean[];
-};
 
 const Edit = () => {
   const profileRightMenu = [
@@ -44,7 +44,7 @@ const Edit = () => {
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const userData = {
+  const [userData, setUserData] = useState({
     introduce:
       '근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 언론·출판의 자유와 집회·결사의 자유를 가진다. 이 헌법시행 당시의 대법원장과 대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 신체장애자 및 질병·노령 기타의  근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 언론·출판의 자유와 집회·결사의 자유를 가진다. 이 헌법시행 당시의 대법원장과 대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 신체장애자 및 질병·노령 기타의 사유…',
     information: [
@@ -369,9 +369,11 @@ const Edit = () => {
         type: '채널',
       },
     ],
-  };
+  } as userData);
 
   const [openAbleList, setOpenAbleList] = useState({} as openListOptions);
+
+  const [editModeList, setEditModeList] = useState({} as openListOptions);
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -384,13 +386,20 @@ const Edit = () => {
     userData.information.map((v: profileContent, i) => {
       openList[v.type] = (openList[v.type] || []).concat([true]);
     });
+    const editList: openListOptions = {};
+    for (const i in openList) {
+      editList[i] = [false];
+    }
     setOpenAbleList(openList);
+    setEditModeList(editList);
   }, []);
 
   const onClickEditIcon = useCallback(
     (type: string, idx: number) => {
       if (!openAbleList[type]) return;
       if (!openAbleList[type][idx]) return;
+      editModeList[type][0] = false;
+      setEditModeList(editModeList);
       const changeList: boolean[] = [];
       openAbleList[type].map((v, i) => {
         if (i === idx) {
@@ -402,7 +411,15 @@ const Edit = () => {
       openAbleList[type] = changeList;
       setOpenAbleList({ ...openAbleList });
     },
-    [openAbleList],
+    [openAbleList, editModeList],
+  );
+
+  const onClickEditText = useCallback(
+    (type: string) => {
+      editModeList[type][0] = true;
+      setEditModeList({ ...editModeList });
+    },
+    [editModeList],
   );
 
   return (
@@ -453,37 +470,79 @@ const Edit = () => {
                 ref={textAreaRef}
                 maxLength={500}
                 value={userData.introduce}
+                readOnly={true}
               />
             </div>
           </div>
           <div id={'근무경험'}>
             <h2>근무 경험</h2>
             <div ref={workExperienceRef} className={styles.ref}></div>
-            {userData.information.map((v: profileContent, i) => {
-              if (
-                v.type === '근무 경험' &&
-                openAbleList[v.type] &&
-                openAbleList[v.type][i]
-              ) {
-                return (
-                  <ProfileEditItem
-                    key={i}
-                    data={v}
-                    idx={i}
-                    onClickEditIcon={onClickEditIcon}
-                  ></ProfileEditItem>
-                );
-              }
-            })}
-            {userData.information.map((v: profileContent, i) => {
-              if (
-                v.type === '근무 경험' &&
-                openAbleList[v.type] &&
-                !openAbleList[v.type][i]
-              ) {
-                return <Editor data={v}></Editor>;
-              }
-            })}
+            {userData.information
+              .filter((v: profileContent) => v.type === '근무 경험')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '근무 경험' &&
+                  openAbleList[v.type] &&
+                  openAbleList[v.type][i]
+                ) {
+                  return (
+                    <ProfileEditItem
+                      key={i}
+                      data={v}
+                      idx={i}
+                      onClickEditIcon={onClickEditIcon}
+                    ></ProfileEditItem>
+                  );
+                }
+              })}
+            {userData.information
+              .filter((v: profileContent) => v.type === '근무 경험')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '근무 경험' &&
+                  openAbleList[v.type] &&
+                  !openAbleList[v.type][i] &&
+                  !editModeList[v.type][0]
+                ) {
+                  return (
+                    <Editor
+                      data={v}
+                      idx={i}
+                      type={v.type}
+                      openAbleList={openAbleList}
+                      setOpenAbleList={setOpenAbleList}
+                      userData={userData}
+                      setUserData={setUserData}
+                      editModeList={null}
+                      setEditModeList={null}
+                      key={i}
+                    />
+                  );
+                }
+              })}
+            {editModeList['근무 경험'] && editModeList['근무 경험'][0] ? (
+              <Editor
+                data={null}
+                type={'근무 경험'}
+                idx={
+                  userData.information.filter(
+                    (v: profileContent) => v.type === '근무 경험',
+                  ).length
+                }
+                openAbleList={openAbleList}
+                setOpenAbleList={setOpenAbleList}
+                userData={userData}
+                setUserData={setUserData}
+                editModeList={editModeList}
+                setEditModeList={setEditModeList}
+              />
+            ) : null}
+            <div
+              className={styles.addItem}
+              onClick={() => onClickEditText('근무 경험')}
+            >
+              + 경력 추가 <div></div>
+            </div>
           </div>
           <div id={'콘텐츠제작'}>
             <h2>콘텐츠 제작</h2>
