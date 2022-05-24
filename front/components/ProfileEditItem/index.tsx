@@ -10,6 +10,7 @@ const ProfileEditItem = (props: {
   data: profileContent;
   idx: number;
   onClickEditIcon: any;
+  onClickDeleteIcon: any;
 }) => {
   return (
     <div className={styles.itemWrapper}>
@@ -19,33 +20,38 @@ const ProfileEditItem = (props: {
         <div
           className={styles.editIcon}
           onClick={() => props.onClickEditIcon(props.data.type, props.idx)}
-        ></div>
-        <div className={styles.deleteIcon}></div>
+        />
+        <div
+          className={styles.deleteIcon}
+          onClick={() => props.onClickDeleteIcon(props.data.type, props.idx)}
+        />
       </div>
-      <div className={styles.date}>
-        {props.data.startDate !== null
-          ? moment(props.data.startDate).format('YYYY.MM') + ` ~ `
-          : null}
-      </div>
-      <div className={styles.date}>
-        {props.data.startDate !== null
-          ? props.data.endDate !== null
-            ? moment(props.data.endDate).format('YYYY.MM')
-            : '재직중'
-          : null}
-      </div>
-      <Link
-        href={
-          props.data.informationUrl !== null
-            ? `${props.data.informationUrl}`
-            : ''
-        }
-      >
-        <a rel={'noopener noreferrer'} className={styles.informationUrl}>
-          {props.data.informationUrl}
-        </a>
-      </Link>
-      <div className={styles.detailContents}>{props.data.detailContents}</div>
+      {props.data.startDate && (
+        <>
+          <div className={styles.date}>
+            {moment(props.data.startDate).format('YYYY.MM') + ` ~ `}
+          </div>
+          <div className={styles.date}>
+            {props.data.endDate !== null
+              ? moment(props.data.endDate).format('YYYY.MM')
+              : props.data.type === '근무 경험'
+              ? '재직중'
+              : '재학중'}
+          </div>
+        </>
+      )}
+
+      {props.data.informationUrl && (
+        <Link href={`${props.data.informationUrl}`}>
+          <a rel={'noopener noreferrer'} className={styles.informationUrl}>
+            {props.data.informationUrl}
+          </a>
+        </Link>
+      )}
+
+      {props.data.detailContents && (
+        <div className={styles.detailContents}>{props.data.detailContents}</div>
+      )}
     </div>
   );
 };

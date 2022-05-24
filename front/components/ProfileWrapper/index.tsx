@@ -21,10 +21,6 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
     });
   }, [id]);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   const onClickButton = useCallback(
     (key: string) => {
       router.push(`/profile/${id}/${key}`);

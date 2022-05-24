@@ -151,7 +151,6 @@ const ProfileByEmail = () => {
   //window 에 resize 함수 달아주기
   useEffect(() => {
     window.addEventListener('resize', () => {
-      console.log('width', window.innerWidth);
       setWidth(window.innerWidth);
     });
   }, []);

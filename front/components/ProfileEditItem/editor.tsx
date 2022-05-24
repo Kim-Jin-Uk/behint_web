@@ -149,7 +149,6 @@ const Editor = (props: {
     if (title.length === 0) {
       return console.log('No!');
     }
-
     let index = 0;
     const userEditData = {
       title: title,
@@ -206,7 +205,7 @@ const Editor = (props: {
   return (
     <div className={styles.editorWrapper}>
       <Global />
-      {props.type && props.type === '근무 경험' && (
+      {props.type === '근무 경험' && (
         <div>
           <div style={{ height: 18, marginBottom: 8 }}>
             <h3>회사/조직*</h3>
@@ -214,7 +213,7 @@ const Editor = (props: {
           </div>
           <input
             type="text"
-            placeholder={'회사 이름'}
+            placeholder={'회사 이름을 입력해 주세요.'}
             maxLength={20}
             value={title}
             onChange={onChangeTitle}
@@ -275,7 +274,7 @@ const Editor = (props: {
           </div>
           <input
             type="text"
-            placeholder={'직책'}
+            placeholder={'직책을 입력해 주세요. 예) 영상 기획자'}
             maxLength={20}
             value={position}
             onChange={onChangePosition}
@@ -287,8 +286,277 @@ const Editor = (props: {
           </div>
           <input
             type="text"
-            placeholder={'세부 사항'}
+            placeholder={'담당한 업무를 입력해 주세요.'}
             maxLength={20}
+            value={detail}
+            onChange={onChangeDetail}
+          />
+          <div className={styles.buttonWrapper}>
+            {props.data && (
+              <button onClick={onClickDelete} className={styles.deleteButton}>
+                삭제
+              </button>
+            )}
+            <button onClick={onClickSave} className={styles.saveButton}>
+              저장
+            </button>
+            <button onClick={onClickCancel} className={styles.cancelButton}>
+              취소
+            </button>
+          </div>
+        </div>
+      )}
+      {props.type === '콘텐츠 제작' && (
+        <div>
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>콘텐츠 이름*</h3>
+            <span>(0/20)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'콘텐츠 이름을 입력해 주세요.'}
+            maxLength={20}
+            value={title}
+            onChange={onChangeTitle}
+            style={{ marginBottom: 6 }}
+          />
+          {title.length === 0 ? (
+            <div className={styles.errorMessage}>필수 입력 정보 입니다.</div>
+          ) : (
+            <div style={{ marginBottom: 14 }} />
+          )}
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>세부 사항</h3>
+            <span>(0/200)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'콘텐츠에 대해 설명해 주세요.'}
+            maxLength={200}
+            value={detail}
+            onChange={onChangeDetail}
+          />
+
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>링크</h3>
+            <span>(0/200)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'https://'}
+            maxLength={200}
+            value={informationUrl}
+            onChange={onChangeInformationUrl}
+          />
+
+          <div className={styles.buttonWrapper}>
+            {props.data && (
+              <button onClick={onClickDelete} className={styles.deleteButton}>
+                삭제
+              </button>
+            )}
+            <button onClick={onClickSave} className={styles.saveButton}>
+              저장
+            </button>
+            <button onClick={onClickCancel} className={styles.cancelButton}>
+              취소
+            </button>
+          </div>
+        </div>
+      )}
+      {props.type === '보유 능력' && (
+        <div>
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>능력/기술*</h3>
+            <span>(0/50)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'활용 가능한 전문 기술을 입력해 주세요.'}
+            maxLength={50}
+            value={title}
+            onChange={onChangeTitle}
+            style={{ marginBottom: 6 }}
+          />
+          {title.length === 0 ? (
+            <div className={styles.errorMessage}>필수 입력 정보 입니다.</div>
+          ) : (
+            <div style={{ marginBottom: 14 }} />
+          )}
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>세부 사항</h3>
+            <span>(0/200)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'능력에 대해 자세히 설명해 주세요.'}
+            maxLength={200}
+            value={detail}
+            onChange={onChangeDetail}
+          />
+
+          <div className={styles.buttonWrapper}>
+            {props.data && (
+              <button onClick={onClickDelete} className={styles.deleteButton}>
+                삭제
+              </button>
+            )}
+            <button onClick={onClickSave} className={styles.saveButton}>
+              저장
+            </button>
+            <button onClick={onClickCancel} className={styles.cancelButton}>
+              취소
+            </button>
+          </div>
+        </div>
+      )}
+      {props.type === '학력' && (
+        <div>
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>학교 또는 대학*</h3>
+            <span>(0/50)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'학교 이름을 입력해 주세요.'}
+            maxLength={50}
+            value={title}
+            onChange={onChangeTitle}
+            style={{ marginBottom: 6 }}
+          />
+          {title.length === 0 ? (
+            <div className={styles.errorMessage}>필수 입력 정보 입니다.</div>
+          ) : (
+            <div style={{ marginBottom: 14 }} />
+          )}
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>기간</h3>
+          </div>
+          <DatePicker
+            mode={'month'}
+            defaultValue={moment(
+              props.data && props.data.startDate
+                ? props.data.startDate
+                : new Date(),
+            )}
+            picker="month"
+            locale={locale}
+            onChange={(date: moment.Moment | null, dateString: string) =>
+              onChangeStartDate(date as moment.Moment, dateString)
+            }
+          />
+          <div className={styles.datePickerDivision}>~</div>
+          {inService ? (
+            <input
+              style={{ width: 'calc(50% - 10px)', marginBottom: 0 }}
+              readOnly={true}
+              value={'재학중'}
+            />
+          ) : (
+            <DatePicker
+              mode={'month'}
+              defaultValue={moment(
+                props.data && props.data.endDate
+                  ? props.data.endDate
+                  : new Date(),
+              )}
+              picker="month"
+              locale={locale}
+              onChange={(date: moment.Moment | null, dateString: string) =>
+                onChangeEndDate(date as moment.Moment, dateString)
+              }
+            />
+          )}
+
+          <div>
+            <Checkbox onChange={onClickInService} checked={inService}>
+              <div>재학중</div>
+            </Checkbox>
+          </div>
+
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>전공</h3>
+            <span>(0/50)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'전공을 입력해 주세요.'}
+            maxLength={50}
+            value={detail}
+            onChange={onChangeDetail}
+          />
+          <div className={styles.buttonWrapper}>
+            {props.data && (
+              <button onClick={onClickDelete} className={styles.deleteButton}>
+                삭제
+              </button>
+            )}
+            <button onClick={onClickSave} className={styles.saveButton}>
+              저장
+            </button>
+            <button onClick={onClickCancel} className={styles.cancelButton}>
+              취소
+            </button>
+          </div>
+        </div>
+      )}
+      {props.type === '수상' && (
+        <div>
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>수상명*</h3>
+            <span>(0/50)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'수상 내용을 입력해 주세요.'}
+            maxLength={50}
+            value={title}
+            onChange={onChangeTitle}
+            style={{ marginBottom: 6 }}
+          />
+          {title.length === 0 ? (
+            <div className={styles.errorMessage}>필수 입력 정보 입니다.</div>
+          ) : (
+            <div style={{ marginBottom: 14 }} />
+          )}
+          <div style={{ height: 18, marginBottom: 8 }}>
+            <h3>수상일</h3>
+          </div>
+          <DatePicker
+            mode={'month'}
+            defaultValue={moment(
+              props.data && props.data.startDate
+                ? props.data.startDate
+                : new Date(),
+            )}
+            picker="month"
+            locale={locale}
+            onChange={(date: moment.Moment | null, dateString: string) =>
+              onChangeStartDate(date as moment.Moment, dateString)
+            }
+          />
+          <div className={styles.datePickerDivision}>~</div>
+          <DatePicker
+            mode={'month'}
+            defaultValue={moment(
+              props.data && props.data.endDate
+                ? props.data.endDate
+                : new Date(),
+            )}
+            picker="month"
+            locale={locale}
+            onChange={(date: moment.Moment | null, dateString: string) =>
+              onChangeEndDate(date as moment.Moment, dateString)
+            }
+          />
+          <div style={{ height: 18, marginBottom: 8, marginTop: 20 }}>
+            <h3>수상 기관</h3>
+            <span>(0/50)</span>
+          </div>
+          <input
+            type="text"
+            placeholder={'기관 이름을 입력해 주세요.'}
+            maxLength={50}
             value={detail}
             onChange={onChangeDetail}
           />

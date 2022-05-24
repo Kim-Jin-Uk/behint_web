@@ -95,6 +95,12 @@ export type inputType = [
   Dispatch<SetStateAction<string>>,
 ];
 
+export type textareaType = [
+  string,
+  ChangeEventHandler<HTMLTextAreaElement>,
+  Dispatch<SetStateAction<string>>,
+];
+
 export type datePickType = [
   Date,
   (date: moment.Moment, dateString: string) => void,

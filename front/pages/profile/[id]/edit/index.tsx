@@ -3,12 +3,21 @@ import styles from './style.module.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import autosize from 'autosize';
 import {
+  inputType,
   openListOptions,
   profileContent,
+  RootState,
+  textareaType,
   userData,
 } from '../../../../reducers';
 import ProfileEditItem from '../../../../components/ProfileEditItem';
 import Editor from '../../../../components/ProfileEditItem/editor';
+import { useDispatch, useSelector } from 'react-redux';
+import { IS_LOGIN_REQUEST } from '../../../../reducers/user';
+import useInput from '../../../../hooks/useInput';
+import useTextArea from '../../../../hooks/useTextArea';
+import SNS from '../../../../components/ProfileEditItem/sns';
+import useIntersectionObservationEdit from '../../../../hooks/useIntersectionObservationEdit';
 
 const Edit = () => {
   const profileRightMenu = [
@@ -42,11 +51,14 @@ const Edit = () => {
     channelRef,
   ];
 
+  const [activeId, setActiveId] = useState(0);
+  useIntersectionObservationEdit(setActiveId);
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [userData, setUserData] = useState({
     introduce:
-      '근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 언론·출판의 자유와 집회·결사의 자유를 가진다. 이 헌법시행 당시의 대법원장과 대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 신체장애자 및 질병·노령 기타의  근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 언론·출판의 자유와 집회·결사의 자유를 가진다. 이 헌법시행 당시의 대법원장과 대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 신체장애자 및 질병·노령 기타의 사유…',
+      '근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 ',
     information: [
       {
         title: '쿠팡',
@@ -375,6 +387,35 @@ const Edit = () => {
 
   const [editModeList, setEditModeList] = useState({} as openListOptions);
 
+  const { me } = useSelector((state: RootState) => state.user);
+
+  const [name, onChangeName, setName] = useInput('') as inputType;
+
+  const [position, onChangePosition, setPosition] = useInput('') as inputType;
+
+  const [location, onChangeLocation, setLocation] = useInput('') as inputType;
+
+  const [introduce, onChangeIntroduce, setIntroduce] = useTextArea(
+    '',
+  ) as textareaType;
+
+  const dispatch = useDispatch();
+
+  //user 로그인 확인
+  useEffect(() => {
+    dispatch({
+      type: IS_LOGIN_REQUEST,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (me) {
+      setName(me.userProfile ? me.userProfile.nickname : me.email);
+      setPosition(me.userProfile ? me.userProfile.position : '');
+      setLocation(me.userProfile ? me.userProfile.location : '');
+    }
+  }, [me]);
+
   useEffect(() => {
     if (textAreaRef.current) {
       autosize(textAreaRef.current);
@@ -383,7 +424,7 @@ const Edit = () => {
 
   useEffect(() => {
     const openList: openListOptions = {};
-    userData.information.map((v: profileContent, i) => {
+    userData.information.map((v: profileContent) => {
       openList[v.type] = (openList[v.type] || []).concat([true]);
     });
     const editList: openListOptions = {};
@@ -393,6 +434,20 @@ const Edit = () => {
     setOpenAbleList(openList);
     setEditModeList(editList);
   }, []);
+
+  useEffect(() => {
+    setIntroduce(userData.introduce);
+  }, [userData]);
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      autosize(textAreaRef.current);
+    }
+  }, [introduce]);
+
+  useEffect(() => {
+    setSelectedMenu(activeId);
+  }, [activeId]);
 
   const onClickEditIcon = useCallback(
     (type: string, idx: number) => {
@@ -414,12 +469,50 @@ const Edit = () => {
     [openAbleList, editModeList],
   );
 
+  const onClickDeleteIcon = useCallback(
+    (type: string, idx: number) => {
+      let index = 0;
+      for (let i = 0; i < userData.information.length; i++) {
+        if (userData.information[i].type === type) {
+          if (index === idx) {
+            userData.information.splice(i, 1);
+            setUserData({ ...userData });
+            break;
+          } else {
+            index++;
+          }
+        }
+      }
+      openAbleList[type].splice(idx, 1);
+      setOpenAbleList({ ...openAbleList });
+    },
+    [openAbleList, userData],
+  );
+
   const onClickEditText = useCallback(
     (type: string) => {
       editModeList[type][0] = true;
       setEditModeList({ ...editModeList });
     },
     [editModeList],
+  );
+
+  const onClickLinkSave = useCallback(
+    (url: string, idx: number) => {
+      let index = 0;
+      for (let i = 0; i < userData.information.length; i++) {
+        if (userData.information[i].type === '채널') {
+          if (index === idx) {
+            userData.information[i].informationUrl = url;
+            setUserData({ ...userData });
+            break;
+          } else {
+            index++;
+          }
+        }
+      }
+    },
+    [userData],
   );
 
   return (
@@ -443,18 +536,36 @@ const Edit = () => {
                 <h3>이름*</h3>
                 <span>(0/20)</span>
               </div>
-              <input type="text" placeholder={'이름'} maxLength={20} />
+              <input
+                type="text"
+                placeholder={'이름'}
+                maxLength={20}
+                value={name}
+                onChange={onChangeName}
+              />
 
               <div style={{ height: 18, marginBottom: 8 }}>
                 <h3>직업</h3>
                 <span>(0/20)</span>
               </div>
-              <input type="text" placeholder={'직업'} maxLength={20} />
+              <input
+                type="text"
+                placeholder={'직업'}
+                maxLength={20}
+                value={position}
+                onChange={onChangePosition}
+              />
 
               <div style={{ height: 18, marginBottom: 8 }}>
                 <h3>위치</h3>
               </div>
-              <input type="text" placeholder={'위치'} maxLength={60} />
+              <input
+                type="text"
+                placeholder={'위치'}
+                maxLength={60}
+                value={location}
+                onChange={onChangeLocation}
+              />
             </div>
           </div>
           <div id={'자기소개'}>
@@ -469,8 +580,8 @@ const Edit = () => {
                 placeholder={'소개'}
                 ref={textAreaRef}
                 maxLength={500}
-                value={userData.introduce}
-                readOnly={true}
+                value={introduce}
+                onChange={onChangeIntroduce}
               />
             </div>
           </div>
@@ -491,6 +602,7 @@ const Edit = () => {
                       data={v}
                       idx={i}
                       onClickEditIcon={onClickEditIcon}
+                      onClickDeleteIcon={onClickDeleteIcon}
                     ></ProfileEditItem>
                   );
                 }
@@ -547,22 +659,308 @@ const Edit = () => {
           <div id={'콘텐츠제작'}>
             <h2>콘텐츠 제작</h2>
             <div ref={contentCreationRef} className={styles.ref}></div>
+            {userData.information
+              .filter((v: profileContent) => v.type === '콘텐츠 제작')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '콘텐츠 제작' &&
+                  openAbleList[v.type] &&
+                  openAbleList[v.type][i]
+                ) {
+                  return (
+                    <ProfileEditItem
+                      key={i}
+                      data={v}
+                      idx={i}
+                      onClickEditIcon={onClickEditIcon}
+                      onClickDeleteIcon={onClickDeleteIcon}
+                    ></ProfileEditItem>
+                  );
+                }
+              })}
+            {userData.information
+              .filter((v: profileContent) => v.type === '콘텐츠 제작')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '콘텐츠 제작' &&
+                  openAbleList[v.type] &&
+                  !openAbleList[v.type][i] &&
+                  !editModeList[v.type][0]
+                ) {
+                  return (
+                    <Editor
+                      data={v}
+                      idx={i}
+                      type={v.type}
+                      openAbleList={openAbleList}
+                      setOpenAbleList={setOpenAbleList}
+                      userData={userData}
+                      setUserData={setUserData}
+                      editModeList={null}
+                      setEditModeList={null}
+                      key={i}
+                    />
+                  );
+                }
+              })}
+            {editModeList['콘텐츠 제작'] && editModeList['콘텐츠 제작'][0] ? (
+              <Editor
+                data={null}
+                type={'콘텐츠 제작'}
+                idx={
+                  userData.information.filter(
+                    (v: profileContent) => v.type === '콘텐츠 제작',
+                  ).length
+                }
+                openAbleList={openAbleList}
+                setOpenAbleList={setOpenAbleList}
+                userData={userData}
+                setUserData={setUserData}
+                editModeList={editModeList}
+                setEditModeList={setEditModeList}
+              />
+            ) : null}
+            <div
+              className={styles.addItem}
+              onClick={() => onClickEditText('콘텐츠 제작')}
+            >
+              + 콘텐츠 추가 <div></div>
+            </div>
           </div>
           <div id={'보유능력'}>
             <h2>보유 능력</h2>
             <div ref={holdingCapacityRef} className={styles.ref}></div>
+            {userData.information
+              .filter((v: profileContent) => v.type === '보유 능력')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '보유 능력' &&
+                  openAbleList[v.type] &&
+                  openAbleList[v.type][i]
+                ) {
+                  return (
+                    <ProfileEditItem
+                      key={i}
+                      data={v}
+                      idx={i}
+                      onClickEditIcon={onClickEditIcon}
+                      onClickDeleteIcon={onClickDeleteIcon}
+                    ></ProfileEditItem>
+                  );
+                }
+              })}
+            {userData.information
+              .filter((v: profileContent) => v.type === '보유 능력')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '보유 능력' &&
+                  openAbleList[v.type] &&
+                  !openAbleList[v.type][i] &&
+                  !editModeList[v.type][0]
+                ) {
+                  return (
+                    <Editor
+                      data={v}
+                      idx={i}
+                      type={v.type}
+                      openAbleList={openAbleList}
+                      setOpenAbleList={setOpenAbleList}
+                      userData={userData}
+                      setUserData={setUserData}
+                      editModeList={null}
+                      setEditModeList={null}
+                      key={i}
+                    />
+                  );
+                }
+              })}
+            {editModeList['보유 능력'] && editModeList['보유 능력'][0] ? (
+              <Editor
+                data={null}
+                type={'보유 능력'}
+                idx={
+                  userData.information.filter(
+                    (v: profileContent) => v.type === '보유 능력',
+                  ).length
+                }
+                openAbleList={openAbleList}
+                setOpenAbleList={setOpenAbleList}
+                userData={userData}
+                setUserData={setUserData}
+                editModeList={editModeList}
+                setEditModeList={setEditModeList}
+              />
+            ) : null}
+            <div
+              className={styles.addItem}
+              onClick={() => onClickEditText('보유 능력')}
+            >
+              + 보유 능력 추가 <div></div>
+            </div>
           </div>
           <div id={'학력'}>
             <h2>학력</h2>
             <div ref={educationRef} className={styles.ref}></div>
+            {userData.information
+              .filter((v: profileContent) => v.type === '학력')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '학력' &&
+                  openAbleList[v.type] &&
+                  openAbleList[v.type][i]
+                ) {
+                  return (
+                    <ProfileEditItem
+                      key={i}
+                      data={v}
+                      idx={i}
+                      onClickEditIcon={onClickEditIcon}
+                      onClickDeleteIcon={onClickDeleteIcon}
+                    ></ProfileEditItem>
+                  );
+                }
+              })}
+            {userData.information
+              .filter((v: profileContent) => v.type === '학력')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '학력' &&
+                  openAbleList[v.type] &&
+                  !openAbleList[v.type][i] &&
+                  !editModeList[v.type][0]
+                ) {
+                  return (
+                    <Editor
+                      data={v}
+                      idx={i}
+                      type={v.type}
+                      openAbleList={openAbleList}
+                      setOpenAbleList={setOpenAbleList}
+                      userData={userData}
+                      setUserData={setUserData}
+                      editModeList={null}
+                      setEditModeList={null}
+                      key={i}
+                    />
+                  );
+                }
+              })}
+            {editModeList['학력'] && editModeList['학력'][0] ? (
+              <Editor
+                data={null}
+                type={'학력'}
+                idx={
+                  userData.information.filter(
+                    (v: profileContent) => v.type === '학력',
+                  ).length
+                }
+                openAbleList={openAbleList}
+                setOpenAbleList={setOpenAbleList}
+                userData={userData}
+                setUserData={setUserData}
+                editModeList={editModeList}
+                setEditModeList={setEditModeList}
+              />
+            ) : null}
+            <div
+              className={styles.addItem}
+              onClick={() => onClickEditText('학력')}
+            >
+              + 학력 추가 <div></div>
+            </div>
           </div>
           <div id={'수상'}>
             <h2>수상</h2>
             <div ref={awardsRef} className={styles.ref}></div>
+            {userData.information
+              .filter((v: profileContent) => v.type === '수상')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '수상' &&
+                  openAbleList[v.type] &&
+                  openAbleList[v.type][i]
+                ) {
+                  return (
+                    <ProfileEditItem
+                      key={i}
+                      data={v}
+                      idx={i}
+                      onClickEditIcon={onClickEditIcon}
+                      onClickDeleteIcon={onClickDeleteIcon}
+                    ></ProfileEditItem>
+                  );
+                }
+              })}
+            {userData.information
+              .filter((v: profileContent) => v.type === '수상')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '수상' &&
+                  openAbleList[v.type] &&
+                  !openAbleList[v.type][i] &&
+                  !editModeList[v.type][0]
+                ) {
+                  return (
+                    <Editor
+                      data={v}
+                      idx={i}
+                      type={v.type}
+                      openAbleList={openAbleList}
+                      setOpenAbleList={setOpenAbleList}
+                      userData={userData}
+                      setUserData={setUserData}
+                      editModeList={null}
+                      setEditModeList={null}
+                      key={i}
+                    />
+                  );
+                }
+              })}
+            {editModeList['수상'] && editModeList['수상'][0] ? (
+              <Editor
+                data={null}
+                type={'수상'}
+                idx={
+                  userData.information.filter(
+                    (v: profileContent) => v.type === '수상',
+                  ).length
+                }
+                openAbleList={openAbleList}
+                setOpenAbleList={setOpenAbleList}
+                userData={userData}
+                setUserData={setUserData}
+                editModeList={editModeList}
+                setEditModeList={setEditModeList}
+              />
+            ) : null}
+            <div
+              className={styles.addItem}
+              onClick={() => onClickEditText('수상')}
+            >
+              + 수상 추가 <div></div>
+            </div>
           </div>
           <div id={'채널'}>
-            <h2>채널</h2>
+            <h2 style={{ marginBottom: 28 }}>채널</h2>
             <div ref={channelRef} className={styles.ref}></div>
+            {userData.information
+              .filter((v: profileContent) => v.type === '채널')
+              .map((v: profileContent, i) => {
+                if (
+                  v.type === '채널' &&
+                  openAbleList[v.type] &&
+                  openAbleList[v.type][i]
+                ) {
+                  return (
+                    <SNS
+                      data={v}
+                      key={i}
+                      onClickLinkSave={onClickLinkSave}
+                      idx={i}
+                    ></SNS>
+                  );
+                }
+              })}
           </div>
         </div>
         <div className={styles.editRightWrapper}>

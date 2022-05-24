@@ -167,3 +167,61 @@
     transition: 0.25s;
   }
 }
+
+.saveButtonNone{
+  float: right;
+  background: #D2D6DA;
+  border: none;
+  color: #FFFFFF;
+  cursor: not-allowed !important;
+}
+
+.snsWrapper{
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  input{
+    margin: 0;
+  }
+}
+
+.snsButton{
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+  display: inline-block;
+}
+.insta{
+  background: url(../../images/sns/insta_active.svg);
+  background-size: cover;
+}
+.youtube{
+  background: url(../../images/sns/youtube_active.svg);
+  background-size: cover;
+}
+.facebook{
+  background: url(../../images/sns/facebook_active.svg);
+  background-size: cover;
+}
+.twitter{
+  background: url(../../images/sns/twitter_active.svg);
+  background-size: cover;
+}
+.link{
+  background: url(../../images/sns/link_active.svg);
+  background-size: cover;
+}
+
+.snsButtonWrapper{
+  margin-left: 8px;
+  > button {
+    width: 65px;
+    height: 36px;
+    border-radius: 18px;
+    display: inline-block;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    cursor: pointer;
+  }
+}
