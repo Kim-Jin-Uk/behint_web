@@ -1,6 +1,6 @@
 import Header from '../../../../components/Header';
 import styles from './style.module.scss';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import autosize from 'autosize';
 import {
   inputType,
@@ -18,6 +18,8 @@ import useInput from '../../../../hooks/useInput';
 import useTextArea from '../../../../hooks/useTextArea';
 import SNS from '../../../../components/ProfileEditItem/sns';
 import useIntersectionObservationEdit from '../../../../hooks/useIntersectionObservationEdit';
+import { Button, Dropdown } from 'antd';
+import projectStyles from '../project/style.module.scss';
 
 const Edit = () => {
   const profileRightMenu = [
@@ -401,6 +403,19 @@ const Edit = () => {
 
   const dispatch = useDispatch();
 
+  function rightMenuBar() {
+    return (
+      <div className={projectStyles.dropdownMenu} style={{ width: 144 }}>
+        <div style={{ fontSize: 14, paddingLeft: 20, paddingRight: 20 }}>
+          변경
+        </div>
+        <div style={{ fontSize: 14, paddingLeft: 20, paddingRight: 20 }}>
+          기본 이미지로 교체
+        </div>
+      </div>
+    );
+  }
+
   //user 로그인 확인
   useEffect(() => {
     dispatch({
@@ -525,7 +540,14 @@ const Edit = () => {
       <div className={styles.bodyWrapper}>
         <h1>프로필 수정</h1>
         <div className={styles.profileImage}>
-          <div></div>
+          <div>
+            <Dropdown overlay={rightMenuBar} placement="bottomLeft">
+              <Button>
+                <div></div>
+                <div className={projectStyles.dropdownIcon} />
+              </Button>
+            </Dropdown>
+          </div>
         </div>
         <div className={styles.editLeftWrapper}>
           <div id={'기본정보'}>

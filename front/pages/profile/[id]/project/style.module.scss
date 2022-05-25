@@ -11,12 +11,13 @@
 
 .filter{
   float: right;
-  margin: 25px 15px 21px 0;
+  margin: 0 !important;
   display: inline-flex;
   width: 81px;
   height: 36px;
-  align-items: center;
+  vertical-align: top;
   >button{
+    float: right;
     width: 81px;
     height: 36px;
     border-radius: 4px;

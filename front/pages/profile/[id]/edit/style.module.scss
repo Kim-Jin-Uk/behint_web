@@ -7,6 +7,7 @@
   position: absolute;
   top: 56px;
   z-index: 3000;
+  min-width: 320px;
 }
 
 .backButton{
@@ -50,6 +51,7 @@
   width: 1076px;
   margin: 156px auto 197px;
   padding-left: 4px;
+  min-width: 320px;
   h1{
     font-weight: 700;
     font-size: 32px;
@@ -127,6 +129,15 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    >button{
+      width: 40px;
+      height: 40px;
+      border: none !important;
+      background: none !important;
+      >div{
+        background: none;
+      }
+    }
   }
 }
 
@@ -200,5 +211,61 @@
       width: 100%;
       transition: 0.25s;
     }
+  }
+}
+
+//반응형
+@media (min-width: 1024px) and (max-width: 1152px) {
+  .editTop{
+    padding: 0 calc(50% - 474px);
+  }
+  .bodyWrapper{
+    width: 945px;
+    textarea{
+      max-height: 450px;
+    }
+  }
+  .editLeftWrapper{
+    width: 705px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .editTop{
+    padding: 0 40px 0 36px;
+  }
+  .bodyWrapper{
+    width: 100%;
+    padding: 0 40px;
+    margin-bottom: 100px;
+    textarea{
+      max-height: 400px;
+    }
+  }
+  .editLeftWrapper{
+    width: 100%;
+  }
+  .editRightWrapper{
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .editTop{
+    padding: 0 20px 0 16px;
+  }
+  .bodyWrapper{
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 100px;
+    textarea{
+      max-height: 300px;
+    }
+  }
+  .editLeftWrapper{
+    width: 100%;
+  }
+  .editRightWrapper{
+    display: none;
   }
 }

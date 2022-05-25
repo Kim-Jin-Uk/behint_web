@@ -200,17 +200,10 @@ const Project = () => {
       <Header></Header>
       <ProfileWrapper type={'project'}>
         <div className={projectStyles.projectWrapper}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            className={styles.projectTopWrapper}
-          >
+          <div className={styles.projectTopWrapper}>
             <div className={styles.profileIntroTitle}>
               <div style={{ width: 200 }}>업로드한 프로젝트</div>
             </div>
-            <div style={{ width: '100%' }}></div>
             <div className={projectStyles.filter}>
               <Dropdown overlay={rightMenuBar} placement="bottom">
                 <Button>

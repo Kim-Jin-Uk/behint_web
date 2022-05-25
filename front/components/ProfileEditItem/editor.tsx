@@ -39,6 +39,24 @@ const Global = createGlobalStyle`
       }
     }
   }
+  
+  .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner{
+    background: #1E68FA;
+    border-radius: 4px;
+    transition: 0.25s;
+    &:hover{
+      background: #0034DA;
+      transition: 0.25s;
+    }
+  }
+
+  .ant-picker-header-view button{
+    &:hover{
+      color: #0034DA;
+      transition: 0.25s;
+    }
+  }
+  
   .ant-checkbox-wrapper{
     height: 24px;
     padding-left: 4px;
