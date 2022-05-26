@@ -1,0 +1,205 @@
+.projectWrapper{
+  width: 100%;
+  padding: 24px 0;
+  height: 138px;
+  border-bottom: 1px solid #E3E7EB;
+  >div{
+    display: inline-block;
+  }
+}
+
+.itemWrapper{
+  margin-left: 8px;
+  width: calc(100% - 24px);
+  .image{
+    width: 160px;
+    height: 90px;
+    border-radius: 4px;
+    background-size: cover;
+    margin-right: 12px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .itemMain{
+    width: calc(100% - 632px);
+    display: inline-block;
+    vertical-align: top;
+  }
+  .title{
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 150%;
+    color: #1A1E27;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 4px;
+  }
+  .tag{
+    height: 20px;
+    border-radius: 4px;
+    background: #E3E7EB;
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    color: #353C49;
+    padding: 2px 6px;
+    margin: 0 2px;
+  }
+  .tagCopy{
+    display: none;
+  }
+  .itemInfoCopy{
+    display: none;
+  }
+  .itemInfoWrapper{
+    width: 100%;
+    margin-top: 10px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .locationIcon{
+    width: 16px;
+    height: 16px;
+    background: url(../../images/location.svg) center;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 2px;
+  }
+  .locationName{
+    display: inline-block;
+    vertical-align: top;
+    font-weight: 400;
+    font-size: 13px;
+    color: #353C49;
+    margin-left: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .likeIcon{
+    width: 16px;
+    height: 16px;
+    background: url(../../images/like.svg) center;
+    display: inline-block;
+    margin-left: 2px;
+    float: right;
+  }
+  .likeCount{
+    font-size: 12px;
+    color: #6D7582;
+    display: inline-block;
+    float: right;
+  }
+  .viewIcon{
+    width: 16px;
+    height: 16px;
+    background: url(../../images/view.svg) center;
+    display: inline-block;
+    margin-left: 2px;
+    float: right;
+  }
+  .viewCount{
+    font-size: 12px;
+    color: #6D7582;
+    display: inline-block;
+    float: right;
+  }
+  .rightWrapper{
+    width: 436px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 24px;
+    > div{
+      width: 97px;
+      margin-left: 12px;
+      display: inline-block;
+      text-align: center;
+      vertical-align: top;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 150%;
+      color: #353C49;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .allowNumWrapper{
+      > span{
+        display: block;
+      }
+    }
+    .editButton{
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      background: url(../../images/edit_profile_icon_non_active.svg);
+      background-size: cover;
+      cursor: pointer;
+      transition: 0.25s;
+      &:hover{
+        transition: 0.25s;
+        background: url(../../images/edit_profile_icon.svg);
+      }
+    }
+    .deleteButton{
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      background: url(../../images/trash.svg);
+      background-size: cover;
+      cursor: pointer;
+      transition: 0.25s;
+      margin-left: 8px;
+      &:hover{
+        transition: background-color 0.25s;
+        background: url(../../images/trash_active.svg);
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+  .projectWrapper{
+    width: calc(50vw - 54px);
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10px;
+    .itemWrapper{
+      position: relative;
+      >div{display: block}
+      .image{
+        width: 100%;
+        height: calc((50vw - 78px) * 174.38 / 310);
+      }
+      .itemMain{
+        width: 100%;
+        .tagCopy{
+          height: 20px;
+          border-radius: 4px;
+          background: #E3E7EB;
+          display: inline-flex;
+          align-items: center;
+          font-size: 13px;
+          color: #353C49;
+          padding: 2px 6px;
+          margin: 12px 2px 4px;
+        }
+        .tag{
+          display: none;
+        }
+
+      }
+      .itemInfoWrapper{
+        display: none;
+      }
+      .itemInfoCopy{
+        display: block;
+      }
+      .rightWrapper{display: none}
+    }
+  }
+}

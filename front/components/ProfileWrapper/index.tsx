@@ -76,7 +76,10 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
           <div className={styles.buttonWrapper}>
             {isMe ? (
               <>
-                <div className={styles.messageButton}>
+                <div
+                  className={styles.messageButton}
+                  onClick={() => onClickButton('project/management')}
+                >
                   <div>
                     <div className={styles.projectManagement}></div>
                     <span>프로젝트 관리</span>

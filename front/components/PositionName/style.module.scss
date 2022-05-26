@@ -1,0 +1,20 @@
+.positionButton{
+  background: #F2F4F6;
+  border-radius: 18px;
+  border: none;
+  padding: 6px 12px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 130%;
+  color: #353C49;
+  display: block;
+  outline: none;
+  margin: 0 auto 4px;
+  max-width: 97px;
+  >div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+

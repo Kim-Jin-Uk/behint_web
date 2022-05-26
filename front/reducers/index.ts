@@ -37,6 +37,20 @@ export type projectItem = {
   viewCount: number;
 };
 
+export type projectManagementItem = {
+  thumbnailImgUrl: string;
+  category: string;
+  title: string;
+  locationName: string;
+  userName: string;
+  likeCount: number;
+  viewCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  position: string;
+  participation: { position: string; allow: boolean }[];
+};
+
 export type representativeProject = {
   thumbnailImgUrl: string;
   position: string;
