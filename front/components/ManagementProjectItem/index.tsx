@@ -73,12 +73,20 @@ const ManagementProjectItem = (props: { data: projectManagementItem }) => {
             <div className={styles.viewCount}>{props.data.viewCount}</div>
           </div>
           <div className={styles.itemInfoCopy}>
-            <div className={styles.locationIcon}></div>
-            <div className={styles.locationName}>{props.data.locationName}</div>
-            <div className={styles.likeIcon}></div>
-            <div className={styles.likeCount}>{props.data.likeCount}</div>
-            <div className={styles.viewIcon}></div>
-            <div className={styles.viewCount}>{props.data.viewCount}</div>
+            <div>
+              <div>
+                <div className={styles.locationIcon}></div>
+              </div>
+              <div className={styles.locationName}>
+                {props.data.locationName}
+              </div>
+            </div>
+            <div>
+              <div className={styles.likeIcon}></div>
+              <div className={styles.likeCount}>{props.data.likeCount}</div>
+              <div className={styles.viewIcon}></div>
+              <div className={styles.viewCount}>{props.data.viewCount}</div>
+            </div>
           </div>
         </div>
         <div className={styles.rightWrapper}>
@@ -100,6 +108,10 @@ const ManagementProjectItem = (props: { data: projectManagementItem }) => {
           </div>
         </div>
       </div>
+      <button className={styles.deleteButtonCopy}>
+        <div className={styles.deleteIcon}></div>
+        <div className={styles.deleteText}>삭제</div>
+      </button>
     </div>
   );
 };

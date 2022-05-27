@@ -184,6 +184,8 @@
 }
 
 .pageWrapper{
+  width: 100%;
+  text-align: right;
   display: inline-block;
   float: right;
   margin: 24px 0 97px;
@@ -260,6 +262,9 @@
     width: 100%;
     padding: 0 30px;
   }
+  .pageWrapper{
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -281,5 +286,8 @@
   .projectWrapper{
     width: 100%;
     padding: 0 20px;
+  }
+  .pageWrapper{
+    display: none;
   }
 }

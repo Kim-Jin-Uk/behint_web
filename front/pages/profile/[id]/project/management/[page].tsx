@@ -1,7 +1,7 @@
 import Header from '../../../../../components/Header';
 import styles from './style.module.scss';
 import Link from 'next/link';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Checkbox } from 'antd';
 import { createGlobalStyle } from 'styled-components';
@@ -582,7 +582,8 @@ const Management = () => {
       participation: [],
     },
   ];
-
+  const [width, setWidth] = useState(0);
+  const [maxProject, setMaxProject] = useState(false);
   const onClickPrev = useCallback(() => {
     router.push(`/profile/${id}/project/management/${+page! - 1}`);
   }, [id, page]);
@@ -590,6 +591,28 @@ const Management = () => {
   const onClickNext = useCallback(() => {
     router.push(`/profile/${id}/project/management/${+page! + 1}`);
   }, [id, page]);
+
+  //window 에 resize 함수 달아주기
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setWidth(window.innerWidth);
+    });
+  }, []);
+
+  //초기값 설정
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    if (width) {
+      if (width <= 1024) {
+        setMaxProject(true);
+      } else {
+        setMaxProject(false);
+      }
+    }
+  }, [width]);
 
   return (
     <>
@@ -643,13 +666,22 @@ const Management = () => {
         </div>
       </div>
       <div className={styles.projectWrapper}>
-        {projectList.map((v: projectManagementItem, i) => {
-          if (5 * (+page! - 1) <= i && i < 5 * +page!) {
-            return (
-              <ManagementProjectItem data={v} key={i}></ManagementProjectItem>
-            );
-          }
-        })}
+        {!maxProject
+          ? projectList.map((v: projectManagementItem, i) => {
+              if (5 * (+page! - 1) <= i && i < 5 * +page!) {
+                return (
+                  <ManagementProjectItem
+                    data={v}
+                    key={i}
+                  ></ManagementProjectItem>
+                );
+              }
+            })
+          : projectList.map((v: projectManagementItem, i) => {
+              return (
+                <ManagementProjectItem data={v} key={i}></ManagementProjectItem>
+              );
+            })}
         <div className={styles.pageWrapper}>
           <div className={styles.pageText}>{`${5 * (+page! - 1) + 1}-${
             5 * +page!

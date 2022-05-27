@@ -3,6 +3,7 @@
   padding: 24px 0;
   height: 138px;
   border-bottom: 1px solid #E3E7EB;
+  position: relative;
   >div{
     display: inline-block;
   }
@@ -161,13 +162,20 @@
   }
 }
 
+.deleteButtonCopy{
+ display: none;
+}
+
 @media (min-width: 768px) and (max-width: 1024px){
   .projectWrapper{
     width: calc(50vw - 54px);
-    height: auto;
+    height: calc((50vw - 78px) * 174.38 / 310 + 184px);
     display: inline-block;
     vertical-align: top;
     margin: 0 10px;
+    .title{
+      font-size: 16px;
+    }
     .itemWrapper{
       position: relative;
       >div{display: block}
@@ -198,8 +206,134 @@
       }
       .itemInfoCopy{
         display: block;
+        margin-top: 10px;
+        >div{
+          width: calc(100%  - 65px);
+          display: flex;
+        }
       }
       .rightWrapper{display: none}
+    }
+  }
+  .deleteButtonCopy{
+    display: inline-block;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 59px;
+    height: 28px;
+    border: 1px solid #E3E7EB;
+    border-radius: 24px;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1E68FA;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    cursor: pointer;
+    > div{
+      display: inline-block;
+    }
+    .deleteText{
+      vertical-align: top;
+      margin-top: 3px;
+    }
+    .deleteIcon{
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: url(../../images/blue_delete.svg);
+      position: relative;
+      margin-top: 5px;
+      vertical-align: top;
+    }
+  }
+}
+
+@media (max-width: 768px){
+  .projectWrapper{
+    width: calc(100vw - 54px);
+    height: calc((100vw - 78px) * 166.5 / 296 + 184px);
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10px;
+    .title{
+      font-size: 16px;
+    }
+    .itemWrapper{
+      position: relative;
+      >div{display: block}
+      .image{
+        width: 100%;
+        height: calc((100vw - 78px) * 166.5 / 296);
+      }
+      .itemMain{
+        width: 100%;
+        .tagCopy{
+          height: 20px;
+          border-radius: 4px;
+          background: #E3E7EB;
+          display: inline-flex;
+          align-items: center;
+          font-size: 13px;
+          color: #353C49;
+          padding: 2px 6px;
+          margin: 12px 2px 4px;
+        }
+        .tag{
+          display: none;
+        }
+
+      }
+      .itemInfoWrapper{
+        display: none;
+      }
+      .itemInfoCopy{
+        display: block;
+        margin-top: 10px;
+        >div{
+          width: calc(100%  - 65px);
+          display: flex;
+        }
+      }
+      .rightWrapper{display: none}
+    }
+  }
+  .deleteButtonCopy{
+    display: inline-block;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 59px;
+    height: 28px;
+    border: 1px solid #E3E7EB;
+    border-radius: 24px;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1E68FA;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    cursor: pointer;
+    > div{
+      display: inline-block;
+    }
+    .deleteText{
+      vertical-align: top;
+      margin-top: 3px;
+    }
+    .deleteIcon{
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: url(../../images/blue_delete.svg);
+      position: relative;
+      margin-top: 5px;
+      vertical-align: top;
     }
   }
 }

@@ -78,7 +78,7 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
               <>
                 <div
                   className={styles.messageButton}
-                  onClick={() => onClickButton('project/management')}
+                  onClick={() => onClickButton('project/management/1')}
                 >
                   <div>
                     <div className={styles.projectManagement}></div>
