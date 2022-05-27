@@ -47,6 +47,7 @@ export type projectManagementItem = {
   viewCount: number;
   createdAt: Date;
   updatedAt: Date;
+  invitedAt: Date;
   position: string;
   participation: { position: string; allow: boolean }[];
 };

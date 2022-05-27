@@ -222,11 +222,55 @@
   }
 }
 
+.buttonWrapper{
+  padding: 0 calc(50% - 536px);
+  height: 63px;
+  margin-top: -10px;
+  border-top: 1px solid #E3E7EB;
+  >button{
+    margin-top: 10px;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    height: 32px;
+    border-radius: 18px;
+    padding: 7px 20px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+  }
+  .newInviteButton{
+    background: #E7ECFF;
+    color: #1E68FA;
+    transition: 0.25s;
+    &:hover{
+      background: #D9DEF0;
+      transition: 0.25s;
+    }
+  }
+  .participationButton{
+    background: #FFFFFF;
+    color: #353C49;
+    transition: 0.25s;
+    &:hover{
+      background: #D9DEF0;
+      color: #1E68FA;
+      transition: 0.25s;
+    }
+  }
+}
+
 //반응형
 @media (min-width: 1024px) and (max-width: 1152px) {
   .topWrapper{
     width: 100%;
     padding: 60px 24px 0;
+  }
+  .buttonWrapper{
+    width: 100%;
+    padding: 0 40px;
   }
   .topDarkWrapper{
     width: 100%;
@@ -246,6 +290,10 @@
   .topWrapper{
     width: 100%;
     padding: 60px 24px 0;
+  }
+  .buttonWrapper{
+    width: 100%;
+    padding: 0 40px;
   }
   .topDarkWrapper{
     width: 100%;
@@ -271,6 +319,10 @@
   .topWrapper{
     width: 100%;
     padding: 60px 4px 0;
+  }
+  .buttonWrapper{
+    width: 100%;
+    padding: 0 20px;
   }
   .topDarkWrapper{
     width: 100%;

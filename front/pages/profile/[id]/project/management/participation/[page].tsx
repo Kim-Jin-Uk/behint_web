@@ -1,16 +1,12 @@
-import Header from '../../../../../components/Header';
-import styles from './style.module.scss';
+import Header from '../../../../../../components/Header';
+import styles from '../style.module.scss';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Checkbox } from 'antd';
 import { createGlobalStyle } from 'styled-components';
-import ManagementProjectItem from '../../../../../components/ManagementProjectItem';
-import {
-  projectItem,
-  projectManagementItem,
-  RootState,
-} from '../../../../../reducers';
+import ManagementProjectItem from '../../../../../../components/ManagementProjectItem';
+import { projectManagementItem, RootState } from '../../../../../../reducers';
 import { useSelector } from 'react-redux';
 
 const Global = createGlobalStyle`
@@ -24,7 +20,7 @@ const Global = createGlobalStyle`
   }
 `;
 
-const Management = () => {
+const Participation = () => {
   const router = useRouter();
   const { id, page } = router.query;
   const { projectManagementList } = useSelector(
@@ -33,11 +29,15 @@ const Management = () => {
   const [width, setWidth] = useState(0);
   const [maxProject, setMaxProject] = useState(false);
   const onClickPrev = useCallback(() => {
-    router.push(`/profile/${id}/project/management/${+page! - 1}`);
+    router.push(
+      `/profile/${id}/project/management/participation/${+page! - 1}`,
+    );
   }, [id, page]);
 
   const onClickNext = useCallback(() => {
-    router.push(`/profile/${id}/project/management/${+page! + 1}`);
+    router.push(
+      `/profile/${id}/project/management/participation/${+page! + 1}`,
+    );
   }, [id, page]);
 
   //window 에 resize 함수 달아주기
@@ -69,17 +69,19 @@ const Management = () => {
       <div className={styles.topWrapper}>
         <h1 className={styles.title}>프로젝트 관리</h1>
         <div className={styles.linkWrapper}>
-          <div>
-            <Link href={`/profile/${id}/project/management/${page}`}>
-              <a className={styles.pageLinkSelect}>
+          <div style={{ marginLeft: 16 }}>
+            <Link href={`/profile/${id}/project/management/1`}>
+              <a className={styles.pageLink}>
                 <span>직접 업로드</span>
                 <div></div>
               </a>
             </Link>
           </div>
           <div>
-            <Link href={`/profile/${id}/project/management/participation/1`}>
-              <a className={styles.pageLink}>
+            <Link
+              href={`/profile/${id}/project/management/participation/${id}`}
+            >
+              <a className={styles.pageLinkSelect}>
                 <span>함께한 사람으로 참여</span>
                 <div></div>
               </a>
@@ -87,28 +89,35 @@ const Management = () => {
           </div>
         </div>
       </div>
+      <div className={styles.buttonWrapper}>
+        <button
+          className={styles.newInviteButton}
+        >{`새로운 초대(${projectManagementList.length})`}</button>
+        <button className={styles.participationButton}>참여 프로젝트</button>
+      </div>
       <div className={styles.topDarkWrapper}>
         <div>0개 선택됨</div>
-        <button>삭제</button>
+        <button>거절</button>
+        <button style={{ marginRight: 29 }}>수락</button>
       </div>
       <div className={styles.topNavigation}>
         <Checkbox>프로젝트</Checkbox>
         <div>
           <ul>
             <li>
-              <span>업로드일</span>
+              <span>초대일</span>
               <span>
                 <div></div>
               </span>
             </li>
             <li>
-              <span>함께한 사람</span>
+              <span>초대자</span>
             </li>
             <li>
               <span>역할</span>
             </li>
             <li>
-              <span>수정/삭제</span>
+              <span>초대 수락/거절</span>
             </li>
           </ul>
         </div>
@@ -121,7 +130,7 @@ const Management = () => {
                   <ManagementProjectItem
                     data={v}
                     key={i}
-                    type={'management'}
+                    type={'participation'}
                   ></ManagementProjectItem>
                 );
               }
@@ -131,7 +140,7 @@ const Management = () => {
                 <ManagementProjectItem
                   data={v}
                   key={i}
-                  type={'management'}
+                  type={'participation'}
                 ></ManagementProjectItem>
               );
             })}
@@ -153,4 +162,4 @@ const Management = () => {
   );
 };
 
-export default Management;
+export default Participation;

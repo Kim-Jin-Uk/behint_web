@@ -21,7 +21,10 @@ const Global = createGlobalStyle`
   }
 `;
 
-const ManagementProjectItem = (props: { data: projectManagementItem }) => {
+const ManagementProjectItem = (props: {
+  data: projectManagementItem;
+  type: string;
+}) => {
   const [allowNumber, setAllowNumber] = useState(0);
 
   useEffect(() => {
@@ -65,12 +68,22 @@ const ManagementProjectItem = (props: { data: projectManagementItem }) => {
             })}
           </div>
           <div className={styles.itemInfoWrapper}>
-            <div className={styles.locationIcon}></div>
+            <div>
+              <div className={styles.locationIcon}></div>
+            </div>
             <div className={styles.locationName}>{props.data.locationName}</div>
-            <div className={styles.likeIcon}></div>
-            <div className={styles.likeCount}>{props.data.likeCount}</div>
-            <div className={styles.viewIcon}></div>
-            <div className={styles.viewCount}>{props.data.viewCount}</div>
+            <div>
+              <div className={styles.likeIcon}></div>
+            </div>
+            <div>
+              <div className={styles.likeCount}>{props.data.likeCount}</div>
+            </div>
+            <div>
+              <div className={styles.viewIcon}></div>
+            </div>
+            <div>
+              <div className={styles.viewCount}>{props.data.viewCount}</div>
+            </div>
           </div>
           <div className={styles.itemInfoCopy}>
             <div>
@@ -90,12 +103,19 @@ const ManagementProjectItem = (props: { data: projectManagementItem }) => {
           </div>
         </div>
         <div className={styles.rightWrapper}>
-          <div>{moment(props.data.createdAt).format('YYYY.MM.DD')}</div>
+          <div>
+            {props.type === 'management'
+              ? moment(props.data.createdAt).format('YYYY.MM.DD')
+              : moment(props.data.invitedAt).format('YYYY.MM.DD')}
+          </div>
           <div className={styles.allowNumWrapper}>
-            <span
-              style={{ fontWeight: 500, color: '#353C49' }}
-            >{`${allowNumber}명`}</span>
-            {allowNumber !== props.data.participation.length ? (
+            <span style={{ fontWeight: 500, color: '#353C49' }}>
+              {props.type === 'management'
+                ? `${allowNumber}명`
+                : props.data.userName}
+            </span>
+            {props.type === 'management' &&
+            allowNumber !== props.data.participation.length ? (
               <span style={{ fontWeight: 400, color: '#505866' }}>{`(미수락 ${
                 props.data.participation.length - allowNumber
               }명)`}</span>
@@ -103,15 +123,35 @@ const ManagementProjectItem = (props: { data: projectManagementItem }) => {
           </div>
           <div>{props.data.position}</div>
           <div>
-            <div className={styles.editButton}></div>
-            <div className={styles.deleteButton}></div>
+            {props.type === 'management' ? (
+              <>
+                <div className={styles.editButton}></div>
+                <div className={styles.deleteButton}></div>
+              </>
+            ) : (
+              <>
+                <button className={styles.allowButton}>수락</button>
+                <button className={styles.rejectButton}>거절</button>
+              </>
+            )}
           </div>
         </div>
       </div>
-      <button className={styles.deleteButtonCopy}>
-        <div className={styles.deleteIcon}></div>
-        <div className={styles.deleteText}>삭제</div>
-      </button>
+      {props.type === 'management' ? (
+        <button className={styles.deleteButtonCopy}>
+          <div className={styles.deleteIcon}></div>
+          <div className={styles.deleteText}>삭제</div>
+        </button>
+      ) : (
+        <>
+          <button className={styles.rejectButtonCopy}>
+            <div className={styles.deleteText}>거절</div>
+          </button>
+          <button className={styles.allowButtonCopy}>
+            <div className={styles.deleteText}>수락</div>
+          </button>
+        </>
+      )}
     </div>
   );
 };

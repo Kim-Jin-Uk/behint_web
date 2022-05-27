@@ -130,6 +130,9 @@
     .allowNumWrapper{
       > span{
         display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     .editButton{
@@ -159,11 +162,54 @@
         background: url(../../images/trash_active.svg);
       }
     }
+    .allowButton{
+      border: none;
+      width: 64px;
+      height: 32px;
+      background: #1E68FA;
+      border-radius: 18px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 130%;
+      color: #FFFFFF;
+      display: block;
+      transition: 0.25s;
+      cursor: pointer;
+      margin-bottom: 6px;
+      &:hover{
+        background: #0034DA;
+        transition: 0.25s;
+      }
+    }
+    .rejectButton{
+      width: 64px;
+      height: 32px;
+      border-radius: 18px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 130%;
+      background: #FFFFFF;
+      border: 1px solid #E3E7EB;
+      color: #1E68FA;
+      display: block;
+      transition: 0.25s;
+      cursor: pointer;
+      &:hover{
+        background: #F2F4F6;
+        transition: 0.25s;
+      }
+    }
   }
 }
 
 .deleteButtonCopy{
  display: none;
+}
+.rejectButtonCopy{
+  display: none;
+}
+.allowButtonCopy{
+  display: none;
 }
 
 @media (min-width: 768px) and (max-width: 1024px){
@@ -208,7 +254,7 @@
         display: block;
         margin-top: 10px;
         >div{
-          width: calc(100%  - 65px);
+          width: calc(100%  - 102px);
           display: flex;
         }
       }
@@ -249,6 +295,44 @@
       margin-top: 5px;
       vertical-align: top;
     }
+  }
+  .rejectButtonCopy{
+    display: inline-block;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 53px;
+    width: 49px;
+    height: 28px;
+    border: 1px solid #E3E7EB;
+    border-radius: 24px;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    color: #353C49;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    cursor: pointer;
+  }
+  .allowButtonCopy{
+    display: inline-block;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 49px;
+    height: 28px;
+    border: 1px solid #E3E7EB;
+    border-radius: 24px;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1E68FA;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    cursor: pointer;
   }
 }
 
@@ -294,7 +378,7 @@
         display: block;
         margin-top: 10px;
         >div{
-          width: calc(100%  - 65px);
+          width: calc(100%  - 102px);
           display: flex;
         }
       }
@@ -335,5 +419,43 @@
       margin-top: 5px;
       vertical-align: top;
     }
+  }
+  .rejectButtonCopy{
+    display: inline-block;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 53px;
+    width: 49px;
+    height: 28px;
+    border: 1px solid #E3E7EB;
+    border-radius: 24px;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    color: #353C49;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    cursor: pointer;
+  }
+  .allowButtonCopy{
+    display: inline-block;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 49px;
+    height: 28px;
+    border: 1px solid #E3E7EB;
+    border-radius: 24px;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1E68FA;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    cursor: pointer;
   }
 }
