@@ -15,6 +15,7 @@ import useInput from '../../hooks/useInput';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import useDatePick from '../../hooks/useDatePick';
+import { User } from '../../reducers/user';
 
 const Global = createGlobalStyle`
   .ant-picker{
@@ -94,8 +95,8 @@ const Editor = (props: {
   editModeList: openListOptions | null;
   setOpenAbleList: Dispatch<SetStateAction<openListOptions>>;
   setEditModeList: Dispatch<SetStateAction<openListOptions>> | null;
-  userData: userData;
-  setUserData: Dispatch<SetStateAction<userData>>;
+  userData: User;
+  setUserData: Dispatch<SetStateAction<User>>;
   idx: number;
 }) => {
   const [title, onChangeTitle] = useInput(
@@ -149,11 +150,13 @@ const Editor = (props: {
       1,
     );
     let index = 0;
-    for (let i = 0; i < props.userData.information.length; i++) {
-      if (props.userData.information[i].type === props.data?.type) {
+
+    for (let i = 0; i < props.userData.informations.length; i++) {
+      if (props.userData.informations[i].type === props.data?.type) {
         if (index === props.idx) {
-          props.userData.information.splice(i, 1);
-          props.setUserData(props.userData);
+          const userData = JSON.parse(JSON.stringify(props.userData));
+          userData.informations.splice(i, 1);
+          props.setUserData(userData);
           break;
         } else {
           index++;
@@ -177,11 +180,12 @@ const Editor = (props: {
       informationUrl: informationUrl,
       type: props.type,
     };
-    for (let i = 0; i < props.userData.information.length; i++) {
-      if (props.userData.information[i].type === props.data?.type) {
+    for (let i = 0; i < props.userData.informations.length; i++) {
+      if (props.userData.informations[i].type === props.data?.type) {
         if (index === props.idx) {
-          props.userData.information[i] = userEditData;
-          props.setUserData(props.userData);
+          const userData = JSON.parse(JSON.stringify(props.userData));
+          userData.informations[i] = userEditData;
+          props.setUserData(userData);
 
           props.openAbleList[props.data?.type ? props.data?.type : ''] =
             props.openAbleList[props.data?.type ? props.data?.type : ''].map(
@@ -200,8 +204,9 @@ const Editor = (props: {
     if (props.editModeList) {
       props.editModeList[props.type][0] = false;
       props.setEditModeList && props.setEditModeList({ ...props.editModeList });
-      props.userData.information.push(userEditData);
-      props.setUserData(props.userData);
+      const userData = JSON.parse(JSON.stringify(props.userData));
+      userData.informations.push(userEditData);
+      props.setUserData(userData);
       props.openAbleList[props.type].push(true);
       props.setOpenAbleList({ ...props.openAbleList });
       return;

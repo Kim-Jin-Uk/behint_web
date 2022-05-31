@@ -33,6 +33,7 @@
 }
 
 .profileIntroContents{
+  font-family: 'Pretendard';
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -112,7 +113,7 @@
   border-bottom: 1px solid #E3E7EB;
   padding: 24px 0;
   margin: 0 -4px;
-  > div{
+  > a{
     display: inline-block;
     margin: 0 4px;
     width: 24px;

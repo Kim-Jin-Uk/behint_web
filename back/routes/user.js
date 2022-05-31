@@ -32,20 +32,11 @@ const upload = multer({
 //유저 로그인 확인
 router.post('/login', isLoggendIn, async (req, res, next) => {
   try {
-    const { id, email } = req.user.dataValues;
-    let userData = { id, email };
-    const userProfile = await Profile.findOne({
-      where: { userId: id },
+    const { id } = req.user.dataValues;
+    const userData = await User.findOne({
+      where: { id: id },
+      include: [{ model: Profile }, { model: Information }],
     });
-    if (userProfile) {
-      userData.userProfile = userProfile;
-    }
-    const userInformation = await Information.findOne({
-      where: { userId: id },
-    });
-    if (userInformation) {
-      userData.userInformation = userInformation;
-    }
     console.log(userData);
     res.status(200).json(userData);
   } catch (err) {
@@ -60,8 +51,8 @@ router.get('/profile/:userId', async (req, res, next) => {
     let userData = await User.findOne({
       where: { id: req.params.userId },
       include: [
-        { model: Profile, attributes: ['id'] },
-        { model: Information, attributes: ['id'] },
+        { model: Profile },
+        { model: Information },
         {
           model: User,
           as: 'Followers',
@@ -71,6 +62,132 @@ router.get('/profile/:userId', async (req, res, next) => {
     });
     console.log(userData);
     res.status(200).json(userData);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+//본인 프로필 변경
+router.post('/profile/update', isLoggendIn, async (req, res, next) => {
+  try {
+    const userUpdateData = req.body;
+    const userData = await User.findOne({ where: { id: userUpdateData.id } });
+    const profileData = await Profile.findOne({ where: { userId: userUpdateData.id } });
+    console.log('userUpdateData', userUpdateData);
+    if (profileData) {
+      await Profile.update(
+        {
+          nickname: userUpdateData.profiles[0].nickname,
+          job: userUpdateData.profiles[0].job,
+          location: userUpdateData.profiles[0].location,
+          profileImgUrl: userUpdateData.profiles[0].profileImgUrl,
+          introduce: userUpdateData.profiles[0].introduce,
+          instagramUrl: userUpdateData.profiles[0].instagramUrl,
+          youtubeUrl: userUpdateData.profiles[0].youtubeUrl,
+          facebookUrl: userUpdateData.profiles[0].facebookUrl,
+          tweeterUrl: userUpdateData.profiles[0].tweeterUrl,
+          etcUrl: userUpdateData.profiles[0].etcUrl,
+        },
+        {
+          where: { userId: userData.dataValues.id },
+        },
+      );
+    } else {
+      await Profile.create({
+        nickname: userUpdateData.profile.nickname,
+        job: userUpdateData.profile.job,
+        location: userUpdateData.profile.location,
+        profileImgUrl: userUpdateData.profile.profileImgUrl,
+        introduce: userUpdateData.profile.introduce,
+        instagramUrl: userUpdateData.profile.instagramUrl,
+        youtubeUrl: userUpdateData.profile.youtubeUrl,
+        facebookUrl: userUpdateData.profile.facebookUrl,
+        tweeterUrl: userUpdateData.profile.tweeterUrl,
+        etcUrl: userUpdateData.profile.etcUrl,
+        userId: userData.dataValues.id,
+      });
+    }
+
+    await Information.destroy({ where: { userId: userData.dataValues.id } });
+    for (let item of userUpdateData.informations) {
+      await Information.create({
+        title: item.title,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        position: item.position,
+        detailContents: item.detailContents,
+        informationUrl: item.informationUrl,
+        type: item.type,
+        userId: userData.dataValues.id,
+      });
+    }
+    const updateUserData = await User.findOne({
+      where: { id: userUpdateData.id },
+      include: [
+        {
+          model: Profile,
+        },
+        {
+          model: Information,
+        },
+      ],
+    });
+    res.status(200).json(updateUserData);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+//본인 이용약관 업데이트
+router.post('/agreement', isLoggendIn, async (req, res, next) => {
+  try {
+    const userUpdateAgreement = req.body;
+    if (userUpdateAgreement.termOfService && userUpdateAgreement.personalInformation) {
+      const userAgreement = await Agreement.findOne({ where: { userId: req.user.dataValues.id } });
+
+      console.log('updateData: ', userUpdateAgreement);
+      console.log('userValues: ', req.user.dataValues);
+      console.log('prevData: ', userAgreement.dataValues);
+      if (userAgreement) {
+        await Agreement.update(
+          {
+            termOfService: userUpdateAgreement.termOfService,
+            personalInformation: userUpdateAgreement.personalInformation,
+            eventReceive: userUpdateAgreement.eventReceive,
+          },
+          { where: { id: userAgreement.dataValues.id } },
+        );
+      } else {
+        await Agreement.create({
+          ...userUpdateAgreement,
+          userId: req.user.dataValues.id,
+        });
+      }
+      res.status(200).json(true);
+    } else {
+      res.status(500).json('wrong value');
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+//본인 이용약관 조회
+router.get('/agreement', isLoggendIn, async (req, res, next) => {
+  try {
+    const userAgreement = await Agreement.findOne({ where: { userId: req.user.dataValues.id } });
+    if (userAgreement) {
+      if (userAgreement.dataValues.termOfService && userAgreement.dataValues.personalInformation) {
+        res.status(200).json(true);
+      } else {
+        res.status(500).json('not agreement');
+      }
+    } else {
+      res.status(500).json('not agreement');
+    }
   } catch (err) {
     console.error(err);
     next(err);

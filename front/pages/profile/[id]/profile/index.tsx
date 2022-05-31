@@ -2,10 +2,16 @@ import ProfileWrapper from '../../../../components/ProfileWrapper';
 import Header from '../../../../components/Header';
 import styles from './style.module.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { profileContent } from '../../../../reducers';
+import { profileContent, RootState } from '../../../../reducers';
 import ProfileContents from '../../../../components/ProfileContents';
 import ProfileSns from '../../../../components/ProfileSns';
 import useIntersectionObservation from '../../../../hooks/useIntersectionObservation';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  IS_LOGIN_REQUEST,
+  OTHER_PROFILE_REQUEST,
+} from '../../../../reducers/user';
+import { useRouter } from 'next/router';
 
 interface openAbleObject {
   [key: string]: boolean;
@@ -22,332 +28,6 @@ const Profile = () => {
     '채널',
   ];
   const [selectedMenu, setSelectedMenu] = useState(0);
-  const userData = {
-    introduce:
-      '근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 언론·출판의 자유와 집회·결사의 자유를 가진다. 이 헌법시행 당시의 대법원장과 대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 신체장애자 및 질병·노령 기타의  근로조건의 기준은 인간의 존엄성을 보장하도록 법률로 정한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 국가유공자·상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다. 모든 국민은 언론·출판의 자유와 집회·결사의 자유를 가진다. 이 헌법시행 당시의 대법원장과 대법원판사가 아닌 법관은 제1항 단서의 규정에 불구하고 이 헌법에 의하여 임명된 것으로 본다. 신체장애자 및 질병·노령 기타의 사유…',
-    information: [
-      {
-        title: '쿠팡',
-        startDate: new Date('2021-08'),
-        endDate: null,
-        position: 'Senior UX Researcher',
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '근무 경험',
-      },
-      {
-        title: '42dot',
-        startDate: new Date('2019-11'),
-        endDate: new Date('2021-07'),
-        position: 'Experience Designer',
-        detailContents: '세부 내용',
-        informationUrl: null,
-        type: '근무 경험',
-      },
-      {
-        title:
-          'SK telecomSK telecomSK telecomSK telecomSK telecomSK telecomSK telecomSK telecom',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position:
-          '서비스 디자이너서비스 디자이너서비스 디자이너서비스 디자이너서비스 디자이너서비스 디자이너서비스 디자이너',
-        detailContents:
-          '세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용세부 내용',
-        informationUrl: null,
-        type: '근무 경험',
-      },
-      {
-        title: '쿠팡',
-        startDate: new Date('2021-08'),
-        endDate: null,
-        position: 'Senior UX Researcher',
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '근무 경험',
-      },
-      {
-        title: '42dot',
-        startDate: new Date('2019-11'),
-        endDate: new Date('2021-07'),
-        position: 'Experience Designer',
-        detailContents: '세부 내용',
-        informationUrl: null,
-        type: '근무 경험',
-      },
-      {
-        title: 'SK telecom',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: '서비스 디자이너',
-        detailContents: '세부 내용',
-        informationUrl: null,
-        type: '근무 경험',
-      },
-      {
-        title: '4월 2일(토) Tiktok bussiness summint 2022 open!',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!',
-        informationUrl: 'https://www.notion.so',
-        type: '콘텐츠 제작',
-      },
-      {
-        title: 'title',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!',
-        informationUrl: 'https://www.notion.so',
-        type: '콘텐츠 제작',
-      },
-      {
-        title: 'title',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'contents',
-        informationUrl: 'https://www.notion.so',
-        type: '콘텐츠 제작',
-      },
-      {
-        title: '4월 2일(토) Tiktok bussiness summint 2022 open!',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!',
-        informationUrl: 'https://www.notion.so',
-        type: '콘텐츠 제작',
-      },
-      {
-        title: 'title',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!오후 2시에 틱톡 비즈니스 서밋이 진행됩니다.  참고로 JAY PARK 도 참여합니다!',
-        informationUrl: 'https://www.notion.so',
-        type: '콘텐츠 제작',
-      },
-      {
-        title: 'title',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'contents',
-        informationUrl: 'https://www.notion.so',
-        type: '콘텐츠 제작',
-      },
-      {
-        title: '애프터이펙트',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '보유 능력',
-      },
-      {
-        title: '애프터이펙트',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '보유 능력',
-      },
-      {
-        title: '애프터이펙트',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '보유 능력',
-      },
-      {
-        title: '애프터이펙트',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '보유 능력',
-      },
-      {
-        title: '애프터이펙트',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '보유 능력',
-      },
-      {
-        title: '애프터이펙트',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents:
-          '베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작베타서비스 런칭을 위한 BI 제작, 모바일 웹 디자인 설계(I.A/User Flow), 스타일 가이드 및 프로토타입 제작',
-        informationUrl: null,
-        type: '보유 능력',
-      },
-      {
-        title: 'OO 대학교',
-        startDate: new Date('2017-03'),
-        endDate: null,
-        position: null,
-        detailContents:
-          'OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과OO 학과',
-        informationUrl: null,
-        type: '학력',
-      },
-      {
-        title:
-          'OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교OO 고등학교',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents: null,
-        informationUrl: null,
-        type: '학력',
-      },
-      {
-        title: 'OO 중학교',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents: null,
-        informationUrl: null,
-        type: '학력',
-      },
-      {
-        title: 'OO 초등학교',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents: null,
-        informationUrl: null,
-        type: '학력',
-      },
-      {
-        title: 'OO 대회',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents: '장려상',
-        informationUrl: null,
-        type: '수상',
-      },
-      {
-        title:
-          'OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents:
-          '장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상',
-        informationUrl: null,
-        type: '수상',
-      },
-      {
-        title: 'OO 대회',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents: '장려상',
-        informationUrl: null,
-        type: '수상',
-      },
-      {
-        title:
-          'OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents:
-          '장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상',
-        informationUrl: null,
-        type: '수상',
-      },
-      {
-        title: 'OO 대회',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents: '장려상',
-        informationUrl: null,
-        type: '수상',
-      },
-      {
-        title:
-          'OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회OO 대회',
-        startDate: new Date('2016-12'),
-        endDate: new Date('2019-03'),
-        position: null,
-        detailContents:
-          '장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상장려상',
-        informationUrl: null,
-        type: '수상',
-      },
-      {
-        title: 'brmn station',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'youtube',
-        informationUrl: 'https://brmnmusic.com/',
-        type: '채널',
-      },
-      {
-        title: 'brmn station',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'insta',
-        informationUrl: 'https://brmnmusic.com/',
-        type: '채널',
-      },
-      {
-        title: 'brmn station',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'facebook',
-        informationUrl: 'https://brmnmusic.com/',
-        type: '채널',
-      },
-      {
-        title: 'brmn station',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'twitter',
-        informationUrl: 'https://brmnmusic.com/',
-        type: '채널',
-      },
-      {
-        title: 'brmn station',
-        startDate: null,
-        endDate: null,
-        position: null,
-        detailContents: 'link',
-        informationUrl: 'https://brmnmusic.com/',
-        type: '채널',
-      },
-    ],
-  };
   const [openableObject, setOpenableObject] = useState({
     '자기 소개': true,
     '근무 경험': true,
@@ -356,9 +36,19 @@ const Profile = () => {
     학력: true,
     수상: true,
   } as openAbleObject);
-
   const [activeId, setActiveId] = useState(0);
   useIntersectionObservation(setActiveId);
+
+  const router = useRouter();
+  const { id } = router.query;
+  const { user, me } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  let workExperienceLength = 0;
+  let contentCreationLength = 0;
+  let holdingCapacityLength = 0;
+  let educationLength = 0;
+  let awardsLength = 0;
 
   let workExperienceCount = 0;
   let contentCreationCount = 0;
@@ -372,6 +62,9 @@ const Profile = () => {
   const educationRef = useRef<HTMLDivElement>(null);
   const awardsRef = useRef<HTMLDivElement>(null);
   const channelRef = useRef<HTMLDivElement>(null);
+
+  const [width, setWidth] = useState(0);
+  const [introduceOpen, setIntroduceOpen] = useState(false);
 
   const refList = [
     introduceRef,
@@ -396,6 +89,74 @@ const Profile = () => {
     setSelectedMenu(activeId);
   }, [activeId]);
 
+  useEffect(() => {
+    dispatch({
+      type: OTHER_PROFILE_REQUEST,
+      data: id,
+    });
+    dispatch({
+      type: IS_LOGIN_REQUEST,
+    });
+  }, [id]);
+
+  useEffect(() => {
+    if (user) {
+      const length = [0, 0, 0, 0, 0];
+      user.informations.map((v: profileContent) => {
+        switch (v.type) {
+          case '근무 경험':
+            length[0]++;
+            break;
+          case '콘텐츠 제작':
+            length[1]++;
+            break;
+          case '보유 능력':
+            length[2]++;
+            break;
+          case '학력':
+            length[3]++;
+            break;
+          case '수상':
+            length[4]++;
+            break;
+          default:
+            break;
+        }
+        workExperienceLength = length[0];
+        contentCreationLength = length[1];
+        holdingCapacityLength = length[2];
+        educationLength = length[3];
+        awardsLength = length[4];
+      });
+    }
+  }, [user]);
+
+  //window 에 resize 함수 달아주기
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setWidth(window.innerWidth);
+    });
+  }, []);
+
+  //초기값 설정
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    const height = document.getElementById('textChecker')!.clientHeight;
+    if (width > 1152) {
+      height > 120 ? setIntroduceOpen(true) : setIntroduceOpen(false);
+    } else if (width > 1024) {
+      height > 72 ? setIntroduceOpen(true) : setIntroduceOpen(false);
+    } else if (width > 768) {
+      height > 63 ? setIntroduceOpen(true) : setIntroduceOpen(false);
+    } else {
+      height > 126 ? setIntroduceOpen(true) : setIntroduceOpen(false);
+    }
+    console.log('height', height);
+  }, [user, width]);
+
   return (
     <div id={'profile-body'}>
       <Header></Header>
@@ -406,33 +167,40 @@ const Profile = () => {
               <div ref={introduceRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>자기 소개</div>
               <div className={styles.profileDetailWrapper}>
+                <pre id={'textChecker'} className={styles.textChecker}>
+                  {user && user.profiles ? user.profiles[0].introduce : ''}
+                </pre>
                 {openableObject['자기 소개'] ? (
-                  <div className={styles.profileContents}>
-                    {userData.introduce}
-                  </div>
+                  <pre className={styles.profileContents}>
+                    {user && user.profiles ? user.profiles[0].introduce : ''}
+                  </pre>
                 ) : (
-                  <div className={styles.profileContentsOpened}>
-                    {userData.introduce}
-                  </div>
+                  <pre className={styles.profileContentsOpened}>
+                    {user && user.profiles ? user.profiles[0].introduce : ''}
+                  </pre>
                 )}
-                {openableObject['자기 소개'] ? (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('자기 소개');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    더보기 <div className={styles.moreButtonIcon}></div>
-                  </div>
+                {introduceOpen ? (
+                  openableObject['자기 소개'] ? (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('자기 소개');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      더보기 <div className={styles.moreButtonIcon}></div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('자기 소개');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      접기 <div className={styles.shortButtonIcon}></div>
+                    </div>
+                  )
                 ) : (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('자기 소개');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    접기 <div className={styles.shortButtonIcon}></div>
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -440,34 +208,41 @@ const Profile = () => {
               <div ref={workExperienceRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>근무 경험</div>
               <div className={styles.profileDetailWrapper}>
-                {userData.information.map((v: profileContent, i) => {
-                  if (
-                    v.type === '근무 경험' &&
-                    workExperienceCount <
-                      (openableObject['근무 경험'] ? 3 : Number.MAX_VALUE)
-                  ) {
-                    workExperienceCount++;
-                    return <ProfileContents key={i} data={v}></ProfileContents>;
-                  }
-                })}
-                {openableObject['근무 경험'] ? (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('근무 경험');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    더보기 <div className={styles.moreButtonIcon}></div>
-                  </div>
+                {user &&
+                  user.informations.map((v: profileContent, i: number) => {
+                    if (
+                      v.type === '근무 경험' &&
+                      workExperienceCount <
+                        (openableObject['근무 경험'] ? 3 : Number.MAX_VALUE)
+                    ) {
+                      workExperienceCount++;
+                      return (
+                        <ProfileContents key={i} data={v}></ProfileContents>
+                      );
+                    }
+                  })}
+                {workExperienceLength > 3 ? (
+                  openableObject['근무 경험'] ? (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('근무 경험');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      더보기 <div className={styles.moreButtonIcon}></div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('근무 경험');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      접기 <div className={styles.shortButtonIcon}></div>
+                    </div>
+                  )
                 ) : (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('근무 경험');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    접기 <div className={styles.shortButtonIcon}></div>
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -475,34 +250,41 @@ const Profile = () => {
               <div ref={contentCreationRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>콘텐츠 제작</div>
               <div className={styles.profileDetailWrapper}>
-                {userData.information.map((v: profileContent, i) => {
-                  if (
-                    v.type === '콘텐츠 제작' &&
-                    contentCreationCount <
-                      (openableObject['콘텐츠 제작'] ? 3 : Number.MAX_VALUE)
-                  ) {
-                    contentCreationCount++;
-                    return <ProfileContents key={i} data={v}></ProfileContents>;
-                  }
-                })}
-                {openableObject['콘텐츠 제작'] ? (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('콘텐츠 제작');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    더보기 <div className={styles.moreButtonIcon}></div>
-                  </div>
+                {user &&
+                  user.informations.map((v: profileContent, i: number) => {
+                    if (
+                      v.type === '콘텐츠 제작' &&
+                      contentCreationCount <
+                        (openableObject['콘텐츠 제작'] ? 3 : Number.MAX_VALUE)
+                    ) {
+                      contentCreationCount++;
+                      return (
+                        <ProfileContents key={i} data={v}></ProfileContents>
+                      );
+                    }
+                  })}
+                {contentCreationLength > 3 ? (
+                  openableObject['콘텐츠 제작'] ? (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('콘텐츠 제작');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      더보기 <div className={styles.moreButtonIcon}></div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('콘텐츠 제작');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      접기 <div className={styles.shortButtonIcon}></div>
+                    </div>
+                  )
                 ) : (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('콘텐츠 제작');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    접기 <div className={styles.shortButtonIcon}></div>
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -510,34 +292,41 @@ const Profile = () => {
               <div ref={holdingCapacityRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>보유 능력</div>
               <div className={styles.profileDetailWrapper}>
-                {userData.information.map((v: profileContent, i) => {
-                  if (
-                    v.type === '보유 능력' &&
-                    holdingCapacityCount <
-                      (openableObject['보유 능력'] ? 3 : Number.MAX_VALUE)
-                  ) {
-                    holdingCapacityCount++;
-                    return <ProfileContents key={i} data={v}></ProfileContents>;
-                  }
-                })}
-                {openableObject['보유 능력'] ? (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('보유 능력');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    더보기 <div className={styles.moreButtonIcon}></div>
-                  </div>
+                {user &&
+                  user.informations.map((v: profileContent, i: number) => {
+                    if (
+                      v.type === '보유 능력' &&
+                      holdingCapacityCount <
+                        (openableObject['보유 능력'] ? 3 : Number.MAX_VALUE)
+                    ) {
+                      holdingCapacityCount++;
+                      return (
+                        <ProfileContents key={i} data={v}></ProfileContents>
+                      );
+                    }
+                  })}
+                {holdingCapacityLength > 3 ? (
+                  openableObject['보유 능력'] ? (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('보유 능력');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      더보기 <div className={styles.moreButtonIcon}></div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('보유 능력');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      접기 <div className={styles.shortButtonIcon}></div>
+                    </div>
+                  )
                 ) : (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('보유 능력');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    접기 <div className={styles.shortButtonIcon}></div>
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -545,34 +334,41 @@ const Profile = () => {
               <div ref={educationRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>학력</div>
               <div className={styles.profileDetailWrapper}>
-                {userData.information.map((v: profileContent, i) => {
-                  if (
-                    v.type === '학력' &&
-                    educationCount <
-                      (openableObject['학력'] ? 3 : Number.MAX_VALUE)
-                  ) {
-                    educationCount++;
-                    return <ProfileContents key={i} data={v}></ProfileContents>;
-                  }
-                })}
-                {openableObject['학력'] ? (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('학력');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    더보기 <div className={styles.moreButtonIcon}></div>
-                  </div>
+                {user &&
+                  user.informations.map((v: profileContent, i: number) => {
+                    if (
+                      v.type === '학력' &&
+                      educationCount <
+                        (openableObject['학력'] ? 3 : Number.MAX_VALUE)
+                    ) {
+                      educationCount++;
+                      return (
+                        <ProfileContents key={i} data={v}></ProfileContents>
+                      );
+                    }
+                  })}
+                {educationLength > 3 ? (
+                  openableObject['학력'] ? (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('학력');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      더보기 <div className={styles.moreButtonIcon}></div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('학력');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      접기 <div className={styles.shortButtonIcon}></div>
+                    </div>
+                  )
                 ) : (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('학력');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    접기 <div className={styles.shortButtonIcon}></div>
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -580,34 +376,41 @@ const Profile = () => {
               <div ref={awardsRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>수상</div>
               <div className={styles.profileDetailWrapper}>
-                {userData.information.map((v: profileContent, i) => {
-                  if (
-                    v.type === '수상' &&
-                    awardsCount <
-                      (openableObject['수상'] ? 3 : Number.MAX_VALUE)
-                  ) {
-                    awardsCount++;
-                    return <ProfileContents key={i} data={v}></ProfileContents>;
-                  }
-                })}
-                {openableObject['수상'] ? (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('수상');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    더보기 <div className={styles.moreButtonIcon}></div>
-                  </div>
+                {user &&
+                  user.informations.map((v: profileContent, i: number) => {
+                    if (
+                      v.type === '수상' &&
+                      awardsCount <
+                        (openableObject['수상'] ? 3 : Number.MAX_VALUE)
+                    ) {
+                      awardsCount++;
+                      return (
+                        <ProfileContents key={i} data={v}></ProfileContents>
+                      );
+                    }
+                  })}
+                {awardsLength > 3 ? (
+                  openableObject['수상'] ? (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('수상');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      더보기 <div className={styles.moreButtonIcon}></div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => {
+                        onClickMoreButton('수상');
+                      }}
+                      className={styles.moreButton}
+                    >
+                      접기 <div className={styles.shortButtonIcon}></div>
+                    </div>
+                  )
                 ) : (
-                  <div
-                    onClick={() => {
-                      onClickMoreButton('수상');
-                    }}
-                    className={styles.moreButton}
-                  >
-                    접기 <div className={styles.shortButtonIcon}></div>
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -619,11 +422,30 @@ const Profile = () => {
               <div ref={channelRef} className={styles.ref}></div>
               <div className={styles.profileTitle}>채널</div>
               <div className={styles.profileDetailWrapper}>
-                {userData.information.map((v: profileContent, i) => {
-                  if (v.type === '채널') {
-                    return <ProfileSns key={i} data={v}></ProfileSns>;
+                <ProfileSns
+                  url={user && user.profiles ? user.profiles[0].youtubeUrl : ''}
+                  type={'youtube'}
+                ></ProfileSns>
+                <ProfileSns
+                  url={
+                    user && user.profiles ? user.profiles[0].instagramUrl : ''
                   }
-                })}
+                  type={'insta'}
+                ></ProfileSns>
+                <ProfileSns
+                  url={
+                    user && user.profiles ? user.profiles[0].facebookUrl : ''
+                  }
+                  type={'facebook'}
+                ></ProfileSns>
+                <ProfileSns
+                  url={user && user.profiles ? user.profiles[0].tweeterUrl : ''}
+                  type={'twitter'}
+                ></ProfileSns>
+                <ProfileSns
+                  url={user && user.profiles ? user.profiles[0].etcUrl : ''}
+                  type={'link'}
+                ></ProfileSns>
               </div>
             </div>
           </div>

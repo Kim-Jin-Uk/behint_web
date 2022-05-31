@@ -12,7 +12,11 @@ import Slider, { CustomArrowProps } from 'react-slick';
 import CommentaryItem from '../../../components/CommentaryItem';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { OTHER_PROFILE_REQUEST } from '../../../reducers/user';
+import {
+  IS_LOGIN_REQUEST,
+  OTHER_PROFILE_REQUEST,
+} from '../../../reducers/user';
+import Link from 'next/link';
 
 function SampleNextArrow(props: CustomArrowProps) {
   const { onClick } = props;
@@ -133,6 +137,9 @@ const ProfileByEmail = () => {
       type: OTHER_PROFILE_REQUEST,
       data: id,
     });
+    dispatch({
+      type: IS_LOGIN_REQUEST,
+    });
   }, [id]);
 
   //slide num 바꿔주기
@@ -160,6 +167,11 @@ const ProfileByEmail = () => {
     setWidth(window.innerWidth);
   }, []);
 
+  useEffect(() => {
+    console.log('user', user);
+    console.log('me', me);
+  }, [user, me]);
+
   return (
     <>
       <Header></Header>
@@ -167,9 +179,9 @@ const ProfileByEmail = () => {
         <div className={styles.profileBottomWrapper}>
           <div className={styles.profileBottomLeftWrapper}>
             <div className={styles.profileIntroTitle}>소개</div>
-            <div className={styles.profileIntroContents}>
-              소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글
-            </div>
+            <pre className={styles.profileIntroContents}>
+              {user && user.profiles ? user.profiles[0].introduce : '소개글'}
+            </pre>
             <div className={styles.profileInfoCardWrapper}>
               <div>
                 <div className={styles.profileInfoCardTitle}>프로젝트</div>
@@ -237,20 +249,54 @@ const ProfileByEmail = () => {
               </div>
             </div>
             <div className={styles.profileSnsWrapper}>
-              <div className={styles.youtube} />
-              <div className={styles.insta} />
-              <div className={styles.facebook} />
-              <div className={styles.twitter} />
-              <div className={styles.link} />
+              <Link
+                href={`${
+                  user && user.profiles ? user.profiles[0].youtubeUrl : ''
+                }`}
+              >
+                <a className={styles.youtube}></a>
+              </Link>
+              <Link
+                href={`${
+                  user && user.profiles ? user.profiles[0].instagramUrl : ''
+                }`}
+              >
+                <a className={styles.insta}></a>
+              </Link>
+              <Link
+                href={`${
+                  user && user.profiles ? user.profiles[0].facebookUrl : ''
+                }`}
+              >
+                <a className={styles.facebook}></a>
+              </Link>
+              <Link
+                href={`${
+                  user && user.profiles ? user.profiles[0].tweeterUrl : ''
+                }`}
+              >
+                <a className={styles.twitter}></a>
+              </Link>
+              <Link
+                href={`${user && user.profiles ? user.profiles[0].etcUrl : ''}`}
+              >
+                <a className={styles.link}></a>
+              </Link>
             </div>
-            <div className={styles.profileShowAll}>
+            <div
+              className={styles.profileShowAll}
+              onClick={() => router.push(`/profile/${id}/profile`)}
+            >
               프로필 전체 보기 {'>'} <div></div>
             </div>
           </div>
           <div className={styles.profileBottomRightWrapper}>
             <div className={styles.projectTopWrapper}>
               <div className={styles.profileIntroTitle}>대표프로젝트</div>
-              <div className={styles.profileShowAll}>
+              <div
+                className={styles.profileShowAll}
+                onClick={() => router.push(`/profile/${id}/project`)}
+              >
                 프로젝트 전체보기 {'>'} <div></div>
               </div>
             </div>

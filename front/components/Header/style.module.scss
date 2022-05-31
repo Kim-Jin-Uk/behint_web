@@ -34,6 +34,66 @@
   }
 }
 
+.loginButtonWrapper{
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  float: right;
+  >div{
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+  }
+  .projectUploadButton{
+    background: #FFFFFF;
+    border: 1px solid #E3E7EB;
+    border-radius: 18px;
+    padding: 9px 20px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    color: #353C49;
+    margin-right: 16px;
+    cursor: pointer;
+    transition: 0.25s;
+    &:hover{
+      background: #F2F4F6;
+      border: 1px solid #F2F4F6;
+      transition: 0.25s;
+    }
+  }
+  .alarmButton{
+    width: 24px;
+    height: 24px;
+    background: url(../../images/alarm_button.svg);
+    transition: 0.25s;
+    cursor: pointer;
+    &:hover{
+      background: url(../../images/alarm_button_hover.svg);
+      transition: 0.25s;
+    }
+  }
+  .messageButton{
+    width: 24px;
+    height: 24px;
+    background: url(../../images/message_button.svg);
+    transition: 0.25s;
+    cursor: pointer;
+    &:hover{
+      background: url(../../images/message_button_hover.svg);
+      transition: 0.25s;
+    }
+  }
+  .profileImageButton{
+    height: 24px;
+    width: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    background-size: cover;
+  }
+}
+
 .loginButton{
   width: 77px;
   height: 36px;
@@ -155,6 +215,7 @@
   .alarm{display: inline-flex; transition: 0.15s; cursor: pointer;}
   .chat{display: inline-flex; transition: 0.15s; cursor: pointer;}
   .search{display: inline-flex; transition: 0.15s; cursor: pointer;}
+  .loginButtonWrapper{display: none}
 }
 
 

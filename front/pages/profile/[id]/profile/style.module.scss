@@ -82,6 +82,7 @@
   width: 100%;
   overflow: hidden;
   display: -webkit-box;
+  font-family: 'Pretendard';
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   font-weight: 400;
@@ -93,12 +94,24 @@
 
 .profileContentsOpened{
   width: 100%;
+  font-family: 'Pretendard';
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
   color: #353C49;
   height: auto;
   transition: height 0.25s;
+}
+
+.textChecker{
+  width: 668px;
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: rgba(255, 255, 255, 0);
+  position: absolute;
+  top:0
 }
 
 .moreButton{
@@ -139,6 +152,10 @@
     vertical-align: top;
   }
 
+  .profileContents{
+    -webkit-line-clamp: 3;
+  }
+
   .profileContentsWrapper{
     display: block;
   }
@@ -165,11 +182,19 @@
     vertical-align: top;
   }
 
+  .profileContents{
+    -webkit-line-clamp: 3;
+  }
+
   .profileContentsWrapper{
     display: block;
     padding: 0 40px 44px;
     margin-top: 36px;
     border-bottom: 8px solid #F2F4F6;
+  }
+
+  .textChecker{
+    width: calc(100% - 85.6px);
   }
 
   .profileTitle{
@@ -198,11 +223,19 @@
     vertical-align: top;
   }
 
+  .profileContents{
+    -webkit-line-clamp: 6;
+  }
+
   .profileContentsWrapper{
     display: block;
     padding: 0 20px 44px;
     margin-top: 32px;
     border-bottom: 8px solid #F2F4F6;
+  }
+
+  .textChecker{
+    width: calc(100% - 45.6px);
   }
 
   .profileTitle{

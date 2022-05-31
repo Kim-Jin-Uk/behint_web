@@ -1,7 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from '../Checkbox';
 import styles from './style.module.scss';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  GET_AGREEMENT_REQUEST,
+  SET_AGREEMENT_REQUEST,
+  UserAgreement,
+} from '../../reducers/user';
+import { RootState } from '../../reducers';
+import { router } from 'next/client';
 
 const Agreements = () => {
   type fieldOptions = {
@@ -9,7 +17,9 @@ const Agreements = () => {
   };
   const [allowAll, setAllowAll] = useState(false);
   const [requiredToggle, setRequiredToggle] = useState(false);
-
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { agreement } = useSelector((state: RootState) => state.user);
   const [checked, setChecked] = useState<fieldOptions>({
     c1: false,
     c2: false,
@@ -54,6 +64,34 @@ const Agreements = () => {
     },
     [checked, requiredToggle, allowAll],
   );
+
+  const onClickAgreement = useCallback(() => {
+    if (checked.c1 && checked.c2) {
+      const agreementData: UserAgreement = {
+        termOfService: checked.c1,
+        personalInformation: checked.c2,
+        eventReceive: checked.c3,
+      };
+      dispatch({
+        type: SET_AGREEMENT_REQUEST,
+        data: agreementData,
+      });
+    } else {
+      console.log('필수항목을 선택하세요');
+    }
+  }, [checked]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_AGREEMENT_REQUEST,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (agreement) {
+      router.replace('/');
+    }
+  }, [agreement]);
 
   return (
     <>
@@ -111,10 +149,7 @@ const Agreements = () => {
       </>
 
       <div className={styles.create_btn_group}>
-        <div
-          className={styles.complete_btn_top}
-          onClick={() => Router.replace('/')}
-        >
+        <div className={styles.complete_btn_top} onClick={onClickAgreement}>
           <span>다음</span>
         </div>
       </div>

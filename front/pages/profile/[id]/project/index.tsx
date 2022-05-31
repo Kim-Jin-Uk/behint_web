@@ -2,10 +2,11 @@ import ProfileWrapper from '../../../../components/ProfileWrapper';
 import Header from '../../../../components/Header';
 import styles from '../../../../styles/Profile.module.scss';
 import projectStyles from './style.module.scss';
-import { representativeProject } from '../../../../reducers';
-import React, { useCallback, useState } from 'react';
+import { representativeProject, RootState } from '../../../../reducers';
+import React, { useCallback, useEffect, useState } from 'react';
 import ProfileProjectItem from '../../../../components/ProfileProjectItem';
 import { Button, Dropdown } from 'antd';
+import { useSelector } from 'react-redux';
 
 const Project = () => {
   const projectList = [

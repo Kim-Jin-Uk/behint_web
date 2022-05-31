@@ -1,11 +1,10 @@
-import { profileContent } from '../../reducers';
 import styles from './style.module.scss';
 import { useEffect, useState } from 'react';
 
-const ProfileSns = (props: { data: profileContent }) => {
+const ProfileSns = (props: { url: string; type: string }) => {
   const [contentCase, setContentCase] = useState(styles.youtube);
   useEffect(() => {
-    switch (props.data.detailContents) {
+    switch (props.type) {
       case 'youtube':
         setContentCase(styles.youtube);
         break;
@@ -28,7 +27,7 @@ const ProfileSns = (props: { data: profileContent }) => {
   return (
     <div className={styles.snsWrapper}>
       <div className={contentCase}></div>
-      <div className={styles.url}>{props.data.informationUrl}</div>
+      <div className={styles.url}>{props.url}</div>
     </div>
   );
 };

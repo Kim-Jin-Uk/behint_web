@@ -4,14 +4,14 @@ import ProfileThumbnail from '../ProfileThumbnail';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import React, { useCallback, useEffect, useState } from 'react';
-import { OTHER_PROFILE_REQUEST } from '../../reducers/user';
+import { IS_LOGIN_REQUEST, OTHER_PROFILE_REQUEST } from '../../reducers/user';
 import Link from 'next/link';
 
 const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
   const router = useRouter();
   const { id } = router.query;
   const { user, me } = useSelector((state: RootState) => state.user);
-  const [isMe, setIsMe] = useState(true);
+  const [isMe, setIsMe] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,7 +19,22 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
       type: OTHER_PROFILE_REQUEST,
       data: id,
     });
+    dispatch({
+      type: IS_LOGIN_REQUEST,
+    });
   }, [id]);
+
+  useEffect(() => {
+    if (user && me) {
+      if (user.id === me.id) {
+        setIsMe(true);
+      } else {
+        setIsMe(false);
+      }
+    } else {
+      setIsMe(false);
+    }
+  }, [user, me]);
 
   const onClickButton = useCallback(
     (key: string) => {
@@ -37,8 +52,10 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
               borderRadius={40}
               size={80}
               image={
-                user !== null && user.userProfile
-                  ? user.userProfile.profileImgUrl
+                user !== null && user.profiles
+                  ? user.profiles[0].profileImgUrl !== ''
+                    ? user.profiles[0].profileImgUrl
+                    : 'https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
                   : 'https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
               }
               onClick={() => {
@@ -48,16 +65,16 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
             <div className={styles.userBasicInfoWrapper}>
               <div className={styles.nickname}>
                 {user !== null
-                  ? user.userProfile
-                    ? user.userProfile.nickname
+                  ? user.profiles
+                    ? user.profiles[0].nickname
                     : user.email
                   : 'nickname'}
               </div>
               <div className={styles.userBasicInfoBottom}>
                 <div className={styles.userBasicInfoBottomText}>
                   {user !== null
-                    ? user.userProfile
-                      ? user.userProfile.job
+                    ? user.profiles
+                      ? user.profiles[0].job
                       : '직업'
                     : '직업'}
                 </div>
@@ -65,8 +82,8 @@ const ProfileWrapper = (props: { type: string; children: React.ReactNode }) => {
                 <div className={styles.locationIcon}></div>
                 <div className={styles.userBasicInfoBottomText}>
                   {user !== null
-                    ? user.userProfile
-                      ? user.userProfile.location
+                    ? user.profiles
+                      ? user.profiles[0].location
                       : '지역'
                     : '지역'}
                 </div>

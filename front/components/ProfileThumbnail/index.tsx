@@ -5,7 +5,7 @@ const ProfileThumbnail = (props: {
   size: number;
   borderRadius: number;
   image: string;
-  onClick: MouseEventHandler<HTMLDivElement>;
+  onClick: MouseEventHandler<HTMLDivElement> | null;
 }) => {
   const size = props.size ? props.size : 30;
   const borderRadius = props.borderRadius ? props.borderRadius : props.size;
@@ -18,7 +18,7 @@ const ProfileThumbnail = (props: {
         backgroundImage: "url('" + props.image + "')",
         borderRadius: borderRadius,
       }}
-      onClick={props.onClick}
+      onClick={props.onClick!}
     ></div>
   );
 };

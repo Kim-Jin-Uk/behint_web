@@ -3,12 +3,13 @@ import styles from './style.module.scss';
 import Link from 'next/link';
 import ProfileThumbnail from '../ProfileThumbnail';
 import Footer from '../Footer';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import { IS_LOGIN_REQUEST } from '../../reducers/user';
 
 const Header: FC = () => {
+  const router = useRouter();
   const { me } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [profileIconUrl, setProfileIconUrl] = useState(
@@ -17,7 +18,12 @@ const Header: FC = () => {
 
   const onClickProfileIcon: MouseEventHandler<HTMLDivElement> =
     useCallback(() => {
-      console.log('click');
+      router.push(`/profile/${me.id}`);
+    }, [me]);
+
+  const onClickProjectUpload: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      router.push(`/project/upload`);
     }, []);
 
   //user 로그인 확인
@@ -26,10 +32,6 @@ const Header: FC = () => {
       type: IS_LOGIN_REQUEST,
     });
   }, []);
-
-  useEffect(() => {
-    console.log(me);
-  }, [me]);
 
   return (
     <>
@@ -52,16 +54,27 @@ const Header: FC = () => {
           <div></div>
         </div>
         {me ? (
-          <div
-            className={styles.loginButton}
-            onClick={() => Router.push(`/profile/${me.id}`)}
-          >
-            프로필 가기
+          <div className={styles.loginButtonWrapper}>
+            <div
+              className={styles.projectUploadButton}
+              onClick={onClickProjectUpload}
+            >
+              프로젝트 업로드
+            </div>
+            <div className={styles.alarmButton}></div>
+            <div className={styles.messageButton}></div>
+            <div
+              className={styles.profileImageButton}
+              onClick={onClickProfileIcon}
+              style={{
+                backgroundImage: "url('" + profileIconUrl + "')",
+              }}
+            ></div>
           </div>
         ) : (
           <div
             className={styles.loginButton}
-            onClick={() => Router.push('/signin/login')}
+            onClick={() => router.push('/signin/login')}
           >
             로그인
           </div>

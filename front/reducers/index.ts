@@ -4,7 +4,6 @@ import { AnyAction, combineReducers } from 'redux';
 import main from './main';
 import project from './project';
 import user from './user';
-import { string } from 'prop-types';
 import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import moment from 'moment';
 

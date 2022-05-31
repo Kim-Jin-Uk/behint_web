@@ -2,13 +2,9 @@ import styles from './style.module.scss';
 import { inputType, profileContent } from '../../reducers';
 import useInput from '../../hooks/useInput';
 
-const SNS = (props: {
-  data: profileContent;
-  onClickLinkSave: any;
-  idx: number;
-}) => {
+const SNS = (props: { data: string; onClickLinkSave: any; type: string }) => {
   const [link, onChangeLink, setLink] = useInput(
-    props.data.informationUrl ? props.data.informationUrl : '',
+    props.data ? props.data : '',
   ) as inputType;
   return (
     <>
@@ -16,13 +12,13 @@ const SNS = (props: {
         <div style={{ height: 28 }}>
           <div
             className={`${styles.snsButton} ${
-              props.data.detailContents === 'insta'
+              props.type === 'instagramUrl'
                 ? styles.insta
-                : props.data.detailContents === 'facebook'
+                : props.type === 'facebookUrl'
                 ? styles.facebook
-                : props.data.detailContents === 'twitter'
+                : props.type === 'tweeterUrl'
                 ? styles.twitter
-                : props.data.detailContents === 'youtube'
+                : props.type === 'youtubeUrl'
                 ? styles.youtube
                 : styles.link
             }`}
@@ -35,7 +31,7 @@ const SNS = (props: {
           {link.length > 0 ? (
             <button
               className={styles.saveButton}
-              onClick={() => props.onClickLinkSave(link, props.idx)}
+              onClick={() => props.onClickLinkSave(link, props.type)}
             >
               저장
             </button>
