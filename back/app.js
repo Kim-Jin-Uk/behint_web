@@ -14,7 +14,7 @@ const morgan = require('morgan');
 const hpp = require('hpp');
 const helmet = require('helmet');
 const favicon = require('serve-favicon');
-const { User } = require('./models');
+const { User, Agreement } = require('./models');
 
 dotenv.config();
 
@@ -76,21 +76,19 @@ app.get('/', (req, res) => {
 
 app.get('/naver/oauth', async function (req, res, next) {
   passport.authenticate('naver', async function (err, user) {
-    console.log('passport.authenticate(naver)실행');
     if (!user) {
       return res.redirect(`${process.env.FRONT_URL}/signin/fail`);
     }
     req.logIn(user, async function () {
-      console.log('naver/callback user : ', user);
       if (user === 'kakao') {
         return res.redirect(`${process.env.FRONT_URL}/signin/overlap`);
       }
       try {
-        const userData = await User.findOne({
-          where: { id: req.user.dataValues.id },
+        const agreements = await Agreement.findOne({
+          where: { userId: req.user.dataValues.id },
         });
-        if (userData.agreement) {
-          return res.redirect(`${process.env.FRONT_URL}/project`);
+        if (agreements.dataValues.termOfService && agreements.dataValues.personalInformation) {
+          return res.redirect(`${process.env.FRONT_URL}`);
         }
         return res.redirect(`${process.env.FRONT_URL}/signin/agreements`);
       } catch (err) {
@@ -102,23 +100,20 @@ app.get('/naver/oauth', async function (req, res, next) {
 });
 
 app.get('/kakao/oauth', async function (req, res, next) {
-  console.log('kakao');
   passport.authenticate('kakao', async function (err, user) {
-    console.log('passport.authenticate(kakao)실행');
     if (!user) {
       return res.redirect(`${process.env.FRONT_URL}/signin/fail`);
     }
     req.logIn(user, async function () {
-      console.log('kakao/callback user : ', user);
       if (user === 'naver') {
         return res.redirect(`${process.env.FRONT_URL}/signin/overlap`);
       }
       try {
-        const userData = await User.findOne({
-          where: { id: req.user.dataValues.id },
+        const agreements = await Agreement.findOne({
+          where: { userId: req.user.dataValues.id },
         });
-        if (userData.agreement) {
-          return res.redirect(`${process.env.FRONT_URL}/project`);
+        if (agreements.dataValues.termOfService && agreements.dataValues.personalInformation) {
+          return res.redirect(`${process.env.FRONT_URL}`);
         }
         return res.redirect(`${process.env.FRONT_URL}/signin/agreements`);
       } catch (err) {

@@ -18,15 +18,40 @@ AWS.config.update({
   region: 'ap-northeast-2',
 });
 
+// const upload = multer({
+//   storage: multerS3({
+//     s3: new AWS.S3(),
+//     bucket: 'brmnmusic-images-s3',
+//     key(req, file, cb) {
+//       cb(null, `project/${Date.now()}_${path.basename(file.originalname)}`);
+//     },
+//   }),
+//   limits: { fileSize: 20 * 1024 * 1024 * 1024 },
+// });
+
 const upload = multer({
-  storage: multerS3({
-    s3: new AWS.S3(),
-    bucket: 'brmnmusic-images-s3',
-    key(req, file, cb) {
-      cb(null, `project/${Date.now()}_${path.basename(file.originalname)}`);
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'projectImages');
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext);
+      done(null, basename + new Date().getTime() + ext);
     },
   }),
-  limits: { fileSize: 20 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1024 * 1024 * 1024 },
+});
+
+//본인 프로필 변경
+router.post('/upload/video', upload.single('file'), async (req, res, next) => {
+  try {
+    console.log(req);
+    res.status(200).json('ok');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 module.exports = router;

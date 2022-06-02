@@ -1,7 +1,159 @@
+import Header from '../../../components/Header';
+import { createGlobalStyle } from 'styled-components';
+import { message, Modal, UploadProps } from 'antd';
+import { useEffect, useState } from 'react';
+import Dragger from 'antd/lib/upload/Dragger';
+import styles from './style.module.scss';
+import backUrl from '../../../config/config';
+import { useRouter } from 'next/router';
+
+const Global = createGlobalStyle`
+  .ant-modal{
+    position: static;
+    width: 500px!important;
+  }
+  .ant-modal-content{
+    width: 500px;
+    height: 448px;
+    border-radius: 4px;
+    padding: 24px 20px;
+    margin-top: calc(50vh - 224px);
+    .ant-modal-close{
+      display: none;
+    }
+    .ant-modal-header{
+      padding: 0;
+      height: 43px;
+      .ant-modal-title{
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 150%;
+        color: #1A1E27;
+      }
+    }
+    .ant-modal-body{
+      padding: 20px 0;
+      width: 100%;
+      height: 380px;
+    }
+    .ant-modal-footer{
+      display: none;
+    }
+  }
+  .ant-upload{
+    border: none !important;
+    width: 100%;
+    height: 100%;
+    background: none !important;
+  }
+  .ant-upload-list{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 396px;
+    right: 52px;
+    > div{
+      display: none;
+    }
+    > div:last-child{
+      display: block;
+    }
+    .ant-upload-span{
+      display: block;
+    }
+    .ant-upload-text-icon{
+      display: none;
+    }
+    .ant-upload-list-item-card-actions{
+      display: none;
+    }
+    .ant-upload-list-item-name{
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      color: #6D7582;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .ant-upload-list-item-error{
+      display: none;
+    }
+  }
+  .ant-message-notice{
+    display: none;
+  }
+  .ant-upload-span{
+    margin-bottom: 24px;
+  }
+  .ant-progress-inner{
+    position: relative;
+    top: 24px;
+    height: 8px;
+    .ant-progress-bg{
+      height: 8px !important;
+    }
+  }
+  .ant-upload-list-item-progress{
+    padding: 0;
+  }
+`;
+
 const Upload = () => {
+  const [visible, setVisible] = useState(false);
+  const [uploadVisible, setUploadVisible] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [uploadDone, setUploadDone] = useState(false);
+  const router = useRouter();
+
+  const props: UploadProps = {
+    name: 'file',
+    multiple: true,
+    action: `${backUrl}/project/upload/video`,
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'uploading') {
+        setUploadVisible(false);
+      }
+      if (status === 'done') {
+        setVisible(false);
+        router.push('/project/upload/info');
+      } else if (status === 'error') {
+        setUploadVisible(true);
+        setErrorMessage(`${info.file.name} 파일 업로드에 실패하였습니다.`);
+      }
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
+
   return (
     <>
-      <div></div>
+      <Global />
+      <Header />
+      <Modal title={'프로젝트 업로드'} visible={visible}>
+        <div className={styles.closeButton}></div>
+        <Dragger accept={'.mp4'} {...props}>
+          {uploadVisible && (
+            <>
+              <div className={styles.uploadProject}></div>
+              <div className={styles.uploadText}>
+                {errorMessage === ''
+                  ? '클릭, 드래그해서 영상 업로드하기'
+                  : errorMessage}
+              </div>
+              <div className={styles.uploadButton}>파일 선택</div>
+            </>
+          )}
+        </Dragger>
+      </Modal>
     </>
   );
 };
