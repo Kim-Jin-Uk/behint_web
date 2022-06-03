@@ -8,6 +8,12 @@ import backUrl from '../../../config/config';
 import { useRouter } from 'next/router';
 
 const Global = createGlobalStyle`
+  .ant-modal-mask{
+    z-index: 5000;
+  }
+  .ant-modal-wrap{
+    z-index: 5000;
+  }
   .ant-modal{
     position: static;
     width: 500px!important;
