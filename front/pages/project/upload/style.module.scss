@@ -326,3 +326,25 @@
 .selected{
   background: #F2F4F6 !important;
 }
+
+.cancelButton{
+  margin-right: 0 !important;
+  color: #353C49 !important;
+  background: none !important;
+  cursor: pointer;
+  transition: 0.25s;
+  &:hover{
+    background: #F2F4F6 !important;
+    transition: 0.25s;
+  }
+}
+
+.selectButton{
+  background: #1E68FA !important;
+  cursor: pointer;
+  transition: 0.25s;
+  &:hover{
+    background: #0034DA !important;
+    transition: 0.25s;
+  }
+}

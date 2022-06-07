@@ -7,6 +7,7 @@ import useInput from '../../../hooks/useInput';
 import useTextArea from '../../../hooks/useTextArea';
 import { inputType, textareaType } from '../../../reducers';
 import autosize from 'autosize';
+import KakaoMap from '../../../components/Map/kakaoMap';
 
 const Global = createGlobalStyle`
   .ant-modal-mask{
@@ -59,7 +60,7 @@ const Global = createGlobalStyle`
         line-height: 130%;
         color: #FFFFFF;
         border: none;
-        margin: 12px 20px;
+        margin: 12px 20px 12px 0;
       }
     }
   }
@@ -144,6 +145,10 @@ const Info = () => {
   const [title, onChangeTitle] = useInput('') as inputType;
   const [introduce, onChangeIntroduce] = useTextArea('') as textareaType;
   const [tagList, setTagList] = useState([] as string[]);
+
+  const [mapSelect, setMapSelect] = useState(false);
+  const [locationData, setLocationData] = useState(null as any | null);
+
   const onClickCheckbox = useCallback(
     (key: string) => {
       const updateCheckboxList = { ...checkboxList };
@@ -205,6 +210,12 @@ const Info = () => {
   const onClickAddLocation = useCallback(() => {
     setLocationVisible(true);
   }, []);
+
+  const onClickAddLocationButton = useCallback(() => {
+    if (locationData && mapSelect) {
+      setLocationVisible(false);
+    }
+  }, [locationData, mapSelect]);
 
   const menu = (
     <>
@@ -435,7 +446,36 @@ const Info = () => {
         width={500}
         title={'촬영 장소'}
         visible={locationVisible}
-      ></Modal>
+        footer={
+          <div className={styles.bottomWrapper}>
+            <button
+              onClick={() => {
+                setMapSelect(false);
+                setLocationVisible(false);
+              }}
+              className={styles.cancelButton}
+            >
+              취소
+            </button>
+            <button
+              className={
+                mapSelect ? styles.selectButton : styles.nonSelectButton
+              }
+              onClick={onClickAddLocationButton}
+            >
+              추가
+            </button>
+          </div>
+        }
+      >
+        <KakaoMap
+          setMapSelect={setMapSelect}
+          mapSelect={mapSelect}
+          setLocationData={setLocationData}
+          latitude={37.5518927}
+          longitude={126.9917822}
+        />
+      </Modal>
     </>
   );
 };

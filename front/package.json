@@ -9,10 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/google-map-react": "^2.1.7",
+    "@types/navermaps": "^3.0.16",
     "antd": "^4.20.2",
     "autosize": "^5.0.1",
     "axios": "^0.27.2",
     "dotenv": "^16.0.0",
+    "google-map-react": "^2.1.10",
+    "google-maps-react": "^2.0.6",
     "immer": "^9.0.12",
     "moment": "^2.29.3",
     "next": "^12.1.5",
