@@ -8,7 +8,6 @@ import {
   profileContent,
   RootState,
   textareaType,
-  userData,
 } from '../../../../reducers';
 import ProfileEditItem from '../../../../components/ProfileEditItem';
 import Editor from '../../../../components/ProfileEditItem/editor';
@@ -24,7 +23,6 @@ import SNS from '../../../../components/ProfileEditItem/sns';
 import useIntersectionObservationEdit from '../../../../hooks/useIntersectionObservationEdit';
 import { Button, Dropdown } from 'antd';
 import projectStyles from '../project/style.module.scss';
-import { router } from 'next/client';
 
 const Edit = () => {
   const profileRightMenu = [
@@ -67,8 +65,9 @@ const Edit = () => {
 
   const [editModeList, setEditModeList] = useState({} as openListOptions);
 
-  const { me, updateProfileLoading, updateProfileSuccess, updateProfileError } =
-    useSelector((state: RootState) => state.user);
+  const { me, updateProfileSuccess } = useSelector(
+    (state: RootState) => state.user,
+  );
 
   const [name, onChangeName, setName] = useInput('') as inputType;
 

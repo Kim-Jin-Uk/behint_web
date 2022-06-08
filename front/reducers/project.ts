@@ -421,16 +421,37 @@ export const initialState = {
       ],
     },
   ],
+  thumbnailUrl: null,
+
+  uploadVideoLoading: false,
+  uploadVideoSuccess: false,
+  uploadVideoError: null,
 };
-//
-// export const SELECTED_MENU_CHANGE = 'SELECTED_MENU_CHANGE';
+
+export const UPLOAD_VIDEO_REQUEST = 'UPLOAD_VIDEO_REQUEST';
+export const UPLOAD_VIDEO_SUCCESS = 'UPLOAD_VIDEO_SUCCESS';
+export const UPLOAD_VIDEO_FAILURE = 'UPLOAD_VIDEO_FAILURE';
 
 export default (state = initialState, action: AnyAction) =>
   produce(state, (draft: Draft<any>) => {
     switch (action.type) {
-      // case SELECTED_MENU_CHANGE:
-      //   draft.selectMenu = action.data;
-      //   break;
+      case UPLOAD_VIDEO_REQUEST:
+        draft.uploadVideoLoading = true;
+        draft.uploadVideoSuccess = false;
+        draft.uploadVideoError = null;
+        break;
+      case UPLOAD_VIDEO_SUCCESS:
+        draft.uploadVideoLoading = false;
+        draft.uploadVideoSuccess = true;
+        draft.uploadVideoError = null;
+        draft.thumbnailUrl = action.data;
+        break;
+      case UPLOAD_VIDEO_FAILURE:
+        draft.uploadVideoLoading = false;
+        draft.uploadVideoSuccess = false;
+        draft.uploadVideoError = action.error;
+        draft.thumbnailUrl = null;
+        break;
       default:
         break;
     }

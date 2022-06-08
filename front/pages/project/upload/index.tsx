@@ -6,6 +6,7 @@ import Dragger from 'antd/lib/upload/Dragger';
 import styles from './style.module.scss';
 import backUrl from '../../../config/config';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const Global = createGlobalStyle`
   .ant-modal-mask{
@@ -109,30 +110,50 @@ const Upload = () => {
   const [uploadVisible, setUploadVisible] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [uploadDone, setUploadDone] = useState(false);
+  const [videoData, setVideoData] = useState('');
+  const [videoError, setVideoError] = useState(null as string | null);
   const router = useRouter();
 
   const props: UploadProps = {
     name: 'file',
     multiple: true,
-    action: `${backUrl}/project/upload/video`,
+    action: (file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      axios
+        .post(`${backUrl}/project/upload/video`, formData)
+        .then((res) => {
+          setVideoData(res.data);
+          setVideoError(null);
+        })
+        .catch((err) => {
+          setVideoData('');
+          setVideoError(err);
+        });
+      return 'true';
+    },
     onChange(info) {
       const { status } = info.file;
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
       if (status === 'uploading') {
         setUploadVisible(false);
       }
       if (status === 'done') {
-        setVisible(false);
-        router.push('/project/upload/info');
+        if (videoData && videoError === null) {
+          setVisible(false);
+          router.push({
+            pathname: '/project/upload/info',
+            query: {
+              videoData: videoData,
+            },
+          });
+        } else {
+          setErrorMessage(`\n파일 업로드에 실패하였습니다.\n\n\n\n`);
+          setUploadVisible(true);
+        }
       } else if (status === 'error') {
         setUploadVisible(true);
         setErrorMessage(`${info.file.name} 파일 업로드에 실패하였습니다.`);
       }
-    },
-    onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files);
     },
   };
 
@@ -150,11 +171,11 @@ const Upload = () => {
           {uploadVisible && (
             <>
               <div className={styles.uploadProject}></div>
-              <div className={styles.uploadText}>
+              <pre className={styles.uploadText}>
                 {errorMessage === ''
                   ? '클릭, 드래그해서 영상 업로드하기'
                   : errorMessage}
-              </div>
+              </pre>
               <div className={styles.uploadButton}>파일 선택</div>
             </>
           )}

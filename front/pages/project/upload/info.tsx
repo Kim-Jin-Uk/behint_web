@@ -5,9 +5,12 @@ import styles from './style.module.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import useTextArea from '../../../hooks/useTextArea';
-import { inputType, textareaType } from '../../../reducers';
+import { inputType, RootState, textareaType } from '../../../reducers';
 import autosize from 'autosize';
-import KakaoMap from '../../../components/Map/kakaoMap';
+import KakaoMap, { mapData } from '../../../components/Map/kakaoMap';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { UPLOAD_VIDEO_REQUEST } from '../../../reducers/project';
 
 const Global = createGlobalStyle`
   .ant-modal-mask{
@@ -93,7 +96,6 @@ const Global = createGlobalStyle`
       transition: 0.25s;
       cursor: pointer;
       padding: 9px 20px;
-
       &:hover {
         background: #F2F4F6;
         transition: 0.25s;
@@ -112,6 +114,14 @@ interface copyrightObject {
   [key: string]: boolean;
 }
 const Info = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { thumbnailUrl, uploadVideoSuccess } = useSelector(
+    (state: RootState) => state.project,
+  );
+
+  const [thumbnailImgUrl, setThumbnailImgUrl] = useState('');
+
   const [infoVisible, setInfoVisible] = useState(false);
   const [checkboxList, setCheckboxList] = useState({
     entertainment: ['예능', false],
@@ -147,7 +157,9 @@ const Info = () => {
   const [tagList, setTagList] = useState([] as string[]);
 
   const [mapSelect, setMapSelect] = useState(false);
-  const [locationData, setLocationData] = useState(null as any | null);
+  const [locationData, setLocationData] = useState(null as mapData | null);
+  const [locationList, setLocationList] = useState([] as mapData[]);
+  const [locationClickCount, setLocationClickCount] = useState(0);
 
   const onClickCheckbox = useCallback(
     (key: string) => {
@@ -173,6 +185,14 @@ const Info = () => {
       setTagList([...tagList]);
     },
     [tagList],
+  );
+
+  const onClickLocationDelete = useCallback(
+    (i: number) => {
+      locationList.splice(i, 1);
+      setLocationList([...locationList]);
+    },
+    [locationList],
   );
 
   const onKeyDownSpan = useCallback(
@@ -214,6 +234,10 @@ const Info = () => {
   const onClickAddLocationButton = useCallback(() => {
     if (locationData && mapSelect) {
       setLocationVisible(false);
+      locationList.push(locationData);
+      setLocationList([...locationList]);
+      setLocationData(null);
+      setLocationClickCount(locationClickCount + 1);
     }
   }, [locationData, mapSelect]);
 
@@ -326,6 +350,20 @@ const Info = () => {
     setCheckboxItem([...checkboxItem]);
   }, []);
 
+  useEffect(() => {
+    if (router.isReady) {
+      const data = router.query.videoData;
+      dispatch({
+        type: UPLOAD_VIDEO_REQUEST,
+        data: { url: data },
+      });
+    }
+  }, [router.isReady]);
+
+  useEffect(() => {
+    uploadVideoSuccess && setThumbnailImgUrl(thumbnailUrl.url);
+  }, [uploadVideoSuccess, thumbnailUrl]);
+
   return (
     <>
       <Global />
@@ -344,7 +382,13 @@ const Info = () => {
         <div className={styles.editorWrapper}>
           <aside className={styles.leftWrapper}>
             <div style={{ marginBottom: 12 }}>영상 업로드</div>
-            <div className={styles.thumbnailWrapper}>
+            <div
+              className={styles.thumbnailWrapper}
+              style={{
+                marginBottom: 32,
+                backgroundImage: "url('" + thumbnailImgUrl + "')",
+              }}
+            >
               <div className={styles.imageWrapper} />
               <div className={styles.blackCover}>
                 <div className={styles.buttonGroup}>
@@ -390,6 +434,21 @@ const Info = () => {
               })}
             </div>
             <div style={{ marginBottom: 8 }}>촬영 장소</div>
+            {locationList.length > 0 && (
+              <div className={styles.tagWrapper} style={{ marginBottom: 8 }}>
+                {locationList.map((v: mapData, i) => {
+                  return (
+                    <div className={styles.tag} key={i}>
+                      <div>{v.place_name}</div>
+                      <div
+                        onClick={() => onClickLocationDelete(i)}
+                        className={styles.delete}
+                      ></div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
             <div className={styles.addLocation} onClick={onClickAddLocation}>
               + 촬영한 장소 추가하기 <div></div>
             </div>
@@ -434,7 +493,10 @@ const Info = () => {
             })}
             <div style={{ marginBottom: 8 }}>저작권 및 라이선스</div>
             <Dropdown overlay={menu} placement="bottom">
-              <button className={styles.hoverButton}>
+              <button
+                className={styles.hoverButton}
+                style={{ marginBottom: 14 }}
+              >
                 {copyrightText} <div></div>
               </button>
             </Dropdown>
@@ -452,6 +514,7 @@ const Info = () => {
               onClick={() => {
                 setMapSelect(false);
                 setLocationVisible(false);
+                setLocationClickCount(locationClickCount + 1);
               }}
               className={styles.cancelButton}
             >
@@ -472,6 +535,7 @@ const Info = () => {
           setMapSelect={setMapSelect}
           mapSelect={mapSelect}
           setLocationData={setLocationData}
+          locationClickCount={locationClickCount}
           latitude={37.5518927}
           longitude={126.9917822}
         />
