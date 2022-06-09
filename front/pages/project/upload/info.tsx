@@ -10,7 +10,12 @@ import autosize from 'autosize';
 import KakaoMap, { mapData } from '../../../components/Map/kakaoMap';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { UPLOAD_VIDEO_REQUEST } from '../../../reducers/project';
+import {
+  UPLOAD_VIDEO_FILE_REQUEST,
+  UPLOAD_VIDEO_REQUEST,
+} from '../../../reducers/project';
+import ReactPlayer from 'react-player/lazy';
+import Image from 'next/image';
 
 const Global = createGlobalStyle`
   .ant-modal-mask{
@@ -116,13 +121,20 @@ interface copyrightObject {
 const Info = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { thumbnailUrl, uploadVideoSuccess } = useSelector(
-    (state: RootState) => state.project,
-  );
-
-  const [thumbnailImgUrl, setThumbnailImgUrl] = useState('');
+  const {
+    videoUrl,
+    uploadVideoFileSuccess,
+    uploadVideoFileError,
+    thumbnailUrl,
+    uploadVideoSuccess,
+    uploadVideoError,
+  } = useSelector((state: RootState) => state.project);
+  const [buttonActive, setButtonActive] = useState(false);
+  const [videoUrlLink, setVideoUrlLink] = useState('');
+  const [thumbnailUrlLink, setThumbnailUrlLink] = useState('');
 
   const [infoVisible, setInfoVisible] = useState(false);
+  const [commentaryVisible, setCommentaryVisible] = useState(false);
   const [checkboxList, setCheckboxList] = useState({
     entertainment: ['예능', false],
     documentary: ['다큐멘터리', false],
@@ -160,6 +172,9 @@ const Info = () => {
   const [locationData, setLocationData] = useState(null as mapData | null);
   const [locationList, setLocationList] = useState([] as mapData[]);
   const [locationClickCount, setLocationClickCount] = useState(0);
+
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const onClickCheckbox = useCallback(
     (key: string) => {
@@ -240,6 +255,49 @@ const Info = () => {
       setLocationClickCount(locationClickCount + 1);
     }
   }, [locationData, mapSelect]);
+
+  const onClickDeleteVideo = useCallback(() => {
+    setVideoUrlLink('');
+  }, [videoUrlLink]);
+
+  const onClickDeleteImage = useCallback(() => {
+    setThumbnailUrlLink('');
+  }, [thumbnailUrl]);
+
+  const onClickEditVideo = useCallback(() => {
+    if (videoInputRef && videoInputRef.current) {
+      videoInputRef.current.click();
+    }
+  }, [videoInputRef.current]);
+
+  const onClickEditImage = useCallback(() => {
+    if (imageInputRef && imageInputRef.current) {
+      imageInputRef.current.click();
+    }
+  }, [imageInputRef.current]);
+
+  const onChangeVideos = useCallback((e: any) => {
+    const videoFormData = new FormData();
+    videoFormData.append('file', e.target.files[0]);
+    dispatch({
+      type: UPLOAD_VIDEO_FILE_REQUEST,
+      data: videoFormData,
+    });
+  }, []);
+
+  const onChangeImages = useCallback((e: any) => {
+    const imageFormData = new FormData();
+    imageFormData.append('file', e.target.files[0]);
+    dispatch({
+      type: UPLOAD_VIDEO_REQUEST,
+      data: imageFormData,
+    });
+  }, []);
+
+  const onClickInfoNext = useCallback(() => {
+    setInfoVisible(false);
+    setCommentaryVisible(true);
+  }, []);
 
   const menu = (
     <>
@@ -353,16 +411,36 @@ const Info = () => {
   useEffect(() => {
     if (router.isReady) {
       const data = router.query.videoData;
-      dispatch({
-        type: UPLOAD_VIDEO_REQUEST,
-        data: { url: data },
-      });
+      setVideoUrlLink(data as string);
     }
   }, [router.isReady]);
 
   useEffect(() => {
-    uploadVideoSuccess && setThumbnailImgUrl(thumbnailUrl.url);
-  }, [uploadVideoSuccess, thumbnailUrl]);
+    if (uploadVideoFileSuccess) {
+      setVideoUrlLink(videoUrl);
+    } else if (uploadVideoFileError) {
+      message.error('업로드에 실패하셨습니다');
+    }
+  }, [uploadVideoFileSuccess, uploadVideoFileError, videoUrl]);
+
+  useEffect(() => {
+    if (uploadVideoSuccess) {
+      setThumbnailUrlLink(thumbnailUrl);
+    } else if (uploadVideoError) {
+      message.error('업로드에 실패하셨습니다');
+    }
+  }, [uploadVideoSuccess, uploadVideoError, thumbnailUrl]);
+
+  useEffect(() => {
+    if (thumbnailUrlLink && videoUrlLink && title.length > 2) {
+      for (const item in checkboxList) {
+        if (checkboxList[item][1]) {
+          return setButtonActive(true);
+        }
+      }
+    }
+    return setButtonActive(false);
+  }, [thumbnailUrlLink, videoUrlLink, title, checkboxList]);
 
   return (
     <>
@@ -374,7 +452,20 @@ const Info = () => {
         visible={infoVisible}
         footer={
           <div className={styles.bottomWrapper}>
-            <button>다음</button>
+            <button
+              className={
+                buttonActive ? styles.selectButton : styles.nonSelectButton
+              }
+              onClick={
+                buttonActive
+                  ? onClickInfoNext
+                  : () => {
+                      console.log('click');
+                    }
+              }
+            >
+              다음
+            </button>
           </div>
         }
       >
@@ -386,21 +477,39 @@ const Info = () => {
               className={styles.thumbnailWrapper}
               style={{
                 marginBottom: 32,
-                backgroundImage: "url('" + thumbnailImgUrl + "')",
               }}
             >
-              <div className={styles.imageWrapper} />
+              <div className={styles.videoWrapper}>
+                {videoUrlLink !== '' && (
+                  <ReactPlayer
+                    width={320}
+                    height={180}
+                    url={videoUrlLink}
+                    playing={true} // 자동 재생 on
+                    muted={true} // 자동 재생 on
+                    controls={true} // 플레이어 컨트롤 노출 여부
+                    light={false} // 플레이어 모드
+                    pip={true} // pip 모드 설정 여부
+                  />
+                )}
+              </div>
               <div className={styles.blackCover}>
                 <div className={styles.buttonGroup}>
-                  <div className={styles.buttonWrapper}>
+                  <div
+                    className={styles.buttonWrapper}
+                    onClick={onClickEditVideo}
+                  >
                     <button>
-                      <div className={styles.editButton}></div>
+                      <div className={styles.editButton} />
                     </button>
                     <div>파일 변경</div>
                   </div>
-                  <div className={styles.buttonWrapper}>
+                  <div
+                    className={styles.buttonWrapper}
+                    onClick={onClickDeleteVideo}
+                  >
                     <button>
-                      <div className={styles.deleteButton}></div>
+                      <div className={styles.deleteButton} />
                     </button>
                     <div>삭제</div>
                   </div>
@@ -408,7 +517,44 @@ const Info = () => {
               </div>
             </div>
             <div style={{ marginBottom: 12 }}>표지 이미지 설정</div>
-            <div className={styles.imageWrapper} />
+            {thumbnailUrlLink !== '' ? (
+              <div className={styles.thumbnailWrapper}>
+                <div className={styles.videoWrapper}>
+                  <Image width={320} height={190} src={thumbnailUrlLink} />
+                </div>
+                <div className={styles.blackCover}>
+                  <div className={styles.buttonGroup}>
+                    <div
+                      className={styles.buttonWrapper}
+                      onClick={onClickEditImage}
+                    >
+                      <button>
+                        <div className={styles.editButton}></div>
+                      </button>
+                      <div>파일 변경</div>
+                    </div>
+                    <div
+                      className={styles.buttonWrapper}
+                      onClick={onClickDeleteImage}
+                    >
+                      <button>
+                        <div className={styles.deleteButton} />
+                      </button>
+                      <div>삭제</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.imageWrapper} onClick={onClickEditImage}>
+                <div></div>
+                <span>
+                  최소크기는 <br />
+                  “560x560px”입니다.
+                </span>
+                <button>이미지 업로드</button>
+              </div>
+            )}
           </aside>
           <div className={styles.rightWrapper}>
             <div style={{ marginBottom: 8 }}>프로젝트 제목*</div>
@@ -443,14 +589,14 @@ const Info = () => {
                       <div
                         onClick={() => onClickLocationDelete(i)}
                         className={styles.delete}
-                      ></div>
+                      />
                     </div>
                   );
                 })}
               </div>
             )}
             <div className={styles.addLocation} onClick={onClickAddLocation}>
-              + 촬영한 장소 추가하기 <div></div>
+              + 촬영한 장소 추가하기 <div />
             </div>
             <div style={{ marginBottom: 8 }}>소개</div>
             <textarea
@@ -469,7 +615,7 @@ const Info = () => {
                     <div
                       onClick={() => onClickDelete(i)}
                       className={styles.delete}
-                    ></div>
+                    />
                   </div>
                 );
               })}
@@ -486,10 +632,10 @@ const Info = () => {
 
             <div style={{ marginBottom: 8 }}>함께한 사람</div>
             <div className={styles.addLocation}>
-              + 함께한 사람 추가하기 <div></div>
+              + 함께한 사람 추가하기 <div />
             </div>
             {perssonWith.map((v, i) => {
-              return <div></div>;
+              return <div />;
             })}
             <div style={{ marginBottom: 8 }}>저작권 및 라이선스</div>
             <Dropdown overlay={menu} placement="bottom">
@@ -497,7 +643,7 @@ const Info = () => {
                 className={styles.hoverButton}
                 style={{ marginBottom: 14 }}
               >
-                {copyrightText} <div></div>
+                {copyrightText} <div />
               </button>
             </Dropdown>
           </div>
@@ -540,6 +686,34 @@ const Info = () => {
           longitude={126.9917822}
         />
       </Modal>
+
+      <Modal
+        width={970}
+        title={'코멘터리'}
+        visible={commentaryVisible}
+        footer={
+          <div className={styles.bottomWrapper}>
+            <button></button>
+          </div>
+        }
+      ></Modal>
+
+      <input
+        type="file"
+        name="file"
+        accept="video/mp4"
+        hidden
+        ref={videoInputRef}
+        onChange={onChangeVideos}
+      />
+      <input
+        type="file"
+        name="file"
+        accept="image/png, image/jpeg"
+        hidden
+        ref={imageInputRef}
+        onChange={onChangeImages}
+      />
     </>
   );
 };

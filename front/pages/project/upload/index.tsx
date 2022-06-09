@@ -104,7 +104,7 @@ const Global = createGlobalStyle`
     padding: 0;
   }
 `;
-
+axios.defaults.withCredentials = true;
 const Upload = () => {
   const [visible, setVisible] = useState(false);
   const [uploadVisible, setUploadVisible] = useState(true);

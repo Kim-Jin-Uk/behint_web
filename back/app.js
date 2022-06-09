@@ -29,12 +29,12 @@ db.sequelize
 
 passportConfig();
 
-app.use(helmet());
-
+// app.use(helmet());
 app.use(
   cors({
-    origin: [process.env.FRONT_URL, 'http://3.38.232.129', 'http://brmnmusic.com'],
+    origin: ['http://localhost:3090'],
     credentials: true,
+    crossOriginResourcePolicy: 'cross-origin',
   }),
 );
 app.use('/', express.static(path.join(__dirname, 'projectImages')));

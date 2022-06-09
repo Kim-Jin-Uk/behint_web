@@ -137,11 +137,58 @@
       }
 
     }
-    .imageWrapper{
+    .videoWrapper{
       width: 320px;
       height: 180px;
       border-radius: 4px;
       background: #8D94A0;
+      overflow: hidden;
+
+    }
+    .imageWrapper{
+      width: 320px;
+      height: 180px;
+      border-radius: 4px;
+      border: 1px dashed #D2D6DA;
+      cursor: pointer;
+      >div{
+        width: 40px;
+        height: 40px;
+        margin: 27px auto 10px;
+        background: url(../../../images/uploadProject.svg);
+        background-size: 40px;
+        cursor: pointer;
+      }
+      >span{
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 130%;
+        color: #6D7582;
+        width: 100%;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      button{
+        width: 117px;
+        height: 32px;
+        background: #FFFFFF;
+        border: 1px solid #E3E7EB;
+        border-radius: 18px;
+        margin-left: 101.5px;
+        font-size: 14px;
+        line-height: 130%;
+        color: #353C49;
+        cursor: pointer;
+        transition: 0.25s;
+        &:hover{
+          background: #F2F4F6;
+          border: 1px solid #F2F4F6;
+          color: #1E68FA;
+          transition: 0.25s;
+        }
+      }
     }
   }
   .rightWrapper{

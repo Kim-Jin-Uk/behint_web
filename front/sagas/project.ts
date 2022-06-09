@@ -1,6 +1,9 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
   UPLOAD_VIDEO_FAILURE,
+  UPLOAD_VIDEO_FILE_FAILURE,
+  UPLOAD_VIDEO_FILE_REQUEST,
+  UPLOAD_VIDEO_FILE_SUCCESS,
   UPLOAD_VIDEO_REQUEST,
   UPLOAD_VIDEO_SUCCESS,
 } from '../reducers/project';
@@ -25,10 +28,35 @@ function* uploadVideo(action: any) {
   }
 }
 
+function uploadVideoFileAPI(data: any) {
+  return axios.post(`/project/upload/video`, data);
+}
+function* uploadVideoFile(action: any) {
+  try {
+    const result: AxiosResponse<any> = yield call(
+      uploadVideoFileAPI,
+      action.data,
+    );
+    yield put({
+      type: UPLOAD_VIDEO_FILE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UPLOAD_VIDEO_FILE_FAILURE,
+      error: err,
+    });
+  }
+}
+
 function* watchUploadVideo() {
   yield takeLatest(UPLOAD_VIDEO_REQUEST, uploadVideo);
 }
+function* watchUploadVideoFile() {
+  yield takeLatest(UPLOAD_VIDEO_FILE_REQUEST, uploadVideoFile);
+}
 
 export default function* projectSaga() {
-  yield all([fork(watchUploadVideo)]);
+  yield all([fork(watchUploadVideo), fork(watchUploadVideoFile)]);
 }

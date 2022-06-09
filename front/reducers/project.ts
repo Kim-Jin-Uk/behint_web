@@ -422,19 +422,45 @@ export const initialState = {
     },
   ],
   thumbnailUrl: null,
+  videoUrl: null,
 
   uploadVideoLoading: false,
   uploadVideoSuccess: false,
   uploadVideoError: null,
+
+  uploadVideoFileLoading: false,
+  uploadVideoFileSuccess: false,
+  uploadVideoFileError: null,
 };
 
 export const UPLOAD_VIDEO_REQUEST = 'UPLOAD_VIDEO_REQUEST';
 export const UPLOAD_VIDEO_SUCCESS = 'UPLOAD_VIDEO_SUCCESS';
 export const UPLOAD_VIDEO_FAILURE = 'UPLOAD_VIDEO_FAILURE';
 
+export const UPLOAD_VIDEO_FILE_REQUEST = 'UPLOAD_VIDEO_FILE_REQUEST';
+export const UPLOAD_VIDEO_FILE_SUCCESS = 'UPLOAD_VIDEO_FILE_SUCCESS';
+export const UPLOAD_VIDEO_FILE_FAILURE = 'UPLOAD_VIDEO_FILE_FAILURE';
+
 export default (state = initialState, action: AnyAction) =>
   produce(state, (draft: Draft<any>) => {
     switch (action.type) {
+      case UPLOAD_VIDEO_FILE_REQUEST:
+        draft.uploadVideoFileLoading = true;
+        draft.uploadVideoFileSuccess = false;
+        draft.uploadVideoFileError = null;
+        break;
+      case UPLOAD_VIDEO_FILE_SUCCESS:
+        draft.uploadVideoFileLoading = false;
+        draft.uploadVideoFileSuccess = true;
+        draft.uploadVideoFileError = null;
+        draft.videoUrl = action.data;
+        break;
+      case UPLOAD_VIDEO_FILE_FAILURE:
+        draft.uploadVideoFileLoading = false;
+        draft.uploadVideoFileSuccess = false;
+        draft.uploadVideoFileError = action.error;
+        draft.videoUrl = null;
+        break;
       case UPLOAD_VIDEO_REQUEST:
         draft.uploadVideoLoading = true;
         draft.uploadVideoSuccess = false;

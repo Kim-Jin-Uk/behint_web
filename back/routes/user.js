@@ -37,7 +37,6 @@ router.post('/login', isLoggendIn, async (req, res, next) => {
       where: { id: id },
       include: [{ model: Profile }, { model: Information }],
     });
-    console.log(userData);
     res.status(200).json(userData);
   } catch (err) {
     console.error(err);
