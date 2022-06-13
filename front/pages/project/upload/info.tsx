@@ -1,6 +1,6 @@
 import Header from '../../../components/Header';
 import { createGlobalStyle } from 'styled-components';
-import { Checkbox, Dropdown, message, Modal } from 'antd';
+import { Checkbox, Dropdown, message, Modal, Slider, Tooltip } from 'antd';
 import styles from './style.module.scss';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useInput from '../../../hooks/useInput';
@@ -11,11 +11,13 @@ import KakaoMap, { mapData } from '../../../components/Map/kakaoMap';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  GET_THUMBNAIL_LIST_REQUEST,
   UPLOAD_VIDEO_FILE_REQUEST,
   UPLOAD_VIDEO_REQUEST,
 } from '../../../reducers/project';
 import ReactPlayer from 'react-player/lazy';
 import Image from 'next/image';
+import useInputNumber from '../../../hooks/useInputNumber';
 
 const Global = createGlobalStyle`
   .ant-modal-mask{
@@ -111,6 +113,17 @@ const Global = createGlobalStyle`
   .ant-message{
     z-index: 10000;
   }
+  .ant-tooltip{
+    z-index: 10000;
+  }
+  .ant-tooltip-inner{
+    border-radius: 8px;
+    padding: 24px 20px;
+  }
+  .ant-tooltip-arrow{
+    left: -7.1px!important;
+  }
+  
 `;
 interface checkboxObject {
   [key: string]: [string, boolean];
@@ -128,7 +141,25 @@ const Info = () => {
     thumbnailUrl,
     uploadVideoSuccess,
     uploadVideoError,
+    thumbnailList,
+    getThumbnailListSuccess,
+    getThumbnailListError,
   } = useSelector((state: RootState) => state.project);
+
+  const videoEditorRef = useRef(null);
+  const [startVideoEditTime, setStartVideoEditTime] = useState(0);
+  const [endVideoEditTime, setEndVideoEditTime] = useState(0);
+  const [startVideoMinute, onChangeStartMinute, setStartVideoMinute] =
+    useInputNumber('') as inputType;
+  const [endVideoMinute, onChangeEndMinute, setEndVideoMinute] = useInputNumber(
+    '',
+  ) as inputType;
+  const [startVideoSecond, onChangeStartSecond, setStartVideoSecond] =
+    useInputNumber('') as inputType;
+  const [endVideoSecond, onChangeEndSecond, setEndVideoSecond] = useInputNumber(
+    '',
+  ) as inputType;
+
   const [buttonActive, setButtonActive] = useState(false);
   const [videoUrlLink, setVideoUrlLink] = useState('');
   const [thumbnailUrlLink, setThumbnailUrlLink] = useState('');
@@ -424,12 +455,58 @@ const Info = () => {
   }, [uploadVideoFileSuccess, uploadVideoFileError, videoUrl]);
 
   useEffect(() => {
+    if (videoUrlLink !== '') {
+      dispatch({
+        type: GET_THUMBNAIL_LIST_REQUEST,
+        data: { url: videoUrlLink },
+      });
+    }
+  }, [videoUrlLink]);
+
+  useEffect(() => {
     if (uploadVideoSuccess) {
       setThumbnailUrlLink(thumbnailUrl);
     } else if (uploadVideoError) {
       message.error('업로드에 실패하셨습니다');
     }
   }, [uploadVideoSuccess, uploadVideoError, thumbnailUrl]);
+
+  useEffect(() => {
+    if (getThumbnailListSuccess) {
+      console.log(thumbnailList);
+    }
+  }, [getThumbnailListSuccess, thumbnailList]);
+
+  useEffect(() => {
+    setStartVideoMinute(
+      `${
+        Math.floor(startVideoEditTime / 60) < 10
+          ? `0${Math.floor(startVideoEditTime / 60)}`
+          : Math.floor(startVideoEditTime / 60)
+      }`,
+    );
+    setStartVideoSecond(
+      `${
+        Math.floor(startVideoEditTime % 60) < 10
+          ? `0${Math.floor(startVideoEditTime % 60)}`
+          : Math.floor(startVideoEditTime % 60)
+      }`,
+    );
+    setEndVideoMinute(
+      `${
+        Math.floor(endVideoEditTime / 60) < 10
+          ? `0${Math.floor(endVideoEditTime / 60)}`
+          : Math.floor(endVideoEditTime / 60)
+      }`,
+    );
+    setEndVideoSecond(
+      `${
+        Math.floor(endVideoEditTime % 60) < 10
+          ? `0${Math.floor(endVideoEditTime % 60)}`
+          : Math.floor(endVideoEditTime % 60)
+      }`,
+    );
+  }, [startVideoEditTime, endVideoEditTime]);
 
   useEffect(() => {
     if (thumbnailUrlLink && videoUrlLink && title.length > 2) {
@@ -490,6 +567,7 @@ const Info = () => {
                     controls={true} // 플레이어 컨트롤 노출 여부
                     light={false} // 플레이어 모드
                     pip={true} // pip 모드 설정 여부
+                    loop={true}
                   />
                 )}
               </div>
@@ -689,14 +767,141 @@ const Info = () => {
 
       <Modal
         width={970}
-        title={'코멘터리'}
+        title={
+          <div className={styles.commentaryTitle}>
+            <span>코멘터리</span>
+            <Tooltip
+              placement="rightBottom"
+              title={
+                <div className={styles.commentaryTooltip}>
+                  <h4>코멘터리란?</h4>
+                  <div>
+                    콘텐츠를 제작하면서 경험한 고충과 문제, 해결 방법 등 영상에
+                    담지 못한 제작 비하인드를 담는 공간입니다.
+                  </div>
+                </div>
+              }
+            >
+              <div />
+            </Tooltip>
+          </div>
+        }
         visible={commentaryVisible}
         footer={
           <div className={styles.bottomWrapper}>
             <button></button>
           </div>
         }
-      ></Modal>
+      >
+        <div className={styles.closeButton} />
+        <div className={styles.editorWrapper}>
+          <aside
+            className={styles.leftWrapper}
+            style={{ width: 558, background: '#003bfc' }}
+          >
+            <div style={{ marginBottom: 12 }}>코멘터리 구간 추가</div>
+            {videoUrlLink !== '' && (
+              <ReactPlayer
+                width={528}
+                height={297}
+                url={videoUrlLink}
+                playing={false} // 자동 재생 on
+                muted={true} // 자동 재생 on
+                controls={true} // 플레이어 컨트롤 노출 여부
+                light={false} // 플레이어 모드
+                pip={true} // pip 모드 설정 여부
+                ref={videoEditorRef}
+              />
+            )}
+            <div className={styles.timeWrapper}>
+              <div className={styles.timer}>
+                <input
+                  value={startVideoMinute}
+                  onChange={onChangeStartMinute}
+                  type="number"
+                  max={60}
+                  min={0}
+                />
+                <div>:</div>
+                <input
+                  value={startVideoSecond}
+                  onChange={onChangeStartSecond}
+                  type="number"
+                  max={60}
+                  min={0}
+                />
+              </div>
+              <div className={styles.timerDivision}></div>
+              <div className={styles.timer}>
+                <input
+                  value={endVideoMinute}
+                  onChange={onChangeEndMinute}
+                  type="number"
+                  max={60}
+                  min={0}
+                />
+                <div>:</div>
+                <input
+                  value={endVideoSecond}
+                  onChange={onChangeEndSecond}
+                  type="number"
+                  max={60}
+                  min={0}
+                />
+              </div>
+              <Tooltip
+                placement="rightBottom"
+                title={
+                  <div className={styles.commentaryTooltip}>
+                    <div>
+                      영상 재생바의 핸들을 움직이거나 시간을 직접 입력해서
+                      구간을 설정할 수 있어요.
+                    </div>
+                  </div>
+                }
+              >
+                <div className={styles.info} />
+              </Tooltip>
+            </div>
+            <div style={{ position: 'relative' }}>
+              {thumbnailList &&
+                thumbnailList.success &&
+                thumbnailList.url.map((v: string) => {
+                  return (
+                    <div
+                      style={{
+                        backgroundImage: "url('" + v + "')",
+                        width: 64,
+                        height: 36,
+                        display: 'inline-block',
+                      }}
+                    ></div>
+                  );
+                })}
+              {thumbnailList && thumbnailList.success && (
+                <Slider
+                  tooltipVisible={false}
+                  handleStyle={{
+                    background:
+                      'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/seek-icon.svg")',
+                    width: 58,
+                    height: 42,
+                    border: 'none',
+                    borderRadius: 0,
+                    boxShadow: 'none',
+                  }}
+                ></Slider>
+              )}
+            </div>
+          </aside>
+          <div
+            className={styles.rightWrapper}
+            style={{ width: 341, background: '#08ff00' }}
+          >
+            <div style={{ height: 1000 }}></div>
+          </div>
+        </div>
+      </Modal>
 
       <input
         type="file"

@@ -73,4 +73,54 @@ router.post('/thumbnail', upload.single('file'), async (req, res, next) => {
   }
 });
 
+//썸네일 업로드
+router.post('/thumbnail/list', async (req, res, next) => {
+  try {
+    let fileDuration = '';
+    let filePath = [];
+    console.log(req.body);
+    //비디오 정보 가져오기
+    ffmpeg.ffprobe(req.body.url, function (err, metadata) {
+      //url을 받으면 해당 비디오에대한 정보가 metadata에담김
+      console.log(metadata); //metadata안에담기는 모든정보들 체킹
+      fileDuration = metadata.format.duration; //동영상길이대입
+    });
+    //썸네일 생성
+    ffmpeg(req.body.url) //클라이언트에서보낸 비디오저장경로
+      .on('filenames', function (filenames) {
+        //해당 url에있는 동영상을 밑에 스크린샷옵션을 기반으로
+        //캡처한후 filenames라는 이름에 파일이름들을 저장
+        console.log('will generate ' + filenames.join(','));
+        console.log('filenames:', filenames);
+        filenames.map((v) => {
+          filePath.push('http://localhost:3095/' + v);
+        });
+      })
+      .on('end', function () {
+        console.log('Screenshots taken');
+        return res.json({
+          success: true,
+          url: filePath,
+          fileDuration: fileDuration,
+        });
+        //fileDuration :비디오 러닝타임
+      })
+      .on('error', function (err) {
+        console.log(err);
+        return res.json({ success: false, err });
+      })
+      .screenshots({
+        //Will take screenshots at 20% 40% 60% and 80% of the video
+        count: 8,
+        folder: 'projectImages',
+        size: '64x36',
+        //'%b':input basename(filename w/o extension) = 확장자제외파일명
+        filename: '%b.png',
+      });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 module.exports = router;

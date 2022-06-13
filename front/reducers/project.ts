@@ -423,6 +423,7 @@ export const initialState = {
   ],
   thumbnailUrl: null,
   videoUrl: null,
+  thumbnailList: null,
 
   uploadVideoLoading: false,
   uploadVideoSuccess: false,
@@ -431,6 +432,10 @@ export const initialState = {
   uploadVideoFileLoading: false,
   uploadVideoFileSuccess: false,
   uploadVideoFileError: null,
+
+  getThumbnailListLoading: false,
+  getThumbnailListSuccess: false,
+  getThumbnailListError: null,
 };
 
 export const UPLOAD_VIDEO_REQUEST = 'UPLOAD_VIDEO_REQUEST';
@@ -440,6 +445,10 @@ export const UPLOAD_VIDEO_FAILURE = 'UPLOAD_VIDEO_FAILURE';
 export const UPLOAD_VIDEO_FILE_REQUEST = 'UPLOAD_VIDEO_FILE_REQUEST';
 export const UPLOAD_VIDEO_FILE_SUCCESS = 'UPLOAD_VIDEO_FILE_SUCCESS';
 export const UPLOAD_VIDEO_FILE_FAILURE = 'UPLOAD_VIDEO_FILE_FAILURE';
+
+export const GET_THUMBNAIL_LIST_REQUEST = 'GET_THUMBNAIL_LIST_REQUEST';
+export const GET_THUMBNAIL_LIST_SUCCESS = 'GET_THUMBNAIL_LIST_SUCCESS';
+export const GET_THUMBNAIL_LIST_FAILURE = 'GET_THUMBNAIL_LIST_FAILURE';
 
 export default (state = initialState, action: AnyAction) =>
   produce(state, (draft: Draft<any>) => {
@@ -461,6 +470,7 @@ export default (state = initialState, action: AnyAction) =>
         draft.uploadVideoFileError = action.error;
         draft.videoUrl = null;
         break;
+
       case UPLOAD_VIDEO_REQUEST:
         draft.uploadVideoLoading = true;
         draft.uploadVideoSuccess = false;
@@ -478,6 +488,25 @@ export default (state = initialState, action: AnyAction) =>
         draft.uploadVideoError = action.error;
         draft.thumbnailUrl = null;
         break;
+
+      case GET_THUMBNAIL_LIST_REQUEST:
+        draft.getThumbnailListLoading = true;
+        draft.getThumbnailListSuccess = false;
+        draft.getThumbnailListError = null;
+        break;
+      case GET_THUMBNAIL_LIST_SUCCESS:
+        draft.getThumbnailListLoading = false;
+        draft.getThumbnailListSuccess = true;
+        draft.getThumbnailListError = null;
+        draft.thumbnailList = action.data;
+        break;
+      case GET_THUMBNAIL_LIST_FAILURE:
+        draft.getThumbnailListLoading = false;
+        draft.getThumbnailListSuccess = false;
+        draft.getThumbnailListError = action.error;
+        draft.thumbnailList = null;
+        break;
+
       default:
         break;
     }
