@@ -138,18 +138,6 @@ const Upload = () => {
         setUploadVisible(false);
       }
       if (status === 'done') {
-        if (videoData && videoError === null) {
-          setVisible(false);
-          router.push({
-            pathname: '/project/upload/info',
-            query: {
-              videoData: videoData,
-            },
-          });
-        } else {
-          setErrorMessage(`\n파일 업로드에 실패하였습니다.\n\n\n\n`);
-          setUploadVisible(true);
-        }
       } else if (status === 'error') {
         setUploadVisible(true);
         setErrorMessage(`${info.file.name} 파일 업로드에 실패하였습니다.`);
@@ -160,6 +148,21 @@ const Upload = () => {
   useEffect(() => {
     setVisible(true);
   }, []);
+
+  useEffect(() => {
+    if (videoData && videoError === null) {
+      setVisible(false);
+      router.push({
+        pathname: '/project/upload/info',
+        query: {
+          videoData: videoData,
+        },
+      });
+    } else {
+      setErrorMessage(`\n파일 업로드에 실패하였습니다.\n\n\n\n`);
+      setUploadVisible(true);
+    }
+  }, [videoData, videoError]);
 
   return (
     <>

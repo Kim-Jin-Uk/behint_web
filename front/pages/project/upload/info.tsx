@@ -11,6 +11,7 @@ import KakaoMap, { mapData } from '../../../components/Map/kakaoMap';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  CommentaryItem,
   GET_THUMBNAIL_LIST_REQUEST,
   UPLOAD_VIDEO_FILE_REQUEST,
   UPLOAD_VIDEO_REQUEST,
@@ -123,7 +124,14 @@ const Global = createGlobalStyle`
   .ant-tooltip-arrow{
     left: -7.1px!important;
   }
-  
+  .ant-slider{
+    top:-39.5px;
+    width: 512px;
+    margin-left: 0;
+    .ant-slider-rail{
+      display: none; 
+    }
+  }
 `;
 interface checkboxObject {
   [key: string]: [string, boolean];
@@ -149,6 +157,8 @@ const Info = () => {
   const videoEditorRef = useRef(null);
   const [startVideoEditTime, setStartVideoEditTime] = useState(0);
   const [endVideoEditTime, setEndVideoEditTime] = useState(0);
+  const [startVideoSliderTime, setStartVideoSliderTime] = useState(0);
+  const [endVideoSliderTime, setEndVideoSliderTime] = useState(0);
   const [startVideoMinute, onChangeStartMinute, setStartVideoMinute] =
     useInputNumber('') as inputType;
   const [endVideoMinute, onChangeEndMinute, setEndVideoMinute] = useInputNumber(
@@ -159,6 +169,10 @@ const Info = () => {
   const [endVideoSecond, onChangeEndSecond, setEndVideoSecond] = useInputNumber(
     '',
   ) as inputType;
+  const [commentaryItemList, setCommentaryItemList] = useState(
+    [] as CommentaryItem[],
+  );
+  const [timeDivisionList, setTimeDivisionList] = useState([] as number[]);
 
   const [buttonActive, setButtonActive] = useState(false);
   const [videoUrlLink, setVideoUrlLink] = useState('');
@@ -195,6 +209,7 @@ const Info = () => {
   const [copyrightText, setCopyrightText] = useState('판권소유');
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const commentaryAreaRef = useRef<HTMLTextAreaElement>(null);
   const [title, onChangeTitle] = useInput('') as inputType;
   const [introduce, onChangeIntroduce] = useTextArea('') as textareaType;
   const [tagList, setTagList] = useState([] as string[]);
@@ -203,6 +218,15 @@ const Info = () => {
   const [locationData, setLocationData] = useState(null as mapData | null);
   const [locationList, setLocationList] = useState([] as mapData[]);
   const [locationClickCount, setLocationClickCount] = useState(0);
+
+  const [commentaryTitle, onChangeCommentaryTitle, setCommentaryTitle] =
+    useInput('') as inputType;
+  const [
+    commentaryContents,
+    onChangeCommentaryContents,
+    setCommentaryContents,
+  ] = useInput('') as textareaType;
+  const [commentaryActive, setCommentaryActive] = useState(false);
 
   const videoInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -330,6 +354,49 @@ const Info = () => {
     setCommentaryVisible(true);
   }, []);
 
+  const onChangeSlider = useCallback((value: [number, number]) => {
+    setStartVideoSliderTime(value[0]);
+    setEndVideoSliderTime(value[1]);
+  }, []);
+
+  const onAfterChangeSlider = useCallback((value: [number, number]) => {
+    setStartVideoSliderTime(value[0]);
+    setEndVideoSliderTime(value[1]);
+    setStartVideoEditTime(value[0]);
+    setEndVideoEditTime(value[1]);
+  }, []);
+
+  const onSeekPlayer = useCallback(
+    (seconds: number) => {
+      setStartVideoEditTime(seconds);
+    },
+    [videoEditorRef],
+  );
+
+  const onClickCommentaryCancelButton = useCallback(() => {
+    setCommentaryContents('');
+    setCommentaryTitle('');
+  }, []);
+
+  const onClickCommentaryAddButton = useCallback(() => {
+    const thumbnailIndex =
+      thumbnailList &&
+      parseInt(
+        (startVideoEditTime / (thumbnailList.fileDuration / 8)).toString(),
+      );
+    const imageUrl = thumbnailList.url[thumbnailIndex];
+    const commentaryItem: CommentaryItem = {
+      title: commentaryTitle,
+      startTime: startVideoEditTime,
+      endTime: endVideoEditTime,
+      thumbnailImgUrl: imageUrl,
+    };
+    commentaryItemList.push(commentaryItem);
+    setCommentaryItemList([...commentaryItemList]);
+    setCommentaryTitle('');
+    setCommentaryContents('');
+  }, [commentaryTitle, startVideoEditTime, endVideoEditTime, thumbnailList]);
+
   const menu = (
     <>
       <div
@@ -424,8 +491,20 @@ const Info = () => {
   }, [introduce]);
 
   useEffect(() => {
+    if (commentaryAreaRef.current) {
+      autosize(commentaryAreaRef.current);
+    }
+  }, [commentaryContents]);
+
+  useEffect(() => {
     if (textAreaRef.current) {
       autosize(textAreaRef.current);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (commentaryAreaRef.current) {
+      autosize(commentaryAreaRef.current);
     }
   }, []);
 
@@ -455,13 +534,13 @@ const Info = () => {
   }, [uploadVideoFileSuccess, uploadVideoFileError, videoUrl]);
 
   useEffect(() => {
-    if (videoUrlLink !== '') {
+    if (videoUrlLink !== '' && !commentaryVisible) {
       dispatch({
         type: GET_THUMBNAIL_LIST_REQUEST,
         data: { url: videoUrlLink },
       });
     }
-  }, [videoUrlLink]);
+  }, [videoUrlLink, commentaryVisible]);
 
   useEffect(() => {
     if (uploadVideoSuccess) {
@@ -478,35 +557,51 @@ const Info = () => {
   }, [getThumbnailListSuccess, thumbnailList]);
 
   useEffect(() => {
-    setStartVideoMinute(
-      `${
-        Math.floor(startVideoEditTime / 60) < 10
-          ? `0${Math.floor(startVideoEditTime / 60)}`
-          : Math.floor(startVideoEditTime / 60)
-      }`,
-    );
-    setStartVideoSecond(
-      `${
-        Math.floor(startVideoEditTime % 60) < 10
-          ? `0${Math.floor(startVideoEditTime % 60)}`
-          : Math.floor(startVideoEditTime % 60)
-      }`,
-    );
-    setEndVideoMinute(
-      `${
-        Math.floor(endVideoEditTime / 60) < 10
-          ? `0${Math.floor(endVideoEditTime / 60)}`
-          : Math.floor(endVideoEditTime / 60)
-      }`,
-    );
-    setEndVideoSecond(
-      `${
-        Math.floor(endVideoEditTime % 60) < 10
-          ? `0${Math.floor(endVideoEditTime % 60)}`
-          : Math.floor(endVideoEditTime % 60)
-      }`,
-    );
+    if (startVideoEditTime !== 0 || endVideoEditTime !== 0) {
+      setStartVideoMinute(
+        `${
+          Math.floor(startVideoEditTime / 60) < 10
+            ? `0${Math.floor(startVideoEditTime / 60)}`
+            : Math.floor(startVideoEditTime / 60)
+        }`,
+      );
+      setStartVideoSecond(
+        `${
+          Math.floor(startVideoEditTime % 60) < 10
+            ? `0${Math.floor(startVideoEditTime % 60)}`
+            : Math.floor(startVideoEditTime % 60)
+        }`,
+      );
+      setEndVideoMinute(
+        `${
+          Math.floor(endVideoEditTime / 60) < 10
+            ? `0${Math.floor(endVideoEditTime / 60)}`
+            : Math.floor(endVideoEditTime / 60)
+        }`,
+      );
+      setEndVideoSecond(
+        `${
+          Math.floor(endVideoEditTime % 60) < 10
+            ? `0${Math.floor(endVideoEditTime % 60)}`
+            : Math.floor(endVideoEditTime % 60)
+        }`,
+      );
+    }
+    if (videoEditorRef && videoEditorRef.current) {
+      videoEditorRef.current.seekTo(startVideoEditTime);
+    }
   }, [startVideoEditTime, endVideoEditTime]);
+
+  useEffect(() => {
+    if (thumbnailList) {
+      if (startVideoEditTime > thumbnailList.fileDuration) {
+        setStartVideoEditTime(thumbnailList.fileDuration);
+      }
+      if (endVideoEditTime > thumbnailList.fileDuration) {
+        setEndVideoEditTime(thumbnailList.fileDuration);
+      }
+    }
+  }, [startVideoEditTime, endVideoEditTime, thumbnailList]);
 
   useEffect(() => {
     if (thumbnailUrlLink && videoUrlLink && title.length > 2) {
@@ -518,6 +613,29 @@ const Info = () => {
     }
     return setButtonActive(false);
   }, [thumbnailUrlLink, videoUrlLink, title, checkboxList]);
+
+  useEffect(() => {
+    setStartVideoEditTime(+startVideoMinute * 60 + +startVideoSecond);
+    setEndVideoEditTime(+endVideoMinute * 60 + +endVideoSecond);
+    setStartVideoSliderTime(+startVideoMinute * 60 + +startVideoSecond);
+    setEndVideoSliderTime(+endVideoMinute * 60 + +endVideoSecond);
+  }, [startVideoMinute, startVideoSecond, endVideoMinute, endVideoSecond]);
+
+  useEffect(() => {
+    if (thumbnailList && thumbnailList.fileDuration) {
+      const length = thumbnailList.fileDuration / 600;
+      const setList = new Array(parseInt(length.toString()) + 1).fill(0);
+      setTimeDivisionList(setList as number[]);
+    }
+  }, [thumbnailList]);
+
+  useEffect(() => {
+    if (commentaryTitle.length > 0) {
+      setCommentaryActive(true);
+    } else {
+      setCommentaryActive(false);
+    }
+  }, [commentaryTitle]);
 
   return (
     <>
@@ -794,11 +912,8 @@ const Info = () => {
         }
       >
         <div className={styles.closeButton} />
-        <div className={styles.editorWrapper}>
-          <aside
-            className={styles.leftWrapper}
-            style={{ width: 558, background: '#003bfc' }}
-          >
+        <div className={styles.editorWrapper} style={{ overflowY: 'scroll' }}>
+          <aside className={styles.leftWrapper} style={{ width: 558 }}>
             <div style={{ marginBottom: 12 }}>코멘터리 구간 추가</div>
             {videoUrlLink !== '' && (
               <ReactPlayer
@@ -811,6 +926,7 @@ const Info = () => {
                 light={false} // 플레이어 모드
                 pip={true} // pip 모드 설정 여부
                 ref={videoEditorRef}
+                onSeek={onSeekPlayer}
               />
             )}
             <div className={styles.timeWrapper}>
@@ -818,7 +934,9 @@ const Info = () => {
                 <input
                   value={startVideoMinute}
                   onChange={onChangeStartMinute}
+                  placeholder={'00'}
                   type="number"
+                  maxLength={2}
                   max={60}
                   min={0}
                 />
@@ -826,7 +944,9 @@ const Info = () => {
                 <input
                   value={startVideoSecond}
                   onChange={onChangeStartSecond}
+                  placeholder={'00'}
                   type="number"
+                  maxLength={2}
                   max={60}
                   min={0}
                 />
@@ -836,16 +956,20 @@ const Info = () => {
                 <input
                   value={endVideoMinute}
                   onChange={onChangeEndMinute}
+                  placeholder={'00'}
                   type="number"
                   max={60}
+                  maxLength={2}
                   min={0}
                 />
                 <div>:</div>
                 <input
                   value={endVideoSecond}
                   onChange={onChangeEndSecond}
+                  placeholder={'00'}
                   type="number"
                   max={60}
+                  maxLength={2}
                   min={0}
                 />
               </div>
@@ -863,7 +987,23 @@ const Info = () => {
                 <div className={styles.info} />
               </Tooltip>
             </div>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', padding: '0 9px' }}>
+              {timeDivisionList.map((v, i) => {
+                return (
+                  <div
+                    style={{
+                      transform: `translateX(calc(${
+                        thumbnailList &&
+                        (i * 60000) / thumbnailList.fileDuration
+                      }%))`,
+                    }}
+                    className={styles.timeDivision}
+                  >
+                    <div></div>
+                    <span>{`${i}0:00`}</span>
+                  </div>
+                );
+              })}
               {thumbnailList &&
                 thumbnailList.success &&
                 thumbnailList.url.map((v: string) => {
@@ -871,6 +1011,7 @@ const Info = () => {
                     <div
                       style={{
                         backgroundImage: "url('" + v + "')",
+                        backgroundSize: 'cover',
                         width: 64,
                         height: 36,
                         display: 'inline-block',
@@ -880,24 +1021,95 @@ const Info = () => {
                 })}
               {thumbnailList && thumbnailList.success && (
                 <Slider
+                  range
+                  defaultValue={[startVideoEditTime, endVideoEditTime]}
+                  value={[startVideoSliderTime, endVideoSliderTime]}
                   tooltipVisible={false}
+                  min={0}
+                  max={thumbnailList ? thumbnailList.fileDuration : 100}
+                  onAfterChange={onAfterChangeSlider}
+                  onChange={onChangeSlider}
                   handleStyle={{
-                    background:
-                      'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/seek-icon.svg")',
-                    width: 58,
                     height: 42,
-                    border: 'none',
-                    borderRadius: 0,
+                    width: 10,
+                    borderRadius: 5,
+                    background:
+                      'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/sliderCenter.svg") no-repeat',
+                    backgroundColor: '#1E68FA',
+                    backgroundPosition: 'center',
+                    backgroundSize: '2px 20px',
+                    outline: 'none',
                     boxShadow: 'none',
+                    border: '4px solid #1E68FA',
+                    top: -9,
                   }}
-                ></Slider>
+                  trackStyle={{
+                    height: 42,
+                    background:
+                      'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/sliderCenter.svg") no-repeat',
+                    backgroundColor: 'rgba(30,104,250,0.3)',
+                    backgroundPosition: 'center',
+                    backgroundSize: '3.5px 35px',
+                    outline: 'none',
+                    boxShadow: 'none',
+                    borderTop: '4px solid #1E68FA',
+                    borderBottom: '4px solid #1E68FA',
+                    top: -14,
+                  }}
+                />
               )}
+            </div>
+            <div style={{ marginBottom: 8, marginTop: -9 }}>제목*</div>
+            <input
+              style={{ marginBottom: 16 }}
+              type="text"
+              placeholder={'코멘터리의 제목을 적어주세요.'}
+              value={commentaryTitle}
+              onChange={onChangeCommentaryTitle}
+            />
+            <div style={{ marginBottom: 8 }}>내용</div>
+            <textarea
+              style={{
+                marginBottom: 12,
+                maxHeight: 72,
+              }}
+              placeholder={'코멘터리의 내용을 적어주세요.'}
+              value={commentaryContents}
+              onChange={onChangeCommentaryContents}
+              ref={commentaryAreaRef}
+            />
+            <div className={styles.commentaryButtonWrapper}>
+              <button
+                className={
+                  commentaryActive
+                    ? styles.commentaryActiveButton
+                    : styles.commentaryNonActiveButton
+                }
+                onClick={
+                  commentaryActive
+                    ? onClickCommentaryAddButton
+                    : () => {
+                        console.log('click');
+                      }
+                }
+              >
+                추가
+              </button>
+              <button
+                onClick={onClickCommentaryCancelButton}
+                className={styles.commentaryCancelButton}
+              >
+                취소
+              </button>
             </div>
           </aside>
           <div
             className={styles.rightWrapper}
-            style={{ width: 341, background: '#08ff00' }}
+            style={{ width: 341, background: '#08ff00', overflow: 'hidden' }}
           >
+            {commentaryItemList.map((v: CommentaryItem, i: number) => {
+              return <div>{v.title}</div>;
+            })}
             <div style={{ height: 1000 }}></div>
           </div>
         </div>

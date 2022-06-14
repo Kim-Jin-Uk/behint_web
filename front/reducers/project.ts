@@ -511,3 +511,10 @@ export default (state = initialState, action: AnyAction) =>
         break;
     }
   });
+
+export type CommentaryItem = {
+  title: string;
+  startTime: number;
+  endTime: number;
+  thumbnailImgUrl: string;
+};

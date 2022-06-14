@@ -58,6 +58,33 @@
   color: #353C49;
   height: 530px;
   overflow: hidden;
+  input,textarea{
+    width: 100%;
+    background: #FAFAFB;
+    border: 1px solid #E3E7EB;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    color: #1A1E27;
+    padding: 9px 10px;
+    outline: none;
+    transition: 0.25s;
+    &:focus{
+      background: #FFFFFF;
+      border: 1px solid #1E68FA;
+      transition: 0.25s;
+    }
+  }
+  input{
+    height: 36px;
+  }
+  textarea{
+    min-height: 36px;
+    max-height: 300px;
+    overflow: auto;
+    resize: none !important;
+  }
   .leftWrapper{
     display: inline-block;
     vertical-align: top;
@@ -202,33 +229,7 @@
     padding-left: 28px;
     padding-right: 36px;
     border-left: 1px solid #E3E7EB;
-    input,textarea{
-      width: 100%;
-      background: #FAFAFB;
-      border: 1px solid #E3E7EB;
-      border-radius: 4px;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 130%;
-      color: #1A1E27;
-      padding: 9px 10px;
-      outline: none;
-      transition: 0.25s;
-      &:focus{
-        background: #FFFFFF;
-        border: 1px solid #1E68FA;
-        transition: 0.25s;
-      }
-    }
-    input{
-      height: 36px;
-    }
-    textarea{
-      min-height: 36px;
-      max-height: 300px;
-      overflow: auto;
-      resize: none !important;
-    }
+
     .checkboxWrapper{
       width: 400px;
       margin-bottom: 32px;
@@ -433,7 +434,7 @@
 .timeWrapper{
   display: inline-flex;
   align-items: center;
-  margin: 12px 158px;
+  margin: 12px 158px 40px;
   .timer{
     display: inline-block;
     width: 82px;
@@ -458,6 +459,10 @@
       outline: none;
       border: none;
       background: none;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 150%;
+      color: #353C49;
       &::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
@@ -500,4 +505,72 @@
   position: absolute;
   top: -2.5px;
   cursor: pointer;
+}
+
+.timeDivision{
+  width: 512px;
+  position: absolute;
+  top: -27px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 130%;
+  color: #6D7582;
+  >div{
+    width: 1px;
+    height: 64px;
+    z-index: 1000;
+    background: #D2D6DA;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 3px;
+  }
+  >span{
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.commentaryButtonWrapper{
+  >button{
+    width: 65px;
+    height: 36px;
+    border-radius: 18px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    display: inline-block;
+    float: right;
+  }
+  .commentaryActiveButton{
+    background: #1E68FA;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: 0.25s;
+    &:hover{
+      background: #0034DA;
+      transition: 0.25s;
+    }
+  }
+  .commentaryNonActiveButton{
+    background: #D2D6DA;
+    border: none;
+    color: #FFFFFF;
+    cursor: not-allowed;
+    transition: 0.25s;
+  }
+  .commentaryCancelButton{
+    background: #FFFFFF;
+    border: 1px solid #E3E7EB;
+    color: #353C49;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: 0.25s;
+    &:hover{
+      background: #F2F4F6;
+      border: 1px solid #F2F4F6;
+      transition: 0.25s;
+    }
+  }
 }

@@ -113,7 +113,7 @@ router.post('/thumbnail/list', async (req, res, next) => {
         //Will take screenshots at 20% 40% 60% and 80% of the video
         count: 8,
         folder: 'projectImages',
-        size: '64x36',
+        size: '640x360',
         //'%b':input basename(filename w/o extension) = 확장자제외파일명
         filename: '%b.png',
       });
