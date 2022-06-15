@@ -5,6 +5,7 @@ import { Draft } from 'immer';
 export const initialState = {
   me: null,
   user: null,
+  userList: null,
   agreement: false,
 
   isLoginLoading: false,
@@ -26,6 +27,10 @@ export const initialState = {
   getAgreementLoading: false,
   getAgreementSuccess: false,
   getAgreementError: null,
+
+  getOtherUsersLoading: false,
+  getOtherUsersSuccess: false,
+  getOtherUsersError: null,
 };
 
 export const IS_LOGIN_REQUEST = 'IS_LOGIN_REQUEST';
@@ -47,6 +52,10 @@ export const SET_AGREEMENT_FAILURE = 'SET_AGREEMENT_FAILURE';
 export const GET_AGREEMENT_REQUEST = 'GET_AGREEMENT_REQUEST';
 export const GET_AGREEMENT_SUCCESS = 'GET_AGREEMENT_SUCCESS';
 export const GET_AGREEMENT_FAILURE = 'GET_AGREEMENT_FAILURE';
+
+export const GET_OTHER_USER_LIST_REQUEST = 'GET_OTHER_USER_LIST_REQUEST';
+export const GET_OTHER_USER_LIST_SUCCESS = 'GET_OTHER_USER_LIST_SUCCESS';
+export const GET_OTHER_USER_LIST_FAILURE = 'GET_OTHER_USER_LIST_FAILURE';
 
 export default (state = initialState, action: AnyAction) =>
   produce(state, (draft: Draft<any>) => {
@@ -139,6 +148,24 @@ export default (state = initialState, action: AnyAction) =>
         draft.getAgreementSuccess = false;
         draft.getAgreementError = action.error;
         draft.agreement = false;
+        break;
+
+      case GET_OTHER_USER_LIST_REQUEST:
+        draft.getOtherUserListLoading = true;
+        draft.getOtherUserListSuccess = false;
+        draft.getOtherUserListError = null;
+        break;
+      case GET_OTHER_USER_LIST_SUCCESS:
+        draft.getOtherUserListLoading = false;
+        draft.getOtherUserListSuccess = true;
+        draft.getOtherUserListError = null;
+        draft.userList = action.data;
+        break;
+      case GET_OTHER_USER_LIST_FAILURE:
+        draft.getOtherUserListLoading = false;
+        draft.getOtherUserListSuccess = false;
+        draft.getOtherUserListError = action.error;
+        draft.userList = false;
         break;
       default:
         break;

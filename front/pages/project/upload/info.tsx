@@ -19,6 +19,8 @@ import {
 import ReactPlayer from 'react-player/lazy';
 import Image from 'next/image';
 import useInputNumber from '../../../hooks/useInputNumber';
+import { IS_LOGIN_REQUEST } from '../../../reducers/user';
+import CommentaryAddItem from '../../../components/CommentaryAddItem';
 
 const Global = createGlobalStyle`
   .ant-modal-mask{
@@ -153,6 +155,9 @@ const Info = () => {
     getThumbnailListSuccess,
     getThumbnailListError,
   } = useSelector((state: RootState) => state.project);
+  const { me, isLoginSuccess, isLoginError } = useSelector(
+    (state: RootState) => state.user,
+  );
 
   const videoEditorRef = useRef(null);
   const [startVideoEditTime, setStartVideoEditTime] = useState(0);
@@ -171,6 +176,9 @@ const Info = () => {
   ) as inputType;
   const [commentaryItemList, setCommentaryItemList] = useState(
     [] as CommentaryItem[],
+  );
+  const [commentaryItemOpenedList, setCommentaryItemOpenedList] = useState(
+    [] as boolean[],
   );
   const [timeDivisionList, setTimeDivisionList] = useState([] as number[]);
 
@@ -387,15 +395,35 @@ const Info = () => {
     const imageUrl = thumbnailList.url[thumbnailIndex];
     const commentaryItem: CommentaryItem = {
       title: commentaryTitle,
+      contents: commentaryContents,
       startTime: startVideoEditTime,
       endTime: endVideoEditTime,
       thumbnailImgUrl: imageUrl,
+      userId: me.id,
     };
     commentaryItemList.push(commentaryItem);
+    commentaryItemOpenedList.push(false);
     setCommentaryItemList([...commentaryItemList]);
+    setCommentaryItemOpenedList([...commentaryItemOpenedList]);
     setCommentaryTitle('');
     setCommentaryContents('');
-  }, [commentaryTitle, startVideoEditTime, endVideoEditTime, thumbnailList]);
+  }, [
+    commentaryTitle,
+    commentaryContents,
+    startVideoEditTime,
+    endVideoEditTime,
+    thumbnailList,
+    me,
+  ]);
+
+  const onClickMoreButton = useCallback(
+    (index: number) => {
+      commentaryItemOpenedList[index - 1] =
+        !commentaryItemOpenedList[index - 1];
+      setCommentaryItemOpenedList([...commentaryItemOpenedList]);
+    },
+    [commentaryItemOpenedList],
+  );
 
   const menu = (
     <>
@@ -479,6 +507,18 @@ const Info = () => {
       </div>
     </>
   );
+
+  useEffect(() => {
+    dispatch({
+      type: IS_LOGIN_REQUEST,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!isLoginSuccess && isLoginError) {
+      router.back();
+    }
+  }, [isLoginError, isLoginSuccess]);
 
   useEffect(() => {
     setInfoVisible(true);
@@ -655,7 +695,7 @@ const Info = () => {
                 buttonActive
                   ? onClickInfoNext
                   : () => {
-                      console.log('click');
+                      console.log('');
                     }
               }
             >
@@ -907,7 +947,26 @@ const Info = () => {
         visible={commentaryVisible}
         footer={
           <div className={styles.bottomWrapper}>
-            <button></button>
+            <button
+              onClick={() => {
+                console.log('click');
+              }}
+              className={styles.cancelButton}
+            >
+              뒤로
+            </button>
+            <button
+              className={
+                commentaryItemList.length > 0
+                  ? styles.selectButton
+                  : styles.nonSelectButton
+              }
+              onClick={() => {
+                console.log('click');
+              }}
+            >
+              업로드
+            </button>
           </div>
         }
       >
@@ -1089,7 +1148,7 @@ const Info = () => {
                   commentaryActive
                     ? onClickCommentaryAddButton
                     : () => {
-                        console.log('click');
+                        console.log('');
                       }
                 }
               >
@@ -1105,10 +1164,31 @@ const Info = () => {
           </aside>
           <div
             className={styles.rightWrapper}
-            style={{ width: 341, background: '#08ff00', overflow: 'hidden' }}
+            style={{ width: 341, overflow: 'hidden', paddingRight: 0 }}
           >
+            <div style={{ marginBottom: 12 }}>코멘터리 리스트</div>
+            {commentaryItemList.length === 0 && (
+              <div className={styles.nonCommentaryWrapper}>
+                <span>
+                  함께한 사람들과 코멘터리를
+                  <br />
+                  나누어 힌트가 되어주세요.
+                  <br />
+                  <br />
+                  좌측의 타임라인에서 코멘터리를 추가할 수 있어요.
+                </span>
+              </div>
+            )}
             {commentaryItemList.map((v: CommentaryItem, i: number) => {
-              return <div>{v.title}</div>;
+              return (
+                <CommentaryAddItem
+                  itemList={[v]}
+                  key={i}
+                  index={i + 1}
+                  opened={commentaryItemOpenedList[i]}
+                  onClickMoreButton={onClickMoreButton}
+                ></CommentaryAddItem>
+              );
             })}
             <div style={{ height: 1000 }}></div>
           </div>

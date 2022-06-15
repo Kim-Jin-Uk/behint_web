@@ -3,6 +3,9 @@ import {
   GET_AGREEMENT_FAILURE,
   GET_AGREEMENT_REQUEST,
   GET_AGREEMENT_SUCCESS,
+  GET_OTHER_USER_LIST_FAILURE,
+  GET_OTHER_USER_LIST_REQUEST,
+  GET_OTHER_USER_LIST_SUCCESS,
   IS_LOGIN_FAILURE,
   IS_LOGIN_REQUEST,
   IS_LOGIN_SUCCESS,
@@ -118,6 +121,28 @@ function* getAgreement(action: any) {
   }
 }
 
+function getOtherUserListAPI(data: number[]) {
+  return axios.post(`/user/profile`, data);
+}
+function* getOtherUserList(action: any) {
+  try {
+    const result: AxiosResponse<any> = yield call(
+      getOtherUserListAPI,
+      action.data,
+    );
+    yield put({
+      type: GET_OTHER_USER_LIST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: GET_OTHER_USER_LIST_FAILURE,
+      error: err,
+    });
+  }
+}
+
 function* watchIsLogin() {
   yield takeLatest(IS_LOGIN_REQUEST, isLogin);
 }
@@ -133,6 +158,9 @@ function* watchSetAgreement() {
 function* watchGetAgreement() {
   yield takeLatest(GET_AGREEMENT_REQUEST, getAgreement);
 }
+function* watchGetOtherUserList() {
+  yield takeLatest(GET_OTHER_USER_LIST_REQUEST, getOtherUserList);
+}
 
 export default function* userSaga() {
   yield all([
@@ -141,5 +169,6 @@ export default function* userSaga() {
     fork(watchUpdateProfile),
     fork(watchSetAgreement),
     fork(watchGetAgreement),
+    fork(watchGetOtherUserList),
   ]);
 }

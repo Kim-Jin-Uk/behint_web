@@ -67,6 +67,26 @@ router.get('/profile/:userId', async (req, res, next) => {
   }
 });
 
+//다른 유저 프로필 조회 -리스트
+router.post('/profile', async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const userDataList = {};
+    for (let id of req.body) {
+      const userData = await User.findOne({
+        where: { id: id },
+        include: [{ model: Profile }],
+      });
+      userDataList[`${id}`] = userData;
+    }
+    console.log(userDataList);
+    res.status(200).json(userDataList);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 //본인 프로필 변경
 router.post('/profile/update', isLoggendIn, async (req, res, next) => {
   try {

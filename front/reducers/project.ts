@@ -514,7 +514,9 @@ export default (state = initialState, action: AnyAction) =>
 
 export type CommentaryItem = {
   title: string;
+  contents: string;
   startTime: number;
   endTime: number;
   thumbnailImgUrl: string;
+  userId: number;
 };
