@@ -159,7 +159,7 @@ const Info = () => {
     (state: RootState) => state.user,
   );
 
-  const videoEditorRef = useRef(null);
+  const videoEditorRef = useRef<ReactPlayer | null>(null);
   const [startVideoEditTime, setStartVideoEditTime] = useState(0);
   const [endVideoEditTime, setEndVideoEditTime] = useState(0);
   const [startVideoSliderTime, setStartVideoSliderTime] = useState(0);
@@ -1088,33 +1088,37 @@ const Info = () => {
                   max={thumbnailList ? thumbnailList.fileDuration : 100}
                   onAfterChange={onAfterChangeSlider}
                   onChange={onChangeSlider}
-                  handleStyle={{
-                    height: 42,
-                    width: 10,
-                    borderRadius: 5,
-                    background:
-                      'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/sliderCenter.svg") no-repeat',
-                    backgroundColor: '#1E68FA',
-                    backgroundPosition: 'center',
-                    backgroundSize: '2px 20px',
-                    outline: 'none',
-                    boxShadow: 'none',
-                    border: '4px solid #1E68FA',
-                    top: -9,
-                  }}
-                  trackStyle={{
-                    height: 42,
-                    background:
-                      'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/sliderCenter.svg") no-repeat',
-                    backgroundColor: 'rgba(30,104,250,0.3)',
-                    backgroundPosition: 'center',
-                    backgroundSize: '3.5px 35px',
-                    outline: 'none',
-                    boxShadow: 'none',
-                    borderTop: '4px solid #1E68FA',
-                    borderBottom: '4px solid #1E68FA',
-                    top: -14,
-                  }}
+                  handleStyle={[
+                    {
+                      height: '42px',
+                      width: '10px',
+                      borderRadius: '5px',
+                      background:
+                        'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/sliderCenter.svg") no-repeat',
+                      backgroundColor: '#1E68FA',
+                      backgroundPosition: 'center',
+                      backgroundSize: '2px 20px',
+                      outline: 'none',
+                      boxShadow: 'none',
+                      border: '4px solid #1E68FA',
+                      top: '-9px',
+                    },
+                  ]}
+                  trackStyle={[
+                    {
+                      height: '42px',
+                      background:
+                        'url("https://brmnmusic-image-s3.s3.ap-northeast-2.amazonaws.com/behint-icon/sliderCenter.svg") no-repeat',
+                      backgroundColor: 'rgba(30,104,250,0.3)',
+                      backgroundPosition: 'center',
+                      backgroundSize: '3.5px 35px',
+                      outline: 'none',
+                      boxShadow: 'none',
+                      borderTop: '4px solid #1E68FA',
+                      borderBottom: '4px solid #1E68FA',
+                      top: '-14px',
+                    },
+                  ]}
                 />
               )}
             </div>
